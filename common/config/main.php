@@ -12,8 +12,8 @@ return [
     'charset' => 'UTF-8',
     'vendorPath' => $vendorDir,
     'extensions' => require($vendorDir . '/cza/yii2-base/extensions.php'),
-    'settings' => ['class' => 'common\components\Settings',],
     'components' => [
+        'settings' => ['class' => 'common\components\Settings',],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

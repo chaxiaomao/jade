@@ -267,7 +267,7 @@ class BeUserProfile extends BaseModel {
      * @return \yii\db\ActiveQueryInterface
      */
     public function getAccount() {
-        return $this->hasOne($this->module->modelMap['Account'], ['user_id' => 'user_id']);
+        // return $this->hasOne($this->module->modelMap['Account'], ['user_id' => 'user_id']);
     }
 
     public function getMemberName() {
@@ -278,7 +278,7 @@ class BeUserProfile extends BaseModel {
      * @return \yii\db\ActiveQueryInterface
      */
     public function getAccountAttributes() {
-        return $this->hasOne($this->module->modelMap['Account'], ['user_id' => 'user_id'])->asArray()->one();
+        // return $this->hasOne($this->module->modelMap['Account'], ['user_id' => 'user_id'])->asArray()->one();
     }
 
 }

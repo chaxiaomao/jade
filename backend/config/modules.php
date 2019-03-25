@@ -7,6 +7,7 @@
  */
 
 return [
+    'sys' => [ 'class' => 'backend\modules\Sys\Module',],
     'rbac' => [
         'class' => 'backend\modules\Sys\modules\Rbac\Module',
         'permission' => 'P_System',
@@ -15,7 +16,6 @@ return [
         'class' => 'backend\modules\Sys\modules\Admins\Module',
         'enableConfirmation' => false,
         'enableRegistration' => false,
-        //        'admins' => ['admin'],
         'adminPermission' => 'P_System',
         'modelMap' => [
             'RegistrationForm' => 'backend\models\c2\entity\rbac\RegistrationForm',

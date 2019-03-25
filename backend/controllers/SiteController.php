@@ -1,11 +1,11 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\c2\form\LoginForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 
 /**
  * Site controller
@@ -40,10 +40,10 @@ class SiteController extends Controller
     //         ],
     //     ];
     // }
-
-    /**
-     * {@inheritdoc}
-     */
+    //
+    // /**
+    //  * {@inheritdoc}
+    //  */
     // public function actions()
     // {
     //     return [
@@ -71,7 +71,7 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $this->layout = 'main-public';
-        print_r(Yii::$app->request->post());
+        // print_r(Yii::$app->request->post());
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }

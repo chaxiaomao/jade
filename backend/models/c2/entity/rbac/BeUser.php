@@ -38,6 +38,7 @@ use dektrium\user\models\User as BaseModel;
 class BeUser extends BaseModel {
 
     use \cza\base\models\ModelTrait;
+    public $mobile_number;
 
     /**
      * @inheritdoc

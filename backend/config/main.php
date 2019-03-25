@@ -1,6 +1,6 @@
 <?php
 defined('APP_ROOT') or define('APP_ROOT', dirname(__DIR__));
-defined('CZA_BACKEND_THEME') or define('CZA_BACKEND_THEME', 'classic');
+defined('CZA_BACKEND_THEME') or define('CZA_BACKEND_THEME', 'cza');
 
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
@@ -16,7 +16,35 @@ $config = [
     'language' => 'zh-CN',
     'bootstrap' => ['log', 'log-reader'],
     'modules' => require(__DIR__ . '/modules.php'),
+    // "aliases" => [
+    //     "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
+    // ],
+    // 'as access' => [
+    //     'class' => 'mdm\admin\components\AccessControl',
+    //     'allowActions' => [
+    //         '*'
+    //     ], // 后面对权限完善了以后，记得把*改回来！
+    // ],
     'components' => [
+        // 'user' => [
+        //     'identityClass' => 'backend\models\c2\entity\rbac\BeUser',
+        //     'enableAutoLogin' => true,
+        //     'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+        // ],
+        'user' => [
+            'class' => 'backend\components\User',
+            'identityClass' => 'backend\models\c2\entity\rbac\BeUser',
+            'enableAutoLogin' => true,
+            'identityCookie' => [
+                'name' => '_identity-backend',
+                'path' => '/admin',
+                'httpOnly' => true,
+            ],
+        ],
+        'authManager' => [
+            'class' => 'dektrium\rbac\components\DbManager',
+            //            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ],
         'formatter' => [
             'dateFormat' => 'Y-M-d',
         ],
@@ -46,16 +74,6 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ]
         ],
-        'user' => [
-            'class' => 'backend\components\User',
-            'identityClass' => 'backend\models\c2\entity\rbac\BeUser',
-            'enableAutoLogin' => true,
-            'identityCookie' => [
-                'name' => '_identity-backend',
-                'path' => '/admin',
-                'httpOnly' => true,
-            ],
-        ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
@@ -84,12 +102,11 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'enableStrictParsing' => false,
+            'rules' => require(__DIR__ . '/seo.php'),
         ],
     ],
     'params' => $params,

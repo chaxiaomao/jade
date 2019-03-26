@@ -22,6 +22,9 @@ class Module extends \yii\base\Module
             'lord' => [
                 'class' => 'backend\modules\CRM\modules\Lord\Module',
             ],
+            'chess' => [
+                'class' => 'backend\modules\CRM\modules\Chess\Module',
+            ],
         ];
         // custom initialization code goes here
     }

@@ -10,7 +10,8 @@ use yii\helpers\ArrayHelper;
  *
  * @author ben
  */
-abstract class AbstractStaticClass {
+abstract class AbstractStaticClass
+{
 
     protected static $_data;
 
@@ -20,7 +21,8 @@ abstract class AbstractStaticClass {
      * @param type $attr
      * @return string|array
      */
-    public static function getData($id = '', $attr = '') {
+    public static function getData($id = '', $attr = '')
+    {
         if (is_null(static::$_data)) {
             static::$_data = [
             ];
@@ -34,13 +36,15 @@ abstract class AbstractStaticClass {
         return static::$_data;
     }
 
-    public static function getLabel($id) {
+    public static function getLabel($id)
+    {
         return static::getData($id, 'label');
     }
 
-    public static function getHashMap($keyField, $valField) {
+    public static function getHashMap($keyField, $valField)
+    {
         $key = static::class . Yii::$app->language . $keyField . $valField;
-        $data =  Yii::$app->cache->get($key);
+        $data = Yii::$app->cache->get($key);
 
         if ($data === false) {
             $data = ArrayHelper::map(static::getData(), $keyField, $valField);

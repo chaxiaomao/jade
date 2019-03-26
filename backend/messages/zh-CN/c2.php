@@ -1219,6 +1219,7 @@ return [
     'Registration Src' => '注册来源',
     'Video Base Url' => '视频CDN Url',
     'Lord' => '盘主',
+    'Chess' => '资金盘',
     '' => '',
 ];
 

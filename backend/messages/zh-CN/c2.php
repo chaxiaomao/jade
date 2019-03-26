@@ -1218,6 +1218,7 @@ return [
     'Product Advertisement' => '产品广告',
     'Registration Src' => '注册来源',
     'Video Base Url' => '视频CDN Url',
+    'Lord' => '盘主',
     '' => '',
 ];
 

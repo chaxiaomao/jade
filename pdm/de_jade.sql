@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-03-25 18:06:13
+Date: 2019-03-26 18:36:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -187,6 +187,158 @@ INSERT INTO `c2_be_user_profile` VALUES ('2', '2', 'test1', '', '', 'd41d8cd98f0
 INSERT INTO `c2_be_user_profile` VALUES ('3', '3', null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null);
 
 -- ----------------------------
+-- Table structure for c2_chess
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_chess`;
+CREATE TABLE `c2_chess` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(4) DEFAULT '0',
+  `lv6_id` bigint(20) DEFAULT '0',
+  `lv5_id` bigint(20) DEFAULT '0',
+  `lv4_id` bigint(20) DEFAULT NULL,
+  `attributeset_id` bigint(20) DEFAULT '0',
+  `province_id` bigint(20) DEFAULT '0',
+  `city_id` bigint(20) DEFAULT '0',
+  `district_id` bigint(20) DEFAULT '0',
+  `code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `label` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `biz_registration_number` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `product_style` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `tel` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `open_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `wechat_open_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `geo_longitude` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `geo_latitude` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `geo_marker_color` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT '0',
+  `updated_by` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`geo_latitude`(191),`geo_longitude`(191)),
+  KEY `Index_2` (`label`(191)),
+  KEY `Index_3` (`lv6_id`,`type`),
+  KEY `Index_4` (`lv4_id`),
+  KEY `Index_5` (`wechat_open_id`(191)),
+  KEY `Index_6` (`lv5_id`),
+  KEY `Index_7` (`province_id`,`city_id`,`district_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_chess
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_chess_lv1_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_chess_lv1_rs`;
+CREATE TABLE `c2_chess_lv1_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `chess_id` bigint(20) DEFAULT '0',
+  `lv4_id` bigint(20) DEFAULT '0',
+  `lv1_type` tinyint(4) DEFAULT '0',
+  `lv1_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`chess_id`),
+  KEY `Index_2` (`lv1_id`),
+  KEY `Index_3` (`lv4_id`),
+  KEY `Index_4` (`lv1_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_chess_lv1_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_chess_lv2_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_chess_lv2_rs`;
+CREATE TABLE `c2_chess_lv2_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `chess_id` bigint(20) DEFAULT '0',
+  `lv4_id` bigint(20) DEFAULT '0',
+  `lv2_type` tinyint(4) DEFAULT '0',
+  `lv2_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`chess_id`),
+  KEY `Index_2` (`lv2_id`),
+  KEY `Index_3` (`lv4_id`),
+  KEY `Index_4` (`lv2_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_chess_lv2_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_chess_lv3_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_chess_lv3_rs`;
+CREATE TABLE `c2_chess_lv3_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `chess_id` bigint(20) DEFAULT '0',
+  `lv4_id` bigint(20) DEFAULT '0',
+  `lv3_type` tinyint(4) DEFAULT '0',
+  `lv3_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`chess_id`),
+  KEY `Index_2` (`lv3_id`),
+  KEY `Index_3` (`lv4_id`),
+  KEY `Index_4` (`lv3_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_chess_lv3_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_chess_profile
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_chess_profile`;
+CREATE TABLE `c2_chess_profile` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `chess_id` bigint(20) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `wechat_number` char(10) COLLATE utf8mb4_bin DEFAULT NULL,
+  `public_email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `gravatar_email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `gravatar_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `bio` text COLLATE utf8mb4_bin,
+  `timezone` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `terms` tinyint(4) DEFAULT '0',
+  `qr_code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `qr_code_image` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`chess_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_chess_profile
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for c2_city
 -- ----------------------------
 DROP TABLE IF EXISTS `c2_city`;
@@ -249,44 +401,6 @@ INSERT INTO `c2_config` VALUES ('35', '0', 'point', '积分', '10', '20', '', '1
 INSERT INTO `c2_config` VALUES ('37', '0', '123', '123', '123', '123', '123', '1', '1', '1', '0', '2019-03-25 11:05:15', '2019-03-25 11:05:15');
 INSERT INTO `c2_config` VALUES ('38', '0', '123', '123', '123', '123', '123', '1', '1', '1', '0', '2019-03-25 11:05:15', '2019-03-25 11:05:15');
 INSERT INTO `c2_config` VALUES ('39', '0', '123', '123', '123', '123', '123', '1', '1', '1', '0', '2019-03-25 11:05:15', '2019-03-25 11:05:15');
-
--- ----------------------------
--- Table structure for c2_consumption_record
--- ----------------------------
-DROP TABLE IF EXISTS `c2_consumption_record`;
-CREATE TABLE `c2_consumption_record` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) NOT NULL,
-  `shop_id` bigint(20) DEFAULT '0',
-  `fe_user_type` tinyint(4) DEFAULT '0',
-  `fe_user_id` bigint(20) DEFAULT '0',
-  `salesman_id` bigint(20) DEFAULT '0',
-  `salesman_commission` char(10) DEFAULT NULL,
-  `payment_method_id` bigint(20) DEFAULT '0',
-  `discount_amount` decimal(10,4) DEFAULT '0.0000',
-  `refund_amount` decimal(10,4) DEFAULT '0.0000',
-  `subtotal` decimal(10,4) DEFAULT '0.0000',
-  `grand_total` decimal(10,4) DEFAULT '0.0000',
-  `remote_ip` varchar(255) DEFAULT NULL,
-  `memo` text,
-  `created_by` bigint(20) DEFAULT '0',
-  `updated_by` bigint(20) DEFAULT '0',
-  `state` tinyint(4) DEFAULT '0',
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`shop_id`),
-  KEY `Index_2` (`salesman_id`),
-  KEY `Index_3` (`fe_user_id`),
-  KEY `Index_4` (`code`),
-  KEY `Index_5` (`fe_user_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_consumption_record
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for c2_country
@@ -385,22 +499,28 @@ CREATE TABLE `c2_fe_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` tinyint(4) DEFAULT '0',
   `attributeset_id` bigint(20) DEFAULT '0',
-  `username` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password_hash` varchar(255) DEFAULT NULL,
-  `auth_key` varchar(255) DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `auth_key` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `confirmed_at` datetime DEFAULT NULL,
-  `unconfirmed_email` varchar(255) DEFAULT NULL,
+  `unconfirmed_email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `blocked_at` datetime DEFAULT NULL,
-  `registration_ip` varchar(255) DEFAULT NULL,
+  `registration_ip` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `registration_src_type` tinyint(4) DEFAULT '100',
   `flags` int(11) DEFAULT NULL,
+  `level` tinyint(4) DEFAULT NULL,
   `last_login_at` datetime DEFAULT NULL,
-  `last_login_ip` varchar(255) DEFAULT NULL,
-  `open_id` varchar(255) DEFAULT NULL,
-  `wechat_open_id` varchar(255) DEFAULT NULL,
-  `mobile_number` varchar(255) DEFAULT NULL,
-  `access_token` varchar(255) DEFAULT NULL,
-  `password_reset_token` varchar(255) DEFAULT NULL,
+  `last_login_ip` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `open_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `wechat_union_id` char(10) COLLATE utf8mb4_bin DEFAULT NULL,
+  `wechat_open_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `mobile_number` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sms_receipt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `access_token` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `password_reset_token` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `province_id` bigint(20) DEFAULT '0',
+  `city_id` bigint(20) DEFAULT '0',
   `created_by` bigint(20) DEFAULT '0',
   `updated_by` bigint(20) DEFAULT '0',
   `status` tinyint(4) DEFAULT '1',
@@ -408,56 +528,40 @@ CREATE TABLE `c2_fe_user` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `Index_1` (`username`),
-  KEY `Index_2` (`email`),
+  KEY `Index_1` (`username`(191)),
+  KEY `Index_2` (`email`(191)),
   KEY `Index_3` (`type`),
-  KEY `Index_4` (`open_id`),
-  KEY `Index_5` (`wechat_open_id`),
-  KEY `Index_7` (`mobile_number`),
-  KEY `Index_6` (`access_token`,`status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  KEY `Index_4` (`open_id`(191)),
+  KEY `Index_5` (`wechat_open_id`(191)),
+  KEY `Index_6` (`access_token`(191),`status`),
+  KEY `Index_7` (`mobile_number`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_fe_user
 -- ----------------------------
-INSERT INTO `c2_fe_user` VALUES ('2', '1', '0', 'Merchant1', 'merchant1@test.com', '$2y$10$c873IIOkqz/lHBq7wVXtbOF7MR5VVdLTwstKEg/3/weN.6FWiRSBW', 'd22SEEt7hagRk0fEscZ0wyqMnopB8N7X', null, '', null, '', null, '2017-05-29 04:03:49', '127.0.0.1', '123', 'oL8S2w1mCxR6fwoXr9GOBkBnZvfU', '112344', '$2y$10$bZhRTPWivsVqoarXRk152OEeSfdC.pRMYd.CI4nFS.8HqOFGXxdcq', null, '0', '0', '1', '0', '2017-05-19 04:17:45', '2017-05-29 04:03:49');
-INSERT INTO `c2_fe_user` VALUES ('13', '1', '0', 'Merchant2', '', null, 'w-5o7oGnvQ8bjSESRLRR9iIsn8e1pGsL', null, null, null, null, null, null, null, '', '', '6767688', '$2y$10$f8AqTJaW.0xvURM4IrxGN.HQ7PjH1EAa9AYINRgJgnCv3PntJIaee', null, '0', '0', '1', '0', '2017-05-22 08:24:17', '2017-05-26 10:32:47');
-INSERT INTO `c2_fe_user` VALUES ('14', '1', '0', 'Merchant3', '', null, null, null, null, null, null, null, null, null, '', '', '', null, null, '0', '0', '1', '0', '2017-05-22 08:48:12', '2017-05-22 08:48:12');
-INSERT INTO `c2_fe_user` VALUES ('16', '1', '0', 'Merchant4', '', null, null, null, null, null, null, null, null, null, '', '', '', null, null, '0', '0', '1', '0', '2017-05-22 09:08:49', '2017-05-22 09:08:49');
-INSERT INTO `c2_fe_user` VALUES ('17', '1', '0', 'Merchant5', '', null, null, null, null, null, null, null, null, null, '', '', '', null, null, '0', '0', '1', '0', '2017-05-22 09:35:00', '2017-05-22 09:35:00');
-INSERT INTO `c2_fe_user` VALUES ('18', '2', '0', 'Salesman1', '', '$2y$10$OwrwO/Jc3eZTkrNCuoUOTuf3nEcm/bHUhhhmWd6Rb/7m7TOjvBPZq', 'ofexj-qdlUoKfY3JYeI7LiP47G-K5MAQ', null, null, null, null, null, '2017-05-30 04:19:16', '127.0.0.1', '', '', '', '$2y$10$bikL/6oWyO4PAN4Zvl3wAOignYZmyxFyRTWdBYGU2kYaDw9BR4cSK', null, '0', '0', '1', '0', '2017-05-22 11:12:54', '2017-05-30 04:19:16');
-INSERT INTO `c2_fe_user` VALUES ('19', '3', '0', 'Favoured Customer1', '', '$2y$10$9WSDCM6/QCYE58ZzuSlOwOr5to60wGPrxk3QMNh1uWfZOTPo9Syq6', '70a-ZRQpattYaZXzfdpTH4LCZJhQ4oAz', null, null, null, null, null, null, null, '999', '', '', '$2y$10$98Mrm0/QGJ9mk.GVycw9guZGbxws9mEHm.vac7e0xxDq.9d44y/7y', null, '0', '0', '1', '0', '2017-05-22 11:32:05', '2017-05-28 16:14:53');
-INSERT INTO `c2_fe_user` VALUES ('20', '2', '0', 'Salesman2', '', null, null, null, null, null, null, null, null, null, '', '', '', null, null, '0', '0', '1', '0', '2017-05-23 04:11:17', '2017-05-23 04:15:14');
-INSERT INTO `c2_fe_user` VALUES ('21', '4', '0', 'Normal Customer1', '', '$2y$10$0dW8caal18AybpeYJYRtN.5W7DWg2YtDbqyEPZItSIRYKrDwbF4ca', null, null, null, null, null, null, '2017-05-28 06:40:41', '127.0.0.1', '', '', '', null, null, '0', '0', '1', '0', '2017-05-23 08:18:52', '2017-05-28 06:40:41');
-INSERT INTO `c2_fe_user` VALUES ('23', '1', '0', '13922462101', 'tester1@zdt6.com', null, '6FG0WvYwOJR_TwsJ_2vLOF-y0vEB6LCC', null, null, null, null, null, null, null, null, null, '13922462101', '$2y$10$0Af7m0jMmEJECwBxc9EJiOJnjzVA1BnMDqgzgqnx5TzQsY.qAW89y', null, '0', '0', '2', '0', '2017-05-27 08:47:12', '2017-05-27 08:47:12');
-INSERT INTO `c2_fe_user` VALUES ('24', '1', '0', '13922462102', '', null, 'rlT2Z0HjTrexxiryDnbbobOKZiq78ocu', null, null, null, null, null, null, null, null, null, '13922462102', '$2y$10$yb6bVHab8QWd5Epte5VHV.Ww3GTZJy8bwFEqW/KIQ3EWCponUTm1u', null, '0', '0', '2', '0', '2017-05-27 08:55:35', '2017-05-27 08:55:35');
 
 -- ----------------------------
--- Table structure for c2_fe_user_feedback
+-- Table structure for c2_fe_user_auth
 -- ----------------------------
-DROP TABLE IF EXISTS `c2_fe_user_feedback`;
-CREATE TABLE `c2_fe_user_feedback` (
+DROP TABLE IF EXISTS `c2_fe_user_auth`;
+CREATE TABLE `c2_fe_user_auth` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type` tinyint(4) DEFAULT '0',
-  `user_id` bigint(20) DEFAULT '0',
-  `complain_type` tinyint(4) DEFAULT '0',
-  `complain_object_id` bigint(20) DEFAULT '0',
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `tel` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text,
+  `user_id` bigint(20) DEFAULT NULL,
+  `source` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `source_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `expired_at` datetime DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `Index_1` (`user_id`),
-  KEY `Index_2` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `Index_1` (`source`(191)),
+  KEY `Index_2` (`user_id`,`source_id`(191),`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Records of c2_fe_user_feedback
+-- Records of c2_fe_user_auth
 -- ----------------------------
 
 -- ----------------------------
@@ -510,6 +614,111 @@ INSERT INTO `c2_fe_user_profile` VALUES ('26', '23', '毕随影', null, null, nu
 INSERT INTO `c2_fe_user_profile` VALUES ('27', '24', '毕随影', null, null, null, null, null, null, null, null, null, null, null, null, '0', '', '', '1', '0', '2017-05-27 08:55:35', '2017-05-27 08:55:36');
 
 -- ----------------------------
+-- Table structure for c2_lv2_lv1_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_lv2_lv1_rs`;
+CREATE TABLE `c2_lv2_lv1_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lv2_id` bigint(20) DEFAULT '0',
+  `lv1_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`lv2_id`),
+  KEY `Index_2` (`lv1_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_lv2_lv1_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_lv3_lv2_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_lv3_lv2_rs`;
+CREATE TABLE `c2_lv3_lv2_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lv3_id` bigint(20) DEFAULT '0',
+  `lv2_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`lv3_id`),
+  KEY `Index_2` (`lv2_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_lv3_lv2_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_lv4_lv3_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_lv4_lv3_rs`;
+CREATE TABLE `c2_lv4_lv3_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lv4_id` bigint(20) DEFAULT '0',
+  `lv3_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`lv4_id`),
+  KEY `Index_2` (`lv3_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_lv4_lv3_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_lv5_lv4_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_lv5_lv4_rs`;
+CREATE TABLE `c2_lv5_lv4_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lv5_id` bigint(20) DEFAULT '0',
+  `lv4_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`lv5_id`),
+  KEY `Index_2` (`lv4_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_lv5_lv4_rs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for c2_lv6_lv5_rs
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_lv6_lv5_rs`;
+CREATE TABLE `c2_lv6_lv5_rs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `lv6_id` bigint(20) DEFAULT '0',
+  `lv5_id` bigint(20) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`lv6_id`),
+  KEY `Index_2` (`lv5_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of c2_lv6_lv5_rs
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for c2_migration
 -- ----------------------------
 DROP TABLE IF EXISTS `c2_migration`;
@@ -548,196 +757,23 @@ CREATE TABLE `c2_region` (
 INSERT INTO `c2_region` VALUES ('1', 'R0001', '中山', '1', '0', '2017-05-23 04:47:44', '2017-05-23 05:05:20');
 
 -- ----------------------------
--- Table structure for c2_salesman_customer_rs
+-- Table structure for c2_region_rs
 -- ----------------------------
-DROP TABLE IF EXISTS `c2_salesman_customer_rs`;
-CREATE TABLE `c2_salesman_customer_rs` (
+DROP TABLE IF EXISTS `c2_region_rs`;
+CREATE TABLE `c2_region_rs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `salesman_id` bigint(20) DEFAULT '0',
-  `customer_id` bigint(20) DEFAULT '0',
+  `parent_id` bigint(20) DEFAULT '0',
+  `child_id` bigint(20) DEFAULT '0',
   `status` tinyint(4) DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `Index_1` (`salesman_id`),
-  KEY `Index_2` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  KEY `Index_1` (`parent_id`),
+  KEY `Index_2` (`child_id`),
+  KEY `Index_3` (`parent_id`,`child_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Records of c2_salesman_customer_rs
--- ----------------------------
-INSERT INTO `c2_salesman_customer_rs` VALUES ('3', '18', '19', '1', '0', null, null);
-
--- ----------------------------
--- Table structure for c2_shop
--- ----------------------------
-DROP TABLE IF EXISTS `c2_shop`;
-CREATE TABLE `c2_shop` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type` tinyint(4) DEFAULT '0',
-  `merchant_id` bigint(20) DEFAULT NULL,
-  `attributeset_id` bigint(20) DEFAULT '0',
-  `region_id` bigint(20) DEFAULT '0',
-  `code` varchar(255) DEFAULT NULL,
-  `label` varchar(255) NOT NULL,
-  `biz_registration_number` varchar(255) DEFAULT NULL,
-  `product_style` varchar(255) DEFAULT NULL,
-  `tel` varchar(255) DEFAULT NULL,
-  `open_id` varchar(255) DEFAULT NULL,
-  `wechat_open_id` varchar(255) DEFAULT NULL,
-  `geo_longitude` varchar(255) DEFAULT NULL,
-  `geo_latitude` varchar(255) DEFAULT NULL,
-  `geo_marker_color` varchar(255) DEFAULT NULL,
-  `created_by` bigint(20) DEFAULT '0',
-  `updated_by` bigint(20) DEFAULT '0',
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`code`),
-  KEY `Index_2` (`label`),
-  KEY `Index_3` (`type`),
-  KEY `Index_4` (`merchant_id`),
-  KEY `Index_5` (`wechat_open_id`),
-  KEY `Index_6` (`open_id`),
-  KEY `Index_7` (`region_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_shop
--- ----------------------------
-INSERT INTO `c2_shop` VALUES ('1', '0', '2', '0', '1', 'SHOP001', '专卖店1', '', '', '', '', '', null, null, null, '0', '0', '1', '0', '2017-05-22 12:03:50', '2017-05-23 05:03:22');
-INSERT INTO `c2_shop` VALUES ('6', '0', '13', '0', '1', 'SHOP002', '专卖店2', '', '', '', '', '', null, null, null, '0', '0', '1', '0', '2017-05-28 16:44:44', '2017-05-28 16:44:44');
-
--- ----------------------------
--- Table structure for c2_shop_customer_rs
--- ----------------------------
-DROP TABLE IF EXISTS `c2_shop_customer_rs`;
-CREATE TABLE `c2_shop_customer_rs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `shop_id` bigint(20) DEFAULT '0',
-  `merchant_id` bigint(20) DEFAULT '0',
-  `customer_type` tinyint(4) DEFAULT '0',
-  `customer_id` bigint(20) DEFAULT '0',
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`shop_id`),
-  KEY `Index_2` (`customer_id`),
-  KEY `Index_3` (`merchant_id`),
-  KEY `Index_4` (`customer_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_shop_customer_rs
--- ----------------------------
-INSERT INTO `c2_shop_customer_rs` VALUES ('2', '2', '0', '0', '19', '1', '0', null, null);
-
--- ----------------------------
--- Table structure for c2_shop_profile
--- ----------------------------
-DROP TABLE IF EXISTS `c2_shop_profile`;
-CREATE TABLE `c2_shop_profile` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `shop_id` bigint(20) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `wechat_number` char(10) DEFAULT NULL,
-  `public_email` varchar(255) DEFAULT NULL,
-  `gravatar_email` varchar(255) DEFAULT NULL,
-  `gravatar_id` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL,
-  `bio` text,
-  `timezone` varchar(255) DEFAULT NULL,
-  `avatar` varchar(255) DEFAULT NULL,
-  `terms` tinyint(4) DEFAULT '0',
-  `qr_code` varchar(255) DEFAULT NULL,
-  `qr_code_image` varchar(255) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`shop_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_shop_profile
--- ----------------------------
-INSERT INTO `c2_shop_profile` VALUES ('1', '1', null, null, null, null, null, null, null, null, null, null, null, '0', '1:专卖店1:cc', 'F4ZFdGWK.png', '1', '0', '2017-05-22 12:03:50', '2017-05-22 12:03:50');
-INSERT INTO `c2_shop_profile` VALUES ('6', '6', null, null, null, null, null, null, null, null, null, null, null, '0', 'http://fe-apollo-pre.local.bulletelc.com/site/port?sid=6&a=shop_info', 'IRmYACL2.png', '1', '0', '2017-05-28 16:44:44', '2017-05-28 16:44:44');
-
--- ----------------------------
--- Table structure for c2_shop_region_rs
--- ----------------------------
-DROP TABLE IF EXISTS `c2_shop_region_rs`;
-CREATE TABLE `c2_shop_region_rs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `shop_id` bigint(20) DEFAULT '0',
-  `region_id` bigint(20) DEFAULT '0',
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`region_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_shop_region_rs
--- ----------------------------
-
--- ----------------------------
--- Table structure for c2_shop_salesman_rs
--- ----------------------------
-DROP TABLE IF EXISTS `c2_shop_salesman_rs`;
-CREATE TABLE `c2_shop_salesman_rs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `shop_id` bigint(20) DEFAULT '0',
-  `merchant_id` bigint(20) DEFAULT '0',
-  `salesman_id` bigint(20) DEFAULT '0',
-  `status` tinyint(4) DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_1` (`shop_id`),
-  KEY `Index_2` (`salesman_id`),
-  KEY `Index_3` (`merchant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of c2_shop_salesman_rs
--- ----------------------------
-INSERT INTO `c2_shop_salesman_rs` VALUES ('2', '2', '0', '20', '1', '0', null, null);
-INSERT INTO `c2_shop_salesman_rs` VALUES ('3', '1', '0', '18', '1', '0', null, null);
-
--- ----------------------------
--- Table structure for c2_social_account
--- ----------------------------
-DROP TABLE IF EXISTS `c2_social_account`;
-CREATE TABLE `c2_social_account` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `provider` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `client_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` text COLLATE utf8_unicode_ci,
-  `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `account_unique` (`provider`,`client_id`),
-  UNIQUE KEY `account_unique_code` (`code`),
-  KEY `fk_user_account` (`user_id`),
-  CONSTRAINT `c2_social_account_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `c2_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- ----------------------------
--- Records of c2_social_account
+-- Records of c2_region_rs
 -- ----------------------------

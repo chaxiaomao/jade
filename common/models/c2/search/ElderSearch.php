@@ -6,12 +6,12 @@ use common\models\c2\statics\FeUserType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\c2\entity\LordModel;
+use common\models\c2\entity\ElderModel;
 
 /**
- * LordSearch represents the model behind the search form about `common\models\c2\entity\LordModel`.
+ * ElderSearch represents the model behind the search form about `common\models\c2\entity\ElderModel`.
  */
-class LordSearch extends LordModel
+class ElderSearch extends ElderModel
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class LordSearch extends LordModel
     public function rules()
     {
         return [
-            [['id', 'attributeset_id', 'flags', 'province_id', 'city_id', 'created_by', 'updated_by', 'position'], 'integer'],
+            [['id', 'attributeset_id', 'flags', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
             [['type', 'username', 'email', 'password_hash', 'auth_key', 'confirmed_at', 'unconfirmed_email', 'blocked_at', 'registration_ip', 'registration_src_type', 'level', 'last_login_at', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -42,7 +42,7 @@ class LordSearch extends LordModel
      */
     public function search($params)
     {
-        $query = LordModel::find();
+        $query = ElderModel::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -101,12 +101,12 @@ class LordSearch extends LordModel
     }
     
     public function getPageParamName($splitor = '-'){
-        $name = "LordModelPage";
+        $name = "ElderModelPage";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
     
     public function getSortParamName($splitor = '-'){
-        $name = "LordModelSort";
+        $name = "ElderModelSort";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
 }

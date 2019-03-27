@@ -33,7 +33,7 @@ class RegionRsModel extends \cza\base\models\ActiveRecord
         return [
             [['parent_id', 'child_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['status'], 'string', 'max' => 4],
+            [['status'], 'integer', 'max' => 4],
         ];
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models\c2\query;
+use common\models\c2\statics\FeUserType;
 
 /**
  * This is the ActiveQuery class for [[\common\models\c2\entity\FeUserModel]].
@@ -31,4 +32,17 @@ class FeUserQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function lords(){
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_LORD]);
+    }
+
+    public function elders(){
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_ELDER]);
+    }
+
+    public function chieftains(){
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_CHIEFTAIN]);
+    }
+
 }

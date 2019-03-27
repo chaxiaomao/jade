@@ -18,7 +18,7 @@ class ChessSearch extends ChessModel
     public function rules()
     {
         return [
-            [['id', 'lv6_id', 'lv5_id', 'lv4_id', 'attributeset_id', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
+            [['id', 'lord_id', 'elder_id', 'chieftain_id', 'attributeset_id', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
             [['type', 'code', 'label', 'biz_registration_number', 'product_style', 'tel', 'open_id', 'wechat_open_id', 'geo_longitude', 'geo_latitude', 'geo_marker_color', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -64,9 +64,9 @@ class ChessSearch extends ChessModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'lv6_id' => $this->lv6_id,
-            'lv5_id' => $this->lv5_id,
-            'lv4_id' => $this->lv4_id,
+            'lord_id' => $this->lord_id,
+            'elder_id' => $this->elder_id,
+            'chieftain_id' => $this->chieftain_id,
             'attributeset_id' => $this->attributeset_id,
             'province_id' => $this->province_id,
             'city_id' => $this->city_id,

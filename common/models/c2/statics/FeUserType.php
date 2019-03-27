@@ -42,7 +42,7 @@ class FeUserType extends AbstractStaticClass
         if (is_null(static::$_data)) {
             static::$_data = [
                 static::TYPE_DEFAULT => ['id' => static::TYPE_DEFAULT, 'modelClass' => '\common\models\c2\entity\FeUserProfile', 'label' => Yii::t('app.c2', 'Default')],
-                static::TYPE_LORD => ['id' => static::TYPE_LORD, 'modelClass' => '\common\models\c2\entity\MerchantProfile', 'label' => Yii::t('app.c2', 'Lord')],
+                static::TYPE_LORD => ['id' => static::TYPE_LORD, 'modelClass' => '\common\models\c2\entity\LordProfileModel', 'label' => Yii::t('app.c2', 'Lord')],
                 static::TYPE_ELDER => ['id' => static::TYPE_ELDER, 'modelClass' => '\common\models\c2\entity\SalesmanProfile', 'label' => Yii::t('app.c2', 'Elder')],
                 static::TYPE_CHIEFTAIN => ['id' => static::TYPE_CHIEFTAIN, 'modelClass' => '\common\models\c2\entity\CustomerProfile', 'label' => Yii::t('app.c2', 'Chieftain')],
                 static::TYPE_MASTER => ['id' => static::TYPE_MASTER, 'modelClass' => '\common\models\c2\entity\FranchiseeProfile', 'label' => Yii::t('app.c2', 'Master')],

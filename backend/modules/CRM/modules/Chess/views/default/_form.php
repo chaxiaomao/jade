@@ -46,10 +46,35 @@ $form = ActiveForm::begin([
             'columns' => 2,
             'attributes' => [
                 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => []],
-                'lv6_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv6_id')]],
-                'lv5_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv5_id')]],
-                'lv4_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv4_id')]],
-                'attributeset_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('attributeset_id')]],
+                'elder_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv5_id')]],
+                'chieftain_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv4_id')]],
+                'lord_id' => [
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\kartik\widgets\Select2',
+                    'options' => [
+                        'language' => Yii::$app->language,
+                        // 'disabled' => true,
+                        'data' => common\models\c2\entity\LordModel::getLordHashMap('user_id', 'fullname'),
+                        'pluginOptions' => [
+                            'placeholder' => $model->getAttributeLabel('Select options ..')
+                        ]
+                        //                        'value' => '2',
+                        //                        'initValueText' => 'Merchant2',
+                        //                        'pluginOptions' => [
+                        //                            'allowClear' => false,
+                        //                            'minimumInputLength' => 2,
+                        //                            'ajax' => [
+                        //                                'url' => 'merchant-list',
+                        //                                'dataType' => 'json',
+                        //                                'data' => new JsExpression('function(params) { return {q:params.term, page:params.page}; }')
+                        //                            ],
+                        //                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        //                            'templateResult' => new JsExpression('function(item) { return item.username; }'),
+                        //                            'templateSelection' => new JsExpression('function (item) { return item.username; }'),
+                        //                        ],
+                    ],
+                ],
+                // 'attributeset_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('attributeset_id')]],
                 'province_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['0' => Yii::t('app.c2', 'Please select province')] + RegionProvince::getHashMap('id', 'label'), 'options' => ['id' => 'province-id']],
                 'city_id' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
                     'data' => empty($model->province_id) ? [] : RegionProvince::findOne(['id' => $model->province_id])->getCityHashMap(),
@@ -75,11 +100,11 @@ $form = ActiveForm::begin([
                 'biz_registration_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('biz_registration_number')]],
                 'product_style' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('product_style')]],
                 'tel' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('tel')]],
-                'open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('open_id')]],
-                'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id')]],
-                'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],
-                'geo_latitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]],
-                'geo_marker_color' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]],
+                // 'open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('open_id')]],
+                'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id'), 'disabled' => true]],
+                // 'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],
+                // 'geo_latitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]],
+                // 'geo_marker_color' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]],
                 'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
                 'position' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\touchspin\TouchSpin', 'options' => [
                     'pluginOptions' => [

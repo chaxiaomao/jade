@@ -12,9 +12,9 @@ use yii\widgets\DetailView;
     'attributes' => [
                 'id',
             'type',
-            'lv6_id',
-            'lv5_id',
-            'lv4_id',
+            'lord_id',
+            'elder_id',
+            'chieftain_id',
             'attributeset_id',
             'province_id',
             'city_id',

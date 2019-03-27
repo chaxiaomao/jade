@@ -39,23 +39,12 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                         ['label' => Yii::t('app.c2', 'Menu'), 'options' => ['class' => 'header']],
                         ['label' => Yii::t('app.c2', 'Dashboard'), 'icon' => 'fa fa-circle-o', 'url' => ['/']],
                         [
-                            'label' => Yii::t('app.c2', 'Workspace'), 'visible' => \Yii::$app->user->can('P_WORKSPACE'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                            'items' => [
-                                ['label' => Yii::t('app.c2', 'My Customers'), 'icon' => 'fa fa-circle-o', 'url' => ['/workspace/my-customers'],],
-                                ['label' => Yii::t('app.c2', 'Intention Forms'), 'icon' => 'fa fa-circle-o', 'url' => ['/workspace/intention-forms'],],
-                                ['label' => Yii::t('app.c2', 'Quotations'), 'icon' => 'fa fa-circle-o', 'url' => ['/workspace/quotations'],],
-                                ['label' => Yii::t('app.c2', 'Report'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                                    'items' => [
-                                        ['label' => Yii::t('app.c2', 'Research Forms'), 'icon' => 'fa fa-circle-o', 'url' => ['/workspace/report/research-form'],]
-                                    ]
-                                ],
-                            ]
-                        ],
-                        [
                             'label' => Yii::t('app.c2', 'CRM'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Lord')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/lord']],
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chess')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chess']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Lord')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/lord']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Elder')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/elder']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chieftain')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chieftain']],
                             ]
                         ],
                         [

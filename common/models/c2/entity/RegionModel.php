@@ -34,7 +34,7 @@ class RegionModel extends \cza\base\models\ActiveRecord
             [['position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['code', 'label'], 'string', 'max' => 255],
-            [['status'], 'string', 'max' => 4],
+            [['status'], 'integer', 'max' => 4],
         ];
     }
 

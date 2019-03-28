@@ -31,6 +31,10 @@ class Module extends \yii\base\Module
             'chieftain' => [
                 'class' => 'backend\modules\CRM\modules\Chieftain\Module',
             ],
+            'user-degree' => [
+                'class' => 'backend\modules\CRM\modules\UserDegree\Module',
+            ],
+
         ];
         // custom initialization code goes here
     }

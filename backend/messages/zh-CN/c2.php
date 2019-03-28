@@ -1222,6 +1222,7 @@ return [
     'Lord' => 'C1',
     'Elder' => 'C2',
     'Chieftain' => 'C3',
+    'User Degree' => '用户等级',
     '' => '',
 ];
 

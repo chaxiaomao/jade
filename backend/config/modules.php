@@ -10,7 +10,7 @@ return [
     'crm' => [
         'class' => 'backend\modules\CRM\Module',
     ],
-
+    'logistics' => ['class' => 'backend\modules\Logistics\Module',],
     'sys' => [ 'class' => 'backend\modules\Sys\Module',],
     'rbac' => [
         'class' => 'backend\modules\Sys\modules\Rbac\Module',

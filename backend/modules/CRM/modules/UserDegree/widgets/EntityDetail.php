@@ -55,17 +55,21 @@ class EntityDetail extends DetailWidget
         return $items;
     }
 
-    public function getUsersTab() {
-        if (!isset($this->_tabs['HOT_SALE_TAB'])) {
+    public function getUsersTab()
+    {
+        if (!isset($this->_tabs['USERS_TAB'])) {
             if (!$this->model->isNewRecord) {
-                $this->_tabs['HOT_SALE_TAB'] = [
-                    'label' => Yii::t('app.c2', 'Hot Product'),
-                    'content' => $this->controller->renderPartial('_node_users_index', ['model' => new \backend\models\c2\form\HotSaleProductForm(['entityModel'=>$this->model]), 'params' => $this->params,]),
+                $this->_tabs['USERS_TAB'] = [
+                    'label' => Yii::t('app.c2', 'User List'),
+                    'content' => $this->controller->renderPartial('_node_users_index', [
+                        'model' => new \backend\models\c2\form\HotSaleProductForm(['entityModel' => $this->model]),
+                        'params' => $this->params,
+                    ]),
                     'enable' => true,
                 ];
             } else {
-                $this->_tabs['HOT_SALE_TAB'] = [
-                    'label' => Yii::t('app.c2', 'Hot Product'),
+                $this->_tabs['USERS_TAB'] = [
+                    'label' => Yii::t('app.c2', 'User List'),
                     'content' => "",
                     'enable' => false,
                 ];

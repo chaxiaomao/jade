@@ -1223,6 +1223,7 @@ return [
     'Elder' => 'C2',
     'Chieftain' => 'C3',
     'User Degree' => '用户等级',
+    'User List' => '用户列表',
     '' => '',
 ];
 

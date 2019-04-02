@@ -102,7 +102,7 @@ return [
     'UI Language' => '界面语言',
     'System' => '系统',
     'Guest' => '客人',
-    'Username' => '用户',
+    'Username' => '用户名称',
     'Login name' => '登录名',
     'Password' => '密码',
     'Remember Me' => '下回自动登录',

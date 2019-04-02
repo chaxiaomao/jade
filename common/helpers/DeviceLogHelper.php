@@ -38,9 +38,9 @@ class DeviceLogHelper {
 
     public static function getDeviceType() {
         $agent = $_SERVER['HTTP_USER_AGENT'];
-        if (\Yii::$app->wechat->isWechat){
-            return RegistrationSrcType::TYPE_WECHAT ;
-        }
+        // if (\Yii::$app->wechat->isWechat){
+        //     return RegistrationSrcType::TYPE_WECHAT ;
+        // }
 
         if (true == preg_match("/.+Windows.+/", $agent)) {
             return RegistrationSrcType::TYPE_WECHAT ;

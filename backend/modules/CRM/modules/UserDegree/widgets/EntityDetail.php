@@ -7,6 +7,7 @@ use common\models\c2\entity\UserDegreeRsModel;
 use common\models\c2\search\UserDegreeRsSearch;
 use Yii;
 use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -65,7 +66,9 @@ class EntityDetail extends DetailWidget
         if (!isset($this->_tabs['USERS_TAB'])) {
             if (!$this->model->isNewRecord) {
                 $searchModel = new UserDegreeRsSearch();
-                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                $dataProvider = $searchModel->search(ArrayHelper::merge(Yii::$app->request->queryParams, [
+                    'degree_id' => $this->model->id
+                ]));
 
                 $this->_tabs['USERS_TAB'] = [
                     'label' => Yii::t('app.c2', 'User List'),
@@ -74,6 +77,7 @@ class EntityDetail extends DetailWidget
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
                         'params' => $this->params,
+                        'degree' => $this->model,
                     ]),
                     'enable' => true,
                 ];

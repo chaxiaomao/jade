@@ -28,9 +28,9 @@ class ElderModel extends FeUserModel
         return parent::find()->elders();
     }
 
-    public static function getLordHashMap($keyField, $valField, $condition = '') {
+    public static function getHashMap($keyField, $valField, $condition = '') {
         if (empty($_data['elderHashMap'])) {
-            $lord = LordProfileModel::find()->joinWith(['allLord'])
+            $lord = ElderProfileModel::find()->joinWith(['allElder'])
                 ->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_ELDER]);
             $_data['elderHashMap'] = ArrayHelper::map($lord->select([$keyField, $valField])->andWhere($condition)->asArray()->all(), $keyField, $valField);
             return $_data['elderHashMap'];

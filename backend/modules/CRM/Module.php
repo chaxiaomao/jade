@@ -34,7 +34,15 @@ class Module extends \yii\base\Module
             'user-degree' => [
                 'class' => 'backend\modules\CRM\modules\UserDegree\Module',
             ],
-
+            'master' => [
+                'class' => 'backend\modules\CRM\modules\Master\Module',
+            ],
+            'familiar' => [
+                'class' => 'backend\modules\CRM\modules\Familiar\Module',
+            ],
+            'peasant' => [
+                'class' => 'backend\modules\CRM\modules\Peasant\Module',
+            ],
         ];
         // custom initialization code goes here
     }

@@ -28,9 +28,9 @@ class ChieftainModel extends FeUserModel
         return parent::find()->chieftains();
     }
 
-    public static function getLordHashMap($keyField, $valField, $condition = '') {
+    public static function getHashMap($keyField, $valField, $condition = '') {
         if (empty($_data['chieftainHashMap'])) {
-            $lord = LordProfileModel::find()->joinWith(['allLord'])
+            $lord = ChieftainProfileModel::find()->joinWith(['allChieftain'])
                 ->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_CHIEFTAIN]);
             $_data['chieftainHashMap'] = ArrayHelper::map($lord->select([$keyField, $valField])->andWhere($condition)->asArray()->all(), $keyField, $valField);
             return $_data['chieftainHashMap'];

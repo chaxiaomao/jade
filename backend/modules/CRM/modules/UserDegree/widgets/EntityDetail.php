@@ -66,10 +66,12 @@ class EntityDetail extends DetailWidget
         if (!isset($this->_tabs['USERS_TAB'])) {
             if (!$this->model->isNewRecord) {
                 $searchModel = new UserDegreeRsSearch();
-                $dataProvider = $searchModel->search(ArrayHelper::merge(Yii::$app->request->queryParams, [
-                    'degree_id' => $this->model->id
-                ]));
-
+                $dataProvider = $searchModel->search([
+                    'UserDegreeRsSearch' => [
+                        'chess_id' => $this->model->chess_id,
+                        'degree_id' => $this->model->id,
+                    ]
+                ]);
                 $this->_tabs['USERS_TAB'] = [
                     'label' => Yii::t('app.c2', 'User List'),
                     'content' => $this->controller->renderPartial('_node_users_index', [
@@ -100,7 +102,8 @@ class EntityDetail extends DetailWidget
      * @return \cza\base\components\controllers\backend\modelClass
      * @throws NotFoundHttpException
      */
-    public function retrieveModel($id = null, $allowReturnNew = true) {
+    public function retrieveModel($id = null, $allowReturnNew = true)
+    {
         if (!is_null($id)) {
             $model = $this->findModel($id);
         } elseif (!$allowReturnNew) {

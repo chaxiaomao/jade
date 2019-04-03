@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use backend\models\c2\form\LoginForm;
+use Da\QrCode\QrCode;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -109,4 +110,5 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
 }

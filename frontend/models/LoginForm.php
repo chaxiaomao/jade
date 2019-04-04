@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace fronend\models;
 
 use common\models\c2\entity\FeUserModel;
 use Yii;

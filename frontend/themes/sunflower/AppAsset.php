@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
         'css/bootstrap.css',
         'css/bootstrap-grid.css',
         'css/bootstrap-reboot.css',
+        'css/main.css',
     ];
     public $js = [
         'js/bootstrap.bundle.js',

@@ -26,6 +26,12 @@ return [
                 ],
             ],
         ],
+        'sms' => [
+            'class' => 'common\components\Sms\WxtSms2',
+            'userid' => 216,
+            'account' => 'SDK-A150-330',
+            'password' => '0000',
+        ],
         'i18n' => [
             'translations' => [
                 'app*' => [

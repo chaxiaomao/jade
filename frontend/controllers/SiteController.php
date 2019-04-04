@@ -1,10 +1,10 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\components\Controller;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -29,7 +29,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'captcha', 'tips'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -40,6 +40,9 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+            // 'denyCallback' => function ($rule, $action) {
+            //     return \Yii::$app->getUser()->loginRequired();
+            // },
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -47,6 +50,13 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function checkAccess() {
+        if (!Yii::$app->user->isGuest) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -58,9 +68,11 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            'sms-captcha' => [
+                'class' => 'common\components\SmsCaptcha\CaptchaAction',
+                'minLength' => 4,
+                'maxLength' => 4,
+                // 'transparent' => true,
             ],
         ];
     }
@@ -86,7 +98,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
+        $model = new \fronend\models\LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {

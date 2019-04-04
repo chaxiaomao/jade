@@ -9,7 +9,7 @@ use yii\helpers\Html;
 echo EntityDetail::widget([
     'model' => $model,
     'params' => $params,
-    'withUsersTab' => true,
+    // 'withUsersTab' => true,
     // 'withHotSaleTab' => true,
 ]);
 ?>

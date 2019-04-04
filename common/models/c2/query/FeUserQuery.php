@@ -45,4 +45,19 @@ class FeUserQuery extends \yii\db\ActiveQuery
         return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_CHIEFTAIN]);
     }
 
+    public function master()
+    {
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_MASTER]);
+    }
+
+    public function familiar()
+    {
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_FAMILIAR]);
+    }
+
+    public function peasant()
+    {
+        return $this->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_PEASANT]);
+    }
+
 }

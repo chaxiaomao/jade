@@ -74,20 +74,20 @@ class Captcha extends InputWidget {
      * @var type 
      */
     public $mobileId;
-    public $delaySeconds = 60;
+    public $delaySeconds = 6;
 
     /**
      * @var array HTML attributes to be applied to the CAPTCHA image tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $buttonOptions = ['class' => 'btn btn-default'];
+    public $buttonOptions = ['class' => 'btn btn-success'];
 
     /**
      * @var string the template for arranging the CAPTCHA image tag and the text input tag.
      * In this template, the token `{image}` will be replaced with the actual image tag,
      * while `{input}` will be replaced with the text input tag.
      */
-    public $template = '<div class="input-group">{input}<span class="input-group-btn">{button}</div></div>';
+    public $template = '<div class="input-group">{input}<div class="mf10">{button}</div></div>';
 
     /**
      * @var array the HTML attributes for the input tag.

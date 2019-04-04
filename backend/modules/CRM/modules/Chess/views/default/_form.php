@@ -1,5 +1,6 @@
 <?php
 
+use common\models\c2\entity\RegionCity;
 use common\models\c2\entity\RegionProvince;
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;

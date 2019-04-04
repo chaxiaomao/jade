@@ -5,14 +5,14 @@ use common\widgets\TreeView;
 use common\models\c2\entity\UserDegreeModel;
 use yii\helpers\Url;
 
-$this->title = Yii::t('app.c2', '{s1} Category', ['s1' => Yii::t('app.c2', 'Product')]);
+$this->title = Yii::t('app.c2', '{s1} Category', ['s1' => Yii::t('app.c2', 'User Degree')]);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Category-default-index">
     <?php
     echo TreeView::widget([
         // single query fetch to render the tree
-        'query' => UserDegreeModel::find()->addOrderBy('root, lft'),
+        'query' => UserDegreeModel::find()->where(Yii::$app->request->queryParams)->addOrderBy('root, lft'),
         'nodeView' => "/default/_panel_node",
         //        'nodeView' => EntityDetail::className(),
         'nodeActions' => [

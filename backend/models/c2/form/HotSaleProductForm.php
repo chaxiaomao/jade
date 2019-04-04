@@ -22,8 +22,8 @@ class HotSaleProductForm extends Model {
 
     public function loadDefaultValues() {
 
-        $hotSaleProduct = \common\models\c2\entity\CategoryPromoProductRs::find()->where(['category_id' => $this->entityModel->id, 'type' => \common\models\c2\statics\CategoryPromoProductType::TYPE_HOT_SALE])->asArray()->all();
-        $this->product_ids = ArrayHelper::getColumn($hotSaleProduct, 'product_id') ? ArrayHelper::getColumn($hotSaleProduct, 'product_id') : [];
+        // $hotSaleProduct = \common\models\c2\entity\CategoryPromoProductRs::find()->where(['category_id' => $this->entityModel->id, 'type' => \common\models\c2\statics\CategoryPromoProductType::TYPE_HOT_SALE])->asArray()->all();
+        // $this->product_ids = ArrayHelper::getColumn($hotSaleProduct, 'product_id') ? ArrayHelper::getColumn($hotSaleProduct, 'product_id') : [];
     }
 
     public function save($params, $id) {

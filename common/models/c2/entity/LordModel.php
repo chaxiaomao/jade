@@ -28,7 +28,7 @@ class LordModel extends FeUserModel
         return parent::find()->lords();
     }
 
-    public static function getLordHashMap($keyField, $valField, $condition = '') {
+    public static function getHashMap($keyField, $valField, $condition = '') {
         if (empty($_data['lordHashMap'])) {
             $lord = LordProfileModel::find()->joinWith(['allLord'])
                 ->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_LORD]);

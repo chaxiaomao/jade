@@ -1,10 +1,12 @@
 <?php
+/* @var $node \common\models\c2\entity\UserDegreeModel */
 
 use yii\helpers\Html;
 use kartik\builder\Form;
 use cza\base\models\statics\EntityModelStatus;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
+$node->loadDefaultValues();
 ?>
 
 <div class="row">
@@ -58,6 +60,24 @@ $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
             'form' => $form,
             'columns' => 1,
             'attributes' => [
+                'chess_id' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => [
+                        'placeholder' => $node->getAttributeLabel('chess_id'),
+                        'value' => \common\models\c2\entity\ChessModel::getHashMap('id', 'label')[$node->chess_id],
+                        'disabled' => true
+                    ],
+                ],
+                'user_id' => [
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\kartik\widgets\Select2',
+                    'options' => [
+                        'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
+                        'pluginOptions' => [
+                            'placeholder' => $node->getAttributeLabel('Select ...'),
+                        ]
+                    ]
+                ],
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('code')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('label')]],
@@ -74,10 +94,10 @@ $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
                     $value = '';
                 }
                 return '<div class="radio">' . Html::radio($name, $checked, [
-                            'value' => $value,
-                            'label' => $label,
-                            'disabled' => !empty($inputOpts['readonly']) || !empty($inputOpts['disabled'])
-                        ]) . '</div>';
+                        'value' => $value,
+                        'label' => $label,
+                        'disabled' => !empty($inputOpts['readonly']) || !empty($inputOpts['disabled'])
+                    ]) . '</div>';
             },
             'selector' => 'radio',
         ])
@@ -94,27 +114,27 @@ $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
             'columns' => 1,
             'attributes' => [
                 'description' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget', 'options' => [
-                        'settings' => [
-                            'minHeight' => 150,
-                            'buttonSource' => true,
-                            'lang' => $regularLangName,
-                            'plugins' => [
-                                'fontsize',
-                                'fontfamily',
-                                'fontcolor',
-                                'table',
-                                'textdirection',
-                                'fullscreen',
-                            ],
-                        ]
-                    ],],
+                    'settings' => [
+                        'minHeight' => 150,
+                        'buttonSource' => true,
+                        'lang' => $regularLangName,
+                        'plugins' => [
+                            'fontsize',
+                            'fontfamily',
+                            'fontcolor',
+                            'table',
+                            'textdirection',
+                            'fullscreen',
+                        ],
+                    ]
+                ],],
                 'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
                 'position' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\touchspin\TouchSpin', 'options' => [
-                        'pluginOptions' => [
-                            'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                            'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                        ],
-                    ],],
+                    'pluginOptions' => [
+                        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                    ],
+                ],],
             ]
         ]);
         ?>

@@ -11,6 +11,7 @@ use Yii;
  *
  * @property string $id
  * @property string $chess_id
+ * @property string $user_id
  * @property integer $type
  * @property string $root
  * @property string $lft
@@ -57,10 +58,12 @@ class UserDegreeModel extends EntityTree
     public function rules()
     {
         return [
-            [['chess_id', 'root', 'lft', 'rgt', 'lvl', 'created_by', 'updated_by', 'position'], 'integer'],
+            [['chess_id', 'user_id', 'root', 'lft', 'rgt', 'lvl', 'created_by', 'updated_by', 'position'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'selected', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all', 'disabled', 'active', 'icon_type', 'status'], 'integer', 'max' => 4],
+            [['type', 'selected', 'readonly', 'visible', 'collapsed',
+                'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all',
+                'disabled', 'active', 'icon_type', 'status'], 'integer', 'max' => 4],
             [['code', 'name', 'label', 'icon'], 'string', 'max' => 255],
         ];
     }
@@ -92,7 +95,8 @@ class UserDegreeModel extends EntityTree
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
-            'chess_id' => Yii::t('app.c2', 'Chess ID'),
+            'chess_id' => Yii::t('app.c2', 'Chess'),
+            'user_id' => Yii::t('app.c2', 'User'),
             'type' => Yii::t('app.c2', 'Type'),
             'root' => Yii::t('app.c2', 'Root'),
             'lft' => Yii::t('app.c2', 'Lft'),
@@ -139,6 +143,10 @@ class UserDegreeModel extends EntityTree
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+        $id = Yii::$app->request->get('id');
+        if (!is_null($id)) {
+            $this->chess_id = $id;
+        }
     }
 
     public static function getRoot() {

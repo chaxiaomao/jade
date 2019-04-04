@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'city_id',
             // 'district_id',
             // 'code',
-            // 'label',
+            'label',
             // 'biz_registration_number',
             // 'product_style',
             // 'tel',
@@ -78,7 +78,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'geo_longitude',
             // 'geo_latitude',
             // 'geo_marker_color',
-            // 'created_by',
+            [
+                'attribute' => 'created_by',
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->creator->profile->fullname;
+                },
+            ],
             // 'updated_by',
             // 'status',
             // 'position',
@@ -99,15 +104,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'class' => '\kartik\grid\ActionColumn',
+                'class' => '\common\widgets\grid\ActionColumn',
+                'template' => '{degree} {update} {delete} {view}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
-                    }
-                ]
+                    },
+                    'degree' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Degree'), ['/crm/user-degree', 'chess_id' => $model->id], [
+                            'title' => Yii::t('app', 'Info'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
+                ],
             ],
 
         ],

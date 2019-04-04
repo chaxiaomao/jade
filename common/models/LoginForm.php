@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use common\models\c2\entity\FeUserModel;
 use Yii;
 use yii\base\Model;
 
@@ -9,7 +10,7 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $mobile_number;
     public $password;
     public $rememberMe = true;
 
@@ -23,7 +24,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['mobile_number', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -56,6 +57,12 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
+            Yii::$app->user->on(\frontend\components\User::EVENT_AFTER_LOGIN, function($event) {
+                $user = $event->identity;
+                $user->last_login_at = date("Y-m-d H:i:s");
+                $user->last_login_ip = Yii::$app->getRequest()->getUserIP();
+                $user->update(false);
+            });
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         
@@ -65,14 +72,28 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return FeUserModel|null
      */
-    protected function getUser()
-    {
-        if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+    // protected function getUser()
+    // {
+    //     if ($this->_user === null) {
+    //         $this->_user = FeUserModel::findByUsername($this->username);
+    //     }
+    //
+    //     return $this->_user;
+    // }
+
+    /**
+     * Finds user by [[mobile]]
+     *
+     * @return FeUserModel|null
+     */
+    protected function getUser() {
+        if ($this->_user === false) {
+            $this->_user = FeUserModel::findByMobileNumber($this->mobile_number);
         }
 
         return $this->_user;
     }
+
 }

@@ -14,7 +14,7 @@ use cza\base\models\statics\EntityModelStatus;
 class ElderProfileModel extends FeUserProfileModel
 {
 
-    public function getAllLord()
+    public function getAllElder()
     {
         return $this->hasMany(ElderModel::className(), ['id' => 'user_id'])
             ->where(['{{%fe_user}}.status' => EntityModelStatus::STATUS_ACTIVE]);

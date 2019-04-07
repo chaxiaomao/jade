@@ -5,8 +5,10 @@
  * Date: 2019/1/24
  * Time: 21:17
  */
-use yii\helpers\Html;
 
+use frontend\themes\sunflower\AppAsset;
+use yii\helpers\Html;
+AppAsset::register($this);
 ?>
 
 <?php $this->beginPage() ?>

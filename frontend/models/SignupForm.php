@@ -17,8 +17,8 @@ class SignupForm extends Model
     use ModelTrait;
     public $username;
     public $mobile_number;
-    public $verifyCode;
     public $password;
+    public $verifyCode;
     public $recommendCode;
 
     /**
@@ -29,7 +29,7 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\FeUserModel', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             [['password', 'mobile_number'], 'required'],
@@ -53,6 +53,8 @@ class SignupForm extends Model
             'mobile_number' => Yii::t('app.c2', 'Mobile Number'),
             'password'=> Yii::t('app.c2', 'Password'),
             'verifyCode' => Yii::t('app.c2', 'Verification Code'),
+            'recommendCode' => Yii::t('app.c2', 'Recommend Code'),
+            'username' => Yii::t('app.c2', 'Username'),
         ];
     }
 
@@ -66,14 +68,14 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new FeUserModel();
         $user->username = $this->username;
-        $user->mobile_number = $this->mobile_numbe;
+        $user->mobile_number = $this->mobile_number;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        
-        return $user->save() ? $user : null;
+
+        return $user->save() ? $user : Yii::info($user->getErrors());
     }
 
 

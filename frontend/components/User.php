@@ -20,7 +20,8 @@ use common\models\c2\statics\FeUserType;
 class User extends BaseUser {
 
     private $_attributes = [];
-    public $loginUrl = ['site/login'];
+    protected $_chess = null;
+    public $loginUrl = ['user/login'];
 
     public function getUsername() {
         if (!isset($this->_attributes['username'])) {
@@ -36,18 +37,6 @@ class User extends BaseUser {
         return $this->_attributes['avatarUrl'];
     }
 
-    public function getWapAvatarUrl(){
-        if (!isset($this->_attributes['wapAvatarUrl'])) {
-            if (Yii::$app->wechat->isWechat){
-                $wechatUser = Yii::$app->wechat->getUser();
-                $this->_attributes['wapAvatarUrl'] = $wechatUser->avatar;
-            }else{
-                $this->_attributes['wapAvatarUrl'] = $this->getIdentity()->profile->avatar;
-            }
-        }
-        return $this->_attributes['wapAvatarUrl'];
-    }
-
     public function getFullname() {
         if (!isset($this->_attributes['fullname'])) {
             $this->_attributes['fullname'] = $this->getIdentity()->profile->getMemberName();
@@ -59,53 +48,10 @@ class User extends BaseUser {
         return $this->getIdentity();
     }
 
-    public function isDistributor() {
-        return $this->getIdentity()->isDistributor();
-    }
-
-    public function isFranchisee() {
-        return $this->getIdentity()->isFranchisee();
-    }
-
-    public function isMerchant() {
-        return $this->getIdentity()->isMerchant();
-    }
-
-    // public function getShop(){
-    //     if ($this->isMerchant()){
-    //         return Merchant::findOne(Yii::$app->getUser()->id)->getMyFirstShop();
-    //     }
-    //     return null;
-    // }
-
-    public function isSalesman() {
-        return $this->getIdentity()->isSalesman();
-    }
-
-    public function isCustomer() {
-        return $this->getIdentity()->isCustomer();
-    }
-
-    public function isFavouredCustomer() {
-        return $this->getIdentity()->isFavouredCustomer();
-    }
-
-    public function isNormalCustomer() {
-        return $this->getIdentity()->isNormalCustomer();
-    }
-
-    public function isBizmanager(){
-        return $this->getIdentity()->isBizmanager();
-    }
-
-    public function isWorker(){
-        return $this->getIdentity()->isWorker();
-    }
-
-    public function loginByWechatOpenId($id, $type = null) {
+    public function loginByUserId($id, $type = null) {
         /* @var $class IdentityInterface */
         $class = $this->identityClass;
-        $identity = $class::findIdentityWechatOpenId($id, $type);
+        $identity = $class::findIdentity($id, $type);
         if ($identity && $this->login($identity)) {
             return $identity;
         } else {
@@ -115,46 +61,41 @@ class User extends BaseUser {
 
     public function getReturnUrl($defaultUrl = null) {
         switch ($this->getIdentity()->type) {
-            case FeUserType::TYPE_MERCHANT:
-                $url = Yii::$app->getUrlManager()->createUrl(['/merchant']);
+            case FeUserType::TYPE_LORD:
+                $url = Yii::$app->getUrlManager()->createUrl(['/lord']);
                 break;
-            case FeUserType::TYPE_BIZ_MANAGER:
-                $url = Yii::$app->getUrlManager()->createUrl(['/bizmanager']);
+            case FeUserType::TYPE_ELDER:
+                $url = Yii::$app->getUrlManager()->createUrl(['/elder']);
                 break;
-            case FeUserType::TYPE_SALESMAN:
-                $url = Yii::$app->getUrlManager()->createUrl(['/salesman']);
+            case FeUserType::TYPE_CHIEFTAIN:
+                $url = Yii::$app->getUrlManager()->createUrl(['/chieftain']);
                 break;
-            case FeUserType::TYPE_DISTRIBUTOR:
-                $url = Yii::$app->getUrlManager()->createUrl(['/distributor']);
+            case FeUserType::TYPE_MASTER:
+                $url = Yii::$app->getUrlManager()->createUrl(['/master']);
                 break;
-            case FeUserType::TYPE_FRANCHISEE:
-                $url = Yii::$app->getUrlManager()->createUrl(['/franchisee']);
+            case FeUserType::TYPE_FAMILIAR:
+                $url = Yii::$app->getUrlManager()->createUrl(['/familiar']);
                 break;
-            case FeUserType::TYPE_WORKER:
-                $url = Yii::$app->getUrlManager()->createUrl(['/worker']);
+            case FeUserType::TYPE_PEASANT:
+                $url = Yii::$app->getUrlManager()->createUrl(['/peasant']);
                 break;
-            case FeUserType::TYPE_SHOPWIZARD:
-                $url = Yii::$app->getUrlManager()->createUrl(['/shopwizard']);
-                break;
-            case FeUserType::TYPE_FAVOURED_CUSTOMER:
-            case FeUserType::TYPE_NORMAL_CUSTOMER:
-            case FeUserType::TYPE_BIZ_CUSTOMER:
-                $url = Yii::$app->getUrlManager()->createUrl(['/customer']);
-                break;
+            // case FeUserType::TYPE_DEFAULT:
+            //     $url = Yii::$app->getUrlManager()->createUrl(['/site']);
+            //     break;
             default:
                 $url = Yii::$app->getHomeUrl();
         }
         return $url;
-//        $url = Yii::$app->getSession()->get($this->returnUrlParam, $defaultUrl);
-//        if (is_array($url)) {
-//            if (isset($url[0])) {
-//                return Yii::$app->getUrlManager()->createUrl($url);
-//            } else {
-//                $url = null;
-//            }
-//        }
-//
-//        return $url === null ? Yii::$app->getHomeUrl() : $url;
+    }
+
+    public function registerUrl() {
+        $url = Yii::$app->getUrlManager()->createUrl(['user/signup']);
+        return $url;
+    }
+
+    public function loginUrl() {
+        $url = Yii::$app->getUrlManager()->createUrl(['user/login']);
+        return $url;
     }
 
 }

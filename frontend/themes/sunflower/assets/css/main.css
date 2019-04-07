@@ -5,3 +5,42 @@
 .font-white {
     color: white;
 }
+
+.tr {
+    text-align: right;
+}
+
+.tc {
+    text-align: center;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.bg {
+    background-size: 100% 100px;
+    width: 100%;
+    min-height: 100px;
+    line-height: 25px;
+    padding-top: 25px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    background-image: url("/images/sign-up-bg.png");
+}
+
+.welcome {
+    text-align: center;
+    color: white;
+    font-size: 16px;
+}
+
+.col-xs-2 {
+    padding-right: 0;
+    padding-left: 0;
+    text-align: right;
+}
+
+.row {
+    margin: 0;
+}

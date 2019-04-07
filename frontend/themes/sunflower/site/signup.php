@@ -13,36 +13,6 @@ use kartik\builder\Form;
 $messageName = $model->getMessageName();
 $this->title = Yii::t('app.c2', 'Register');
 ?>
-<style>
-    .bg {
-        background-size: 100% 100px;
-        width: 100%;
-        min-height: 100px;
-        line-height: 25px;
-        padding-top: 25px;
-        margin-bottom: 25px;
-        box-sizing: border-box;
-        background-image: url("/images/sign-up-bg.png");
-    }
-
-    .welcome {
-        text-align: center;
-        color: white;
-        font-size: 16px;
-    }
-
-    .col-xs-2 {
-        padding-right: 0;
-    }
-
-    .col-xs-2 {
-        padding-left: 0;
-    }
-
-    .row {
-        margin: 0;
-    }
-</style>
 
 <div class="bg">
     <p class="welcome"><?= Yii::t('app.c2', 'Welcome to Signup') ?></p>
@@ -56,6 +26,15 @@ $this->title = Yii::t('app.c2', 'Register');
             // 'class' => 'form-horizontal'
         ]]);
     ?>
+
+    <div class="form-group row">
+        <label for="signupform-username" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Username') ?></label>
+        <div class="col-xs-10">
+            <?= $form->field($model, 'username')->textInput([
+                'placeholder' => $model->getAttributeLabel('username')
+            ])->label(false) ?>
+        </div>
+    </div>
 
     <div class="form-group row">
         <label for="signupform-mobile_number" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Mobile Number') ?></label>
@@ -102,7 +81,15 @@ $this->title = Yii::t('app.c2', 'Register');
                 ]
             ]);
             ?>
+        </div>
+    </div>
 
+    <div class="form-group row">
+        <label for="signupform-recommendcode" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Recommend Code') ?></label>
+        <div class="col-xs-10">
+            <?= $form->field($model, 'recommendCode')->textInput([
+                'placeholder' => $model->getAttributeLabel('recommendCode')
+            ])->label(false) ?>
         </div>
     </div>
 

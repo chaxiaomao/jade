@@ -35,4 +35,18 @@ return [
 
         ],
     ],
+
+    'user' => [
+        'class' => 'backend\modules\Sys\modules\Admins\Module',
+        'enableConfirmation' => false,
+        'enableRegistration' => false,
+        'adminPermission' => 'P_System',
+        'modelMap' => [
+            'RegistrationForm' => 'backend\models\c2\entity\rbac\RegistrationForm',
+            'Profile' => 'backend\models\c2\entity\rbac\BeUserProfile',
+            'SettingsForm' => 'backend\models\c2\entity\rbac\SettingsForm',
+            'User' => 'frontend\models\FeUser',
+            'LoginForm' => 'frontend\models\LoginForm',
+        ],
+    ],
 ];

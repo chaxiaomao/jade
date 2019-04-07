@@ -2,38 +2,55 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
 
+/* @var $model \frontend\models\SignupForm */
+
+use common\components\SmsCaptcha\Captcha;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\builder\Form;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$messageName = $model->getMessageName();
+$this->title = Yii::t('app.c2', 'Register');
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<div class="bg">
+    <p class="welcome"><?= Yii::t('app.c2', 'Welcome to Signup') ?></p>
+</div>
+<div class="container">
+    <?php
+    $form = \kartik\widgets\ActiveForm::begin([
+        'options' => [
+            'id' => $model->getBaseFormName(),
+            'data-pjax' => false,
+            // 'class' => 'form-horizontal'
+        ]]);
+    ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+    <div class="form-group row">
+        <label for="signupform-mobile_number" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Mobile Number') ?></label>
+        <div class="col-xs-10">
+            <?= $form->field($model, 'mobile_number')->textInput([
+                'placeholder' => $model->getAttributeLabel('mobile_number')
+            ])->label(false) ?>
         </div>
     </div>
+
+    <div class="form-group row">
+        <label for="signupform-password" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Password') ?></label>
+        <div class="col-xs-10">
+            <?= $form->field($model, 'password')->passwordInput([
+                'placeholder' => $model->getAttributeLabel('password')
+            ])->label(false) ?>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning btn-block font-white"><?= Yii::t('app.c2', 'Login') ?></button>
+
+    <div class="tc mt40">
+        <a href="/site/signup"><?= Yii::t('app.c2', 'Signup Account') ?></a>
+    </div>
+    <?php
+    \kartik\widgets\ActiveForm::end();
+    ?>
 </div>

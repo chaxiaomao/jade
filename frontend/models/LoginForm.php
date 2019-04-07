@@ -1,7 +1,10 @@
 <?php
-namespace fronend\models;
+namespace frontend\models;
 
 use common\models\c2\entity\FeUserModel;
+use cza\base\models\ModelTrait;
+use dektrium\user\Finder;
+use dektrium\user\traits\ModuleTrait;
 use Yii;
 use yii\base\Model;
 
@@ -10,12 +13,25 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+    // use ModuleTrait;
+    use ModelTrait;
     public $mobile_number;
     public $password;
     public $rememberMe = true;
 
-    private $_user;
+    private $_user = false;
 
+    // /** @var Finder */
+    // protected $finder;
+    //
+    // /**
+    //  * @param Finder $finder
+    //  * @param array  $config
+    //  */
+    // public function __construct(Finder $finder, $config = []) {
+    //     $this->finder = $finder;
+    //     parent::__construct($config);
+    // }
 
     /**
      * {@inheritdoc}
@@ -47,6 +63,18 @@ class LoginForm extends Model
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels() {
+        return [
+            'mobile_number' => Yii::t('app.c2', 'Mobile Number'),
+            'password'=> Yii::t('app.c2', 'Password'),
+            'verifyCode' => Yii::t('app.c2', 'Verification Code'),
+            'recommendCode' => Yii::t('app.c2', 'Recommend Code'),
+        ];
     }
 
     /**
@@ -92,7 +120,6 @@ class LoginForm extends Model
         if ($this->_user === false) {
             $this->_user = FeUserModel::findByMobileNumber($this->mobile_number);
         }
-
         return $this->_user;
     }
 

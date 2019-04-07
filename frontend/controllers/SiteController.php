@@ -2,12 +2,12 @@
 namespace frontend\controllers;
 
 use frontend\components\Controller;
+use frontend\models\LoginForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -29,7 +29,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'captcha', 'tips'],
+                        'actions' => ['signup', 'captcha', 'tips', 'login',],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -39,10 +39,10 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    return \Yii::$app->getUser()->loginRequired();
+                },
             ],
-            // 'denyCallback' => function ($rule, $action) {
-            //     return \Yii::$app->getUser()->loginRequired();
-            // },
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -84,7 +84,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
+        return $this->redirect(Yii::$app->user->getReturnUrl());
+        // return $this->render('index');
     }
 
     /**
@@ -94,11 +98,12 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'empty';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $model = new \fronend\models\LoginForm();
+        $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
@@ -162,6 +167,7 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+        $this->layout = 'empty';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

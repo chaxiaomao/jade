@@ -258,16 +258,13 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             ]);
             $model = new UserDegreeRsModel();
             $model->loadDefaultValues();
+            $degree = UserDegreeModel::findOne(['type' => $this->type]);
             $model->setAttributes([
-                'degree_id' => UserDegreeModel::findOne(['type' => $this->type]),
+                'degree_id' => $degree->id,
                 'user_id' => $this->id,
                 'type' => $this->type,
             ]);
-            if ($model->save()) {
-
-            } else {
-                Yii::info($model->errors);
-            }
+            $model->save();
         } else {
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
                 $this->profile->syncRegionData();

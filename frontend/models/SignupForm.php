@@ -92,36 +92,36 @@ class SignupForm extends Model
             case FeUserType::TYPE_LORD:
                 $user = new ElderModel();
                 $user->lordId = $model->user_id;
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_ELDER])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_ELDER])->id;
                 $user->type = FeUserType::TYPE_ELDER;
                 break;
             case FeUserType::TYPE_ELDER:
                 $user = new ChieftainModel();
                 $user->elderId = $model->user_id;
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_CHIEFTAIN])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_CHIEFTAIN])->id;
                 $user->type = FeUserType::TYPE_CHIEFTAIN;
                 break;
             case FeUserType::TYPE_CHIEFTAIN:
                 $user = new MasterModel();
                 $user->chieftainId = $model->user_id;
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_MASTER])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_MASTER])->id;
                 $user->type = FeUserType::TYPE_MASTER;
                 break;
             case FeUserType::TYPE_MASTER:
                 $user = new FamiliarModel();
                 $user->masterId = $model->user_id;
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_FAMILIAR])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_FAMILIAR])->id;
                 $user->type = FeUserType::TYPE_FAMILIAR;
                 break;
             case FeUserType::TYPE_FAMILIAR:
                 $user = new PeasantModel();
                 $user->familiarId = $model->user_id;
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
                 $user->type = FeUserType::TYPE_PEASANT;
                 break;
             default:
                 $user = new FeUserModel();
-                $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
+                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
                 $user->type = FeUserType::TYPE_PEASANT;
         endswitch;
         $user->username = $this->username;

@@ -2,8 +2,16 @@
     margin-left: 6px;
 }
 
+.w100 {
+    width: 100%;
+}
+
 .font-white {
     color: white;
+}
+
+.red {
+    color: red;
 }
 
 .tr {
@@ -12,6 +20,10 @@
 
 .tc {
     text-align: center;
+}
+
+.mt10 {
+    margin-top: 10px;
 }
 
 .mt40 {
@@ -43,4 +55,14 @@
 
 .row {
     margin: 0;
+}
+
+.bg-recommend {
+    height: 80px;
+    line-height: 80px;
+    color: white;
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-align: center;
+    background: #95999c;
 }

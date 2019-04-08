@@ -11,6 +11,7 @@ namespace frontend\components\RecommendCaptcha;
 use common\models\c2\entity\FeUserAuthModel;
 use common\models\c2\entity\FeUserModel;
 use common\models\c2\statics\FeUserType;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -57,10 +58,7 @@ class CaptchaAction extends Action {
      */
     public function run() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $result = ResponseDatum::getSuccessDatum([
-            'message' => Yii::t('app.c2', 'Recommend code generated!'),
-            'data' => false
-        ]);
+        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => false]);
         $user = Yii::$app->user->currentUser;
         if (is_null($user)) {
             return $result;
@@ -73,21 +71,20 @@ class CaptchaAction extends Action {
                 'type' => $user->type,
                 'user_id' => $user->id,
                 'source' => $code,
-                'expired_at' => date("Y-m-d", strtotime('+1 day ', time())),
+                'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
+                'status' => EntityModelStatus::STATUS_ACTIVE,
             ]);
             $model->save();
         } else {
-            if (strtotime($model->expired_at) < strtotime(time())) {
+            if (strtotime($model->expired_at) < strtotime(date('Y-m-d H:i:s', time()))) {
                 $model->updateAttributes([
                     'source' => $this->generateRandomString(),
+                    'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
                 ]);
             }
         }
 
-        $result = ResponseDatum::getSuccessDatum([
-            'message' => Yii::t('app.c2', 'Recommend code generated!'),
-            'data' => $model->source
-        ]);
+        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => $model->source]);
         return $result;
     }
 

@@ -17,6 +17,7 @@ return [
     'bootstrap' => ['log','log-reader'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => require(__DIR__ . '/modules.php'),
+    'timeZone'=>'Asia/Shanghai',
     'components' => [
         'formatter' => [
             'dateFormat' => 'Y-M-d',

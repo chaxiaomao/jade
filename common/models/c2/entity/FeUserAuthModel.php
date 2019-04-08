@@ -35,8 +35,9 @@ class FeUserAuthModel extends \cza\base\models\ActiveRecord
         return [
             [['user_id', 'type'], 'integer'],
             [['expired_at', 'created_at', 'updated_at'], 'safe'],
-            [['status'], 'string', 'max' => 4],
-            [['source', 'source_id'], 'integer', 'max' => 255],
+            [['status'], 'integer', 'max' => 4],
+            [['source', 'source_id'], 'string', 'max' => 255],
+            [['source'], 'unique'],
         ];
     }
 

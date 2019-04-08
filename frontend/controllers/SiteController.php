@@ -34,7 +34,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'recommend-code-captcha'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -73,6 +73,9 @@ class SiteController extends Controller
                 'minLength' => 4,
                 'maxLength' => 4,
                 // 'transparent' => true,
+            ],
+            'recommend-code-captcha' => [
+                'class' => 'frontend\components\RecommendCaptcha\CaptchaAction',
             ],
         ];
     }

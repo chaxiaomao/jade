@@ -30,21 +30,19 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div id="main">
     <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <span class="navbar-text">
+        <a class="navbar-brand"><?= Yii::t('app.c2', 'Home') ?></a>
+        <?php
+        if (Yii::$app->user->isGuest) {
 
-            <?php
-            if (Yii::$app->user->isGuest) {
-            } else {
-                echo Html::beginForm(['/site/logout', 'post']);
-
-                echo Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                );
-                echo Html::endForm();
-            }
-            ?>
-        </span>
+        } else {
+            echo Html::beginForm('/site/logout', 'post', ['class' => 'form-inline']);
+            echo Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-outline-success my-2 my-sm-0']
+            );
+            echo Html::endForm();
+        }
+        ?>
     </nav>
     <?= $content ?>
 </div>

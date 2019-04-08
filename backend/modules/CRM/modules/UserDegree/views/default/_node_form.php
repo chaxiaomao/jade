@@ -68,16 +68,17 @@ $node->loadDefaultValues();
                         'disabled' => true
                     ],
                 ],
-                'user_id' => [
-                    'type' => Form::INPUT_WIDGET,
-                    'widgetClass' => '\kartik\widgets\Select2',
-                    'options' => [
-                        'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
-                        'pluginOptions' => [
-                            'placeholder' => $node->getAttributeLabel('Select ...'),
-                        ]
-                    ]
-                ],
+                // 'user_id' => [
+                //     'type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'options' => [
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
+                //         'pluginOptions' => [
+                //             'placeholder' => $node->getAttributeLabel('Select ...'),
+                //         ]
+                //     ]
+                // ],
+                'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\FeUserType::getHashMap('id', 'label'), 'options' => ['placeholder' => $node->getAttributeLabel('code')]],
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('code')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $node->getAttributeLabel('label')]],

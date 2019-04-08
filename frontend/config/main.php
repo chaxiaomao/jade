@@ -29,6 +29,7 @@ return [
             'identityClass' => 'common\models\c2\entity\FeUserModel',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl' => '/site/login'
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -68,6 +69,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // 'seo' => require(__DIR__ . '/seo.php'),
             ],
         ],
         'view' => [

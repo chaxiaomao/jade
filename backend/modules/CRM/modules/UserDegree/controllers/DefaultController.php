@@ -84,10 +84,10 @@ class DefaultController extends TreeNodeController
         }
     }
 
-    public function actionUserEdit($id = null, $degree_id = null)
+    public function actionUserEdit($id = null)
     {
         $model = $this->retrieveModel($id);
-        $model->degree_id = $degree_id;
+        // $model->degree_id = $degree_id;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);

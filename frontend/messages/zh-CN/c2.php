@@ -112,5 +112,8 @@ return [
     'Recommend Code' => '推荐码',
     'Login' => '登录',
     'Signup Account' => '注册帐号',
+    'Base Profile' => '基本信息',
+    'User Degree' => '用户等级',
+    'Register At' => '注册时间',
     '' => '',
 ];

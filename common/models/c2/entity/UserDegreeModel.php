@@ -58,10 +58,11 @@ class UserDegreeModel extends EntityTree
     public function rules()
     {
         return [
-            [['chess_id', 'user_id', 'root', 'lft', 'rgt', 'lvl', 'created_by', 'updated_by', 'position'], 'integer'],
+            [['chess_id', 'user_id', 'type', 'root', 'lft', 'rgt', 'lvl', 'created_by', 'updated_by', 'position'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'selected', 'readonly', 'visible', 'collapsed',
+            [['type'], 'required'],
+            [['selected', 'readonly', 'visible', 'collapsed',
                 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all',
                 'disabled', 'active', 'icon_type', 'status'], 'integer', 'max' => 4],
             [['code', 'name', 'label', 'icon'], 'string', 'max' => 255],

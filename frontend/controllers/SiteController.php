@@ -26,22 +26,22 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['*'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'captcha', 'tips', 'login',],
+                        'actions' => ['signup', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
-                'denyCallback' => function ($rule, $action) {
-                    return \Yii::$app->getUser()->loginRequired();
-                },
+                // 'denyCallback' => function ($rule, $action) {
+                //     return \Yii::$app->getUser()->loginRequired();
+                // },
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -84,10 +84,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('/site/login');
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(Yii::$app->user->getReturnUrl());
         }
-        return $this->redirect(Yii::$app->user->getReturnUrl());
         // return $this->render('index');
     }
 

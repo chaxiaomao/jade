@@ -43,6 +43,9 @@ class Module extends \yii\base\Module
             'peasant' => [
                 'class' => 'backend\modules\CRM\modules\Peasant\Module',
             ],
+            'fe-user' => [
+                'class' => 'backend\modules\CRM\modules\FeUser\Module',
+            ],
         ];
         // custom initialization code goes here
     }

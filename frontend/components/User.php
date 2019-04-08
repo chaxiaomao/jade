@@ -83,7 +83,8 @@ class User extends BaseUser {
             //     $url = Yii::$app->getUrlManager()->createUrl(['/site']);
             //     break;
             default:
-                $url = Yii::$app->getHomeUrl();
+                // $url = Yii::$app->getHomeUrl();
+                $url = Yii::$app->getUrlManager()->createUrl(['/peasant']);
         }
         return $url;
     }

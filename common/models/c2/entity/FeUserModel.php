@@ -143,6 +143,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     public function loadDefaultValues($skipIfSet = true)
     {
         parent::loadDefaultValues($skipIfSet);
+        // $this->type = FeUserType::TYPE_PEASANT;
     }
 
     /**
@@ -250,38 +251,41 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     public function afterSave($insert, $changedAttributes)
     {
-        if (parent::afterSave($insert, $changedAttributes)) {
-            if ($insert) {
-                $this->updateAttributes([
-                    'registration_src_type' => DeviceLogHelper::getDeviceType()
-                ]);
-                $model = new UserDegreeRsModel();
-                $model->loadDefaultValues();
-                $model->setAttributes([
-                    'degree_id' => $this->degree_id,
-                    'user_id' => $this->id,
-                    'type' => $this->type,
-                ]);
-                $model->save();
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $this->updateAttributes([
+                'registration_src_type' => DeviceLogHelper::getDeviceType()
+            ]);
+            $model = new UserDegreeRsModel();
+            $model->loadDefaultValues();
+            $model->setAttributes([
+                'degree_id' => UserDegreeModel::findOne(['type' => $this->type]),
+                'user_id' => $this->id,
+                'type' => $this->type,
+            ]);
+            if ($model->save()) {
+
             } else {
-                if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
-                    $this->profile->syncRegionData();
-                }
+                Yii::info($model->errors);
             }
         } else {
-            return false;
+            if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
+                $this->profile->syncRegionData();
+            }
+            if (isset($changedAttributes['type'])) {
+                $this->userDegreeRs->updateRs($this->type);
+            }
         }
     }
 
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)) {
-            if ($insert) {
-                return true;
-            }
-        } else {
-            return false;
-        }
+        return parent::beforeSave($insert);
+    }
+
+    public function getUserDegreeRs()
+    {
+        return $this->hasOne(UserDegreeRsModel::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -347,6 +351,14 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     public static function findByMobileNumber($mobile)
     {
         return static::findOne(['mobile_number' => $mobile, 'status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecommendCode()
+    {
+        return $this->hasOne(FeUserAuthModel::className(), ['user_id' => 'id']);
     }
 
 }

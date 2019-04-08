@@ -43,7 +43,7 @@ use yii\widgets\Pjax;
                         'data-pjax' => '0',
                         'data-toggle' => 'modal',
                         'data-target' => '#content-modal',
-                        'data-url' => Url::toRoute(['user-edit', 'degree_id' => $degree->id]),
+                        'data-url' => Url::toRoute(['/crm/fe-user/default/edit']),
                     ]) . ' ' .
                     Html::button('<i class="glyphicon glyphicon-remove"></i>', [
                         'class' => 'btn btn-danger',
@@ -101,9 +101,10 @@ use yii\widgets\Pjax;
                 'class' => '\kartik\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/crm/fe-user/default/edit', 'id' => $model->user_id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
+                            'class' => 'update'
                         ]);
                     }
                 ]
@@ -136,6 +137,11 @@ $(document).off('click', '#user-edit').on('click','#user-edit',function(){
     return false;
 });
 JS;
+
+$js .= "jQuery(document).off('click', 'a.update').on('click', 'a.update', function(e) {
+                e.preventDefault();
+                jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+            });";
 
 $this->registerJs($js);
 ?>

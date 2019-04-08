@@ -18,7 +18,7 @@ $messageName = $model->getMessageName();
 
 <?php
 $form = ActiveForm::begin([
-    'action' => ['edit', 'id' => $model->id, 'degree_id' => $model->degree_id],
+    'action' => ['user-edit'],
     'options' => [
         'id' => $model->getBaseFormName(),
         'data-pjax' => true,
@@ -49,16 +49,16 @@ $form = ActiveForm::begin([
                 'form' => $form,
                 'columns' => 2,
                 'attributes' => [
-                    'degree_id' => [
-                        'type' => Form::INPUT_DROPDOWN_LIST,
-                        'items' => \common\models\c2\entity\UserDegreeModel::getHashMap('id', 'name')
-                    ],
-                    'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\FeUserType::getHashMap('id', 'label')],
-                    'attributeset_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('attributeset_id')]],
+                    // 'degree_id' => [
+                    //     'type' => Form::INPUT_DROPDOWN_LIST,
+                    //     'items' => \common\models\c2\entity\UserDegreeModel::getHashMap('id', 'name')
+                    // ],
                     'username' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('username')]],
+                    'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\FeUserType::getHashMap('id', 'label')],
+                    // 'attributeset_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('attributeset_id')]],
                     'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('email')]],
-                    'password_hash' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('password_hash')]],
-                    'auth_key' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('auth_key')]],
+                    // 'password_hash' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('password_hash')]],
+                    // 'auth_key' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('auth_key')]],
                     'confirmed_at' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
@@ -67,19 +67,24 @@ $form = ActiveForm::begin([
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
                     'registration_ip' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('registration_ip')]],
-                    'registration_src_type' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
-                        'pluginOptions' => ['threeState' => false],
-                    ],],
-                    'flags' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('flags')]],
+                    // 'registration_src_type' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
+                    //     'pluginOptions' => ['threeState' => false],
+                    // ],],
+                    'registration_src_type' => [
+                            'type' => Form::INPUT_DROPDOWN_LIST,
+                        'items' => \common\models\c2\statics\RegistrationSrcType::getHashMap('id', 'label'),
+                        'options' => ['placeholder' => $model->getAttributeLabel('flags')]
+                    ],
+                    // 'flags' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('flags')]],
                     'last_login_at' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
                     'last_login_ip' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('last_login_ip')]],
                     'open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('open_id')]],
-                    'wechat_union_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_union_id')]],
-                    'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id')]],
+                    // 'wechat_union_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_union_id')]],
+                    // 'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id')]],
                     'mobile_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('mobile_number')]],
-                    'access_token' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('access_token')]],
+                    // 'access_token' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('access_token')]],
                     'province_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('province_id')]],
                     'city_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('city_id')]],
                     'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],

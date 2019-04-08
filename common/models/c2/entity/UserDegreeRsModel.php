@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\FeUserType;
 use Yii;
 
 /**
@@ -79,6 +80,16 @@ class UserDegreeRsModel extends \cza\base\models\ActiveRecord
     public function getUserDegree()
     {
         return $this->hasOne(UserDegreeModel::className(), ['id' => 'degree_id']);
+    }
+
+    public function updateRs($type = FeUserType::TYPE_DEFAULT)
+    {
+        $model = UserDegreeModel::findOne(['type' => $type]);
+        $this->updateAttributes([
+           'type' => $type,
+           'degree_id' => $model->id,
+        ]);
+        $this->save();
     }
 
 }

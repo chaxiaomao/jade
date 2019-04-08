@@ -1227,6 +1227,7 @@ return [
     'Peasant' => 'P层',
     'User Degree' => '用户等级',
     'User List' => '用户列表',
+    'Fe user' => '用户列表',
     '' => '',
 ];
 

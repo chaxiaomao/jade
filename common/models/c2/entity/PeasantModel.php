@@ -15,7 +15,10 @@ use yii\helpers\ArrayHelper;
 
 class PeasantModel extends FeUserModel
 {
-    public function loadDefaultValues($skipIfSet = true) {
+    public $familiarId;
+
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
         $this->type = FeUserType::TYPE_PEASANT;
     }
@@ -24,16 +27,31 @@ class PeasantModel extends FeUserModel
      * @inheritdoc
      * @return \common\models\c2\query\FeUserQuery the active query used by this AR class.
      */
-    public static function find() {
+    public static function find()
+    {
         return parent::find()->peasant();
     }
 
-    public static function getHashMap($keyField, $valField, $condition = '') {
+    public static function getHashMap($keyField, $valField, $condition = '')
+    {
         if (empty($_data['peasantHashMap'])) {
             $lord = MasterProfileModel::find()->joinWith(['allPeasant'])
                 ->andWhere(['{{%fe_user}}.type' => FeUserType::TYPE_PEASANT]);
             $_data['peasantHashMap'] = ArrayHelper::map($lord->select([$keyField, $valField])->andWhere($condition)->asArray()->all(), $keyField, $valField);
             return $_data['peasantHashMap'];
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $rs = new FamiliarPeasantRsModel();
+            $rs->setAttributes([
+                'familiar_id' => $this->familiarId,
+                'peasant_id' => $this->id,
+            ]);
+            $rs->save();
         }
     }
 

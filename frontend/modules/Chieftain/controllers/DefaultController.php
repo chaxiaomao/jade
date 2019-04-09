@@ -21,7 +21,7 @@ class DefaultController extends Controller
             return $this->redirect(Yii::$app->user->getReturnUrl());
         }
         $user = Yii::$app->user->currentUser;
-        $query = $user->getMaster();
+        $query = $user->getMasters();
         return $this->render('index', [
             'count' => $count = $query->count()
         ]);
@@ -30,7 +30,7 @@ class DefaultController extends Controller
     public function actionMemberList()
     {
         $user = Yii::$app->user->currentUser;
-        $query = $user->getPeasants();
+        $query = $user->getMasters();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

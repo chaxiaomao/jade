@@ -52,7 +52,7 @@ class ChieftainModel extends FeUserModel
         }
     }
 
-    public function getMaster()
+    public function getMasters()
     {
         return $this->hasMany(MasterModel::className(), ['id' => 'master_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])

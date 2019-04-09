@@ -37,5 +37,11 @@ class LordModel extends FeUserModel
         }
     }
 
+    public function getElders()
+    {
+        return $this->hasMany(ElderModel::className(), ['id' => 'elder_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%lord_elder_rs}}', ['lord_id' => 'id']);
+    }
 
 }

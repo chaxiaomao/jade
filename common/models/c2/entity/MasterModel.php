@@ -52,7 +52,7 @@ class MasterModel extends FeUserModel
         }
     }
 
-    public function getFamiliar()
+    public function getFamiliars()
     {
         return $this->hasMany(FamiliarModel::className(), ['id' => 'familiar_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])

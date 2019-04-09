@@ -53,7 +53,7 @@ class ElderModel extends FeUserModel
         }
     }
 
-    public function getChieftain()
+    public function getChieftains()
     {
         return $this->hasMany(ChieftainModel::className(), ['id' => 'chieftain_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])

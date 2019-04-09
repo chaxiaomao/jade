@@ -53,4 +53,11 @@ class ElderModel extends FeUserModel
         }
     }
 
+    public function getChieftain()
+    {
+        return $this->hasMany(ChieftainModel::className(), ['id' => 'chieftain_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%elder_chieftain_rs}}', ['elder_id' => 'id']);
+    }
+
 }

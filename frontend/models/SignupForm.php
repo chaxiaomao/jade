@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\components\SmsCaptcha\CaptchaValidator;
+use common\components\validators\FeUserUniqueValidator;
 use common\models\c2\entity\ChieftainModel;
 use common\models\c2\entity\ElderModel;
 use common\models\c2\entity\FamiliarModel;
@@ -39,13 +40,14 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => Yii::t('app.c2', 'This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             [['password', 'mobile_number'], 'required'],
             [['mobile_number',], 'match', 'pattern' => '/^1[0-9]{10}$/', 'message' => Yii::t('app.c2', '{attribute} must be mobile format!')],
             [['mobile_number'], 'string', 'length' => 11],
             [['mobile_number'], 'number', 'integerOnly' => true],
+            ['mobile_number', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => Yii::t('app.c2', 'This mobile number has already been taken.')],
 
             // ['email', 'email'],
             // ['email', 'string', 'max' => 255],
@@ -128,7 +130,7 @@ class SignupForm extends Model
         $user->mobile_number = $this->mobile_number;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        return $user->save() ? $user : Yii::info($user->errors);
+        return $user->save() ? $user : null;
     }
 
 }

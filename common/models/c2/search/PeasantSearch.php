@@ -101,12 +101,12 @@ class PeasantSearch extends PeasantModel
         return $dataProvider;
     }
     
-    public function getPageParamName($splitor = '-'){
+    public static function getPageParamName($splitor = '-'){
         $name = "PeasantModelPage";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
     
-    public function getSortParamName($splitor = '-'){
+    public static function getSortParamName($splitor = '-'){
         $name = "PeasantModelSort";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }

@@ -40,7 +40,9 @@ class RCodeGenerator extends \kartik\base\Widget
     public function run()
     {
         // $this->registerClientScript();
-        return $this->render('RCode');
+        return $this->render('RCode', [
+            'captchaAction' => $this->captchaAction
+        ]);
     }
 
     public function registerClientScript()

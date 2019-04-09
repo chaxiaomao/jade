@@ -52,4 +52,11 @@ class MasterModel extends FeUserModel
         }
     }
 
+    public function getFamiliar()
+    {
+        return $this->hasMany(FamiliarModel::className(), ['id' => 'familiar_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%master_familiar_rs}}', ['master_id' => 'id']);
+    }
+
 }

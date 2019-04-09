@@ -52,4 +52,11 @@ class ChieftainModel extends FeUserModel
         }
     }
 
+    public function getMaster()
+    {
+        return $this->hasMany(MasterModel::className(), ['id' => 'master_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%chieftain_master_rs}}', ['chieftain_id' => 'id']);
+    }
+
 }

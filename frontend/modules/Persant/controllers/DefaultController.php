@@ -15,6 +15,9 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        if (\Yii::$app->request->url != \Yii::$app->user->getReturnUrl()) {
+            return $this->redirect(\Yii::$app->user->getReturnUrl());
+        }
         return $this->render('index');
     }
 }

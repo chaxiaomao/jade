@@ -23,7 +23,6 @@ class CaptchaValidator extends Validator
     {
         parent::init();
         if ($this->message === null) {
-            Yii::info('2222222222');
             $this->message = Yii::t('app.c2', 'The Recommend code is incorrect.');
         }
     }
@@ -35,7 +34,6 @@ class CaptchaValidator extends Validator
     {
         $model = FeUserAuthModel::findOne(['source' => $value]);
         if (strtotime($model->expired_at) > strtotime(date('Y-m-d H:i:s')) || $value == "") {
-            Yii::info('1qweqweqw');
             return $this->message = [];
         }
         return null;

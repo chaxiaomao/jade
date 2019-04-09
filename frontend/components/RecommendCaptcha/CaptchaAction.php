@@ -58,11 +58,7 @@ class CaptchaAction extends Action {
      */
     public function run() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => false]);
         $user = Yii::$app->user->currentUser;
-        if (is_null($user)) {
-            return $result;
-        }
         $model = $user->recommendCode;
         if (is_null($model)) {
             $code = $this->generateRandomString();

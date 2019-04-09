@@ -52,4 +52,14 @@ class FamiliarModel extends FeUserModel
         }
     }
 
+    /**
+     * @return $this
+     */
+    public function getPeasants()
+    {
+        return $this->hasMany(PeasantModel::className(), ['id' => 'peasant_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%familiar_peasant_rs}}', ['familiar_id' => 'id']);
+    }
+
 }

@@ -27,25 +27,44 @@ $this->title = Yii::t('app.c2', 'User Login');
         ]]);
     ?>
 
-    <div class="form-group row">
-        <label for="signupform-mobile_number" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Mobile Number') ?></label>
-        <div class="col-xs-10">
-            <?= $form->field($model, 'mobile_number')->textInput([
-                'placeholder' => $model->getAttributeLabel('mobile_number')
-            ])->label(false) ?>
-        </div>
-    </div>
+    <?php
 
-    <div class="form-group row">
-        <label for="signupform-password" class="col-xs-2 control-label"><?= Yii::t('app.c2', 'Password') ?></label>
-        <div class="col-xs-10">
-            <?= $form->field($model, 'password')->passwordInput([
-                'placeholder' => $model->getAttributeLabel('password')
-            ])->label(false) ?>
-        </div>
-    </div>
+    echo Form::widget([
+        'model' => $model,
+        'form' => $form,
+        'columns' => 1,
+        'attributes' => [
+            'mobile_number' => [
+                'type' => Form::INPUT_TEXT,
+                'label' => false,
+                'fieldConfig' => [
+                    'template' => '<i class="mdui-icon material-icons">&#xe324;</i>{input}',
+                    'options' => ['class' => 'mdui-textfield']
+                ],
+                'options' => [
+                    'placeholder' => $model->getAttributeLabel('mobile_number'),
+                    'class' => 'mdui-textfield-input'
+                ]
+            ],
+            'password' => [
+                'type' => Form::INPUT_PASSWORD,
+                'label' => false,
+                'fieldConfig' => [
+                    'template' => '<i class="mdui-icon material-icons">&#xe899;</i>{input}',
+                    'options' => ['class' => 'mdui-textfield'],
+                ],
+                'options' => [
+                    'placeholder' => $model->getAttributeLabel('password'),
+                    'class' => 'mdui-textfield-input',
+                ]
+            ],
+        ]
+    ]);
+    ?>
 
-    <button type="submit" class="btn btn-warning btn-block font-white"><?= Yii::t('app.c2', 'Login') ?></button>
+    <div class="mdui-col">
+        <button type="submit" class="btn btn-warning btn-block font-white"><?= Yii::t('app.c2', 'Signup') ?></button>
+    </div>
 
     <div class="tc mt40">
         <a href="/site/signup"><?= Yii::t('app.c2', 'Signup Account') ?></a>

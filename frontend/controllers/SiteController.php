@@ -173,6 +173,7 @@ class SiteController extends Controller
         $this->layout = 'empty';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
+            Yii::info(Yii::$app->request->post());
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();

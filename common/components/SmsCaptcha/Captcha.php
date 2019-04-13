@@ -80,20 +80,23 @@ class Captcha extends InputWidget {
      * @var array HTML attributes to be applied to the CAPTCHA image tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $buttonOptions = ['class' => 'btn btn-success'];
+    public $buttonOptions = ['class' => 'mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent'];
 
     /**
      * @var string the template for arranging the CAPTCHA image tag and the text input tag.
      * In this template, the token `{image}` will be replaced with the actual image tag,
      * while `{input}` will be replaced with the text input tag.
      */
-    public $template = '<div class="input-group">{input}<div class="mf10">{button}</div></div>';
+    public $template = '<div class="mdui-row">
+                          <div class="mdui-col-xs-8"><i class="mdui-icon material-icons">email</i>{input}</div>
+                          <div class="mdui-col-xs-4">{button}</div>
+                        </div>';
 
     /**
      * @var array the HTML attributes for the input tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $options = ['class' => 'form-control'];
+    public $options = ['class' => 'mdui-textfield-input'];
     public $form;
 
     /**
@@ -114,13 +117,13 @@ class Captcha extends InputWidget {
     public function run() {
         $this->registerClientScript();
         $this->options['placeholder'] = Yii::t('app.c2', 'Verification Code');
-        $this->options[] = ['type' => 'number'];
+        $this->options[] = ['type' => 'text'];
         if ($this->hasModel()) {
             $input = Html::activeTextInput($this->model, $this->attribute, $this->options);
         } else {
             $input = Html::textInput($this->name, $this->value, $this->options);
         }
-        $input = str_replace('text', 'number', $input);
+        // $input = str_replace('text', 'text', $input);
         $route = $this->captchaAction;
         if (is_array($route)) {
             $route['v'] = uniqid();

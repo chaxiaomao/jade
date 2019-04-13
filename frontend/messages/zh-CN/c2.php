@@ -129,5 +129,6 @@ return [
     'Master' => 'B层',
     'Familiar' => 'A层',
     'Peasant' => 'P层',
+    'User Register' => '用户注册',
     '' => '',
 ];

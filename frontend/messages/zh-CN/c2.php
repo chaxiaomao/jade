@@ -18,6 +18,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Application' => '原玉平台',
     'Base Information' => '基本信息',
     'Multiple Language' => '多语言录入',
     'Search' => '搜索',
@@ -130,5 +131,6 @@ return [
     'Familiar' => 'A层',
     'Peasant' => 'P层',
     'User Register' => '用户注册',
+    'Profile center' => '个人中心',
     '' => '',
 ];

@@ -5,6 +5,8 @@
  * Date: 2019/4/4
  * Time: 10:21
  */
+
+$this->title = Yii::t('app.c2', 'Profile center');
 ?>
 <div class="card" style="width: 96%;margin: 10px auto 0;">
     <div class="card-header">

@@ -30,7 +30,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div id="main">
     <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <?= isset($this->params['navbar']) ? '<button onclick="javascript:history.go(-1)" class="btn btn-light">' . $this->params['navbar'] . '</button>' : '<a class="navbar-brand"></a>' ?>
+        <?= isset($this->params['navbar']) ? '<button onclick="javascript:history.go(-1)" class="btn btn-light">' . $this->params['navbar'] . '</button>' : '<a class="navbar-brand">' . Yii::t('app.c2', 'Application') . '</a>' ?>
 
         <?php
         if (Yii::$app->user->isGuest) {

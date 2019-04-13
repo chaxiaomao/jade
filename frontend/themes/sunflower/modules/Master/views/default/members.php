@@ -7,7 +7,7 @@
  */
 
 use yii\widgets\LinkPager;
-
+$this->title = Yii::t('app.c2', 'My members');
 $this->params['navbar'] = Yii::t('app.c2', 'Back');
 ?>
 

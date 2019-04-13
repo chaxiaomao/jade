@@ -70,3 +70,7 @@
 .avatar60 {
     width: 60px;
 }
+
+.navbar-brand {
+    font-weight: bold;
+}

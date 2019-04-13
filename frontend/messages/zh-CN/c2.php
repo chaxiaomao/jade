@@ -32,7 +32,7 @@ return [
     'Password' => '密码',
     'Remember Me' => '下回自动登录',
     'Captcha' => '验证码',
-    'Verification Code' => '请输入验证码',
+    'Verification Code' => '验证码',
     'Refresh Verification Code' => '点击刷新验证码',
     'Incorrect username or password.' => '用户名或密码不正确',
     'Menu' => '菜单',

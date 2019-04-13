@@ -35,7 +35,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'index', 'recommend-code-captcha'],
+                        'actions' => ['logout', 'index', 'recommend-code-captcha', 'login', 'signup'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -171,6 +171,9 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $this->layout = 'empty';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             Yii::info(Yii::$app->request->post());

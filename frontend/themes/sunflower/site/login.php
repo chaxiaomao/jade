@@ -38,33 +38,33 @@ $this->title = Yii::t('app.c2', 'User Login');
                 'type' => Form::INPUT_TEXT,
                 'label' => false,
                 'fieldConfig' => [
-                    'template' => '<i class="mdui-icon material-icons">&#xe324;</i>{input}',
-                    'options' => ['class' => 'mdui-textfield']
+                    'template' => '<label for="signupform-mobile_number" class="col-xs-2 control-label">' . $model->getAttributeLabel('mobile_number') . '</label>
+                                    <div class="col-xs-10">{input}</div>',
+                    'options' => ['class' => 'form-group row']
                 ],
                 'options' => [
                     'placeholder' => $model->getAttributeLabel('mobile_number'),
-                    'class' => 'mdui-textfield-input'
+                    'class' => 'form-control-lg'
                 ]
             ],
             'password' => [
-                'type' => Form::INPUT_PASSWORD,
+                'type' => Form::INPUT_TEXT,
                 'label' => false,
                 'fieldConfig' => [
-                    'template' => '<i class="mdui-icon material-icons">&#xe899;</i>{input}',
-                    'options' => ['class' => 'mdui-textfield'],
+                    'template' => '<label for="signupform-password" class="col-xs-2 control-label">' . $model->getAttributeLabel('password') . '</label>
+                                    <div class="col-xs-10">{input}</div>',
+                    'options' => ['class' => 'form-group row']
                 ],
                 'options' => [
                     'placeholder' => $model->getAttributeLabel('password'),
-                    'class' => 'mdui-textfield-input',
+                    'class' => 'form-control-lg'
                 ]
             ],
         ]
     ]);
     ?>
 
-    <div class="mdui-col">
-        <button type="submit" class="btn btn-warning btn-block font-white"><?= Yii::t('app.c2', 'Signup') ?></button>
-    </div>
+    <button type="submit" class="btn btn-warning btn-block font-white btn-lg"><?= Yii::t('app.c2', 'Login') ?></button>
 
     <div class="tc mt40">
         <a href="/site/signup"><?= Yii::t('app.c2', 'Signup Account') ?></a>

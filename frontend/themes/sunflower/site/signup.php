@@ -109,7 +109,7 @@ $this->title = Yii::t('app.c2', 'User Register');
 
 
     <div class="tc mt40">
-        <a href="/site/login"><?= Yii::t('app.c2', 'Login Account') ?></a>
+        <a href="/site/login"><h3><?= Yii::t('app.c2', 'Login Account') ?></h3></a>
     </div>
 
     <?php

@@ -67,7 +67,7 @@ $this->title = Yii::t('app.c2', 'User Login');
     <button type="submit" class="btn btn-warning btn-block font-white btn-lg"><?= Yii::t('app.c2', 'Login') ?></button>
 
     <div class="tc mt40">
-        <a href="/site/signup"><?= Yii::t('app.c2', 'Signup Account') ?></a>
+        <a href="/site/signup"><h3><?= Yii::t('app.c2', 'Signup Account') ?></h3></a>
     </div>
     <?php
     \kartik\widgets\ActiveForm::end();

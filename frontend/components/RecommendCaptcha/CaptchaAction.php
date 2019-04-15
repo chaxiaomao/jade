@@ -10,6 +10,7 @@ namespace frontend\components\RecommendCaptcha;
 
 use common\models\c2\entity\FeUserAuthModel;
 use common\models\c2\entity\FeUserModel;
+use common\models\c2\entity\RecommendCodeModel;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
@@ -59,12 +60,14 @@ class CaptchaAction extends Action {
     public function run() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $user = Yii::$app->user->currentUser;
-        $model = $user->recommendCode;
+        $currentChess = Yii::$app->session->get('chess');
+        $model = $user->getRecCode($currentChess['chess_id']);
         if (is_null($model)) {
             $code = $this->generateRandomString();
-            $model = new FeUserAuthModel();
+            $model = new RecommendCodeModel();
             $model->setAttributes([
                 'type' => $user->type,
+                'chess_id' => $currentChess['chess_id'],
                 'user_id' => $user->id,
                 'source' => $code,
                 'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),

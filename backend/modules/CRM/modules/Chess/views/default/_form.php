@@ -49,32 +49,32 @@ $form = ActiveForm::begin([
                 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => []],
                 'elder_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv5_id')]],
                 'chieftain_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv4_id')]],
-                'lord_id' => [
-                    'type' => Form::INPUT_WIDGET,
-                    'widgetClass' => '\kartik\widgets\Select2',
-                    'options' => [
-                        'language' => Yii::$app->language,
-                        // 'disabled' => true,
-                        'data' => common\models\c2\entity\LordModel::getLordHashMap('user_id', 'fullname'),
-                        'pluginOptions' => [
-                            'placeholder' => $model->getAttributeLabel('Select options ..')
-                        ]
-                        //                        'value' => '2',
-                        //                        'initValueText' => 'Merchant2',
-                        //                        'pluginOptions' => [
-                        //                            'allowClear' => false,
-                        //                            'minimumInputLength' => 2,
-                        //                            'ajax' => [
-                        //                                'url' => 'merchant-list',
-                        //                                'dataType' => 'json',
-                        //                                'data' => new JsExpression('function(params) { return {q:params.term, page:params.page}; }')
-                        //                            ],
-                        //                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        //                            'templateResult' => new JsExpression('function(item) { return item.username; }'),
-                        //                            'templateSelection' => new JsExpression('function (item) { return item.username; }'),
-                        //                        ],
-                    ],
-                ],
+                // 'lord_id' => [
+                //     'type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'options' => [
+                //         'language' => Yii::$app->language,
+                //         // 'disabled' => true,
+                //         'data' => common\models\c2\entity\LordModel::getHashMap('id', 'username'),
+                //         'pluginOptions' => [
+                //             'placeholder' => $model->getAttributeLabel('Select options ..')
+                //         ],
+                //         'value' => '2',
+                //         'initValueText' => 'Merchant2',
+                //         'pluginOptions' => [
+                //             'allowClear' => false,
+                //             'minimumInputLength' => 2,
+                //             'ajax' => [
+                //                 'url' => 'merchant-list',
+                //                 'dataType' => 'json',
+                //                 'data' => new JsExpression('function(params) { return {q:params.term, page:params.page}; }')
+                //             ],
+                //             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                //             'templateResult' => new JsExpression('function(item) { return item.username; }'),
+                //             'templateSelection' => new JsExpression('function (item) { return item.username; }'),
+                //         ],
+                //     ],
+                // ],
                 // 'attributeset_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('attributeset_id')]],
                 'province_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['0' => Yii::t('app.c2', 'Please select province')] + RegionProvince::getHashMap('id', 'label'), 'options' => ['id' => 'province-id']],
                 'city_id' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [

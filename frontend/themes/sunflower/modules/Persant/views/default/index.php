@@ -31,5 +31,11 @@ $this->title = Yii::t('app.c2', 'Profile center');
                 <a class="col tr"><?= date('Y-m-d', strtotime(Yii::$app->user->currentUser->created_at)) ?></a>
             </div>
         </li>
+        <li class="list-group-item">
+            <div class="row">
+                <span class="col"></span>
+                <a href="/site/settings" class="col tr"><?= Yii::t('app.c2', 'Settings') ?></a>
+            </div>
+        </li>
     </ul>
 </div>

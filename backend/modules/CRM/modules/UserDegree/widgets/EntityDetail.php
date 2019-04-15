@@ -4,6 +4,7 @@ namespace backend\modules\CRM\modules\UserDegree\widgets;
 
 use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\UserDegreeRsModel;
+use common\models\c2\search\FeUserSearch;
 use common\models\c2\search\UserDegreeRsSearch;
 use Yii;
 use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
@@ -25,7 +26,6 @@ class EntityDetail extends DetailWidget
     public $withProfileTab = false;
     public $withUsersTab = false;
     public $params;
-    protected $modelClass = 'common\models\c2\entity\UserDegreeRsModel';
 
     public function getTabItems()
     {
@@ -65,21 +65,10 @@ class EntityDetail extends DetailWidget
     {
         if (!isset($this->_tabs['USERS_TAB'])) {
             if (!$this->model->isNewRecord) {
-                $searchModel = new UserDegreeRsSearch();
-                $dataProvider = $searchModel->search([
-                    'UserDegreeRsSearch' => [
-                        'chess_id' => $this->model->chess_id,
-                        'degree_id' => $this->model->id,
-                    ]
-                ]);
                 $this->_tabs['USERS_TAB'] = [
                     'label' => Yii::t('app.c2', 'User List'),
                     'content' => $this->controller->renderPartial('_node_users_index', [
-                        'model' => $this->retrieveModel(),
-                        'searchModel' => $searchModel,
-                        'dataProvider' => $dataProvider,
-                        'params' => $this->params,
-                        'degree' => $this->model,
+
                     ]),
                     'enable' => true,
                 ];
@@ -95,25 +84,5 @@ class EntityDetail extends DetailWidget
         return $this->_tabs['USERS_TAB'];
     }
 
-    /**
-     *
-     * @param type $id
-     * @param type $allowReturnNew
-     * @return \cza\base\components\controllers\backend\modelClass
-     * @throws NotFoundHttpException
-     */
-    public function retrieveModel($id = null, $allowReturnNew = true)
-    {
-        if (!is_null($id)) {
-            $model = $this->findModel($id);
-        } elseif (!$allowReturnNew) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        } else {
-            $model = new $this->modelClass;
-            $model->loadDefaultValues();
-        }
-
-        return $model;
-    }
 
 }

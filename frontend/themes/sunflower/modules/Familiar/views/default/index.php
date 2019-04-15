@@ -39,7 +39,7 @@ $this->title = Yii::t('app.c2', 'Profile center');
         <li class="list-group-item">
             <div class="row">
                 <span class="col"></span>
-                <a href="/settings" class="col tr"><?= Yii::t('app.c2', 'Settings') ?></a>
+                <a href="/site/settings" class="col tr"><?= Yii::t('app.c2', 'Settings') ?></a>
             </div>
         </li>
     </ul>

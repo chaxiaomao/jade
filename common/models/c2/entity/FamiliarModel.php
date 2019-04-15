@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
 class FamiliarModel extends FeUserModel
 {
     public $masterId;
+    public $chessId;
+    public $degreeId;
 
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
@@ -45,21 +47,33 @@ class FamiliarModel extends FeUserModel
         if ($insert) {
             $rs = new MasterFamiliarRsModel();
             $rs->setAttributes([
+                'chess_id' => $this->chessId,
                 'master_id' => $this->masterId,
                 'familiar_id' => $this->id,
             ]);
             $rs->save();
+            $rs2 = new UserDegreeRsModel();
+            $rs2->setAttributes([
+                'user_id' => $this->id,
+                'degree_id' => $this->degreeId,
+                'type' => $this->type,
+            ]);
+            $rs2->save();
         }
     }
 
-    /**
-     * @return $this
-     */
     public function getPeasants()
     {
-        return $this->hasMany(PeasantModel::className(), ['id' => 'peasant_id'])
-            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->viaTable('{{%familiar_peasant_rs}}', ['familiar_id' => 'id']);
+        // return $this->hasMany(PeasantModel::className(), ['id' => 'peasant_id'])
+        //     ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+        //     ->viaTable('{{%familiar_peasant_rs}}', ['familiar_id' => 'id']);
+        return $this->hasMany(FamiliarPeasantRsModel::className(), ['familiar_id' => 'id']);
+    }
+
+    public function getCurrentChessUser()
+    {
+        $currentChess = \Yii::$app->session->get('chess');
+        return $this->getPeasants()->where(['chess_id' => $currentChess['chess_id']]);
     }
 
 }

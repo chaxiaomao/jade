@@ -10,6 +10,7 @@ namespace frontend\components\RecommendCaptcha;
 
 
 use common\models\c2\entity\FeUserAuthModel;
+use common\models\c2\entity\RecommendCodeModel;
 use Yii;
 use yii\validators\Validator;
 
@@ -32,7 +33,7 @@ class CaptchaValidator extends Validator
      */
     protected function validateValue($value)
     {
-        $model = FeUserAuthModel::findOne(['source' => $value]);
+        $model = RecommendCodeModel::findOne(['source' => $value]);
         if (strtotime($model->expired_at) > strtotime(date('Y-m-d H:i:s')) || $value == "") {
             return $this->message = [];
         }

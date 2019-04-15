@@ -158,4 +158,15 @@ class UserDegreeModel extends EntityTree
         return static::findOne(['code' => $code, 'lft' => 1, 'status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
+    public function getChess()
+    {
+        return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
+    }
+
+    public function getUsers()
+    {
+        return $this->hasMany(FeUserModel::className(), ['id' => 'user_id'])
+            ->viaTable('{{%user_degree_rs}}', ['degree_id' => 'id']);
+    }
+
 }

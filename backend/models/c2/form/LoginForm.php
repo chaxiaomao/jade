@@ -136,7 +136,7 @@ class LoginForm extends Model {
      */
     public function login() {
         if ($this->validate() && $this->user) {
-            $this->user->updateAttributes(['last_login_at' => date('Y-m-d H:i:s')]);
+            $this->user->updateAttributes(['last_login_at' => date('Y-m-d H:i:s'), 'last_login_ip' => Yii::$app->getRequest()->getUserIP()]);
             return Yii::$app->getUser()->login($this->user, $this->rememberMe ? $this->module->rememberFor : 0);
         }
 

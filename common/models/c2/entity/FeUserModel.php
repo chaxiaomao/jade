@@ -52,7 +52,6 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     /** @var string Plain password. Used for model validation. */
     public $password;
-    public $degree_id;
 
     /**
      * @inheritdoc
@@ -74,7 +73,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             // [['type', 'registration_src_type', 'level', 'status'], 'string', 'max' => 4],
             // [['username', 'email', 'password_hash', 'auth_key', 'unconfirmed_email', 'registration_ip', 'last_login_ip', 'open_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token'], 'string', 'max' => 255],
             // [['wechat_union_id'], 'string', 'max' => 10],
-            [['registration_src_type', 'type', 'attributeset_id', 'flags', 'created_by', 'updated_by', 'status', 'position', 'province_id', 'city_id', 'district_id', 'degree_id'], 'integer'],
+            [['registration_src_type', 'type', 'attributeset_id', 'flags', 'created_by', 'updated_by', 'status', 'position', 'province_id', 'city_id', 'district_id'], 'integer'],
             [['username'], 'required'],
             [['email'], 'email'],
             [['wechat_open_id', 'username', 'mobile_number', 'email'], FeUserUniqueValidator::className(), 'targetClass' => FeUserModel::className(), 'message' => Yii::t('app.c2', '{attribute} "{value}" has already been taken.')],
@@ -256,15 +255,6 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             $this->updateAttributes([
                 'registration_src_type' => DeviceLogHelper::getDeviceType()
             ]);
-            $model = new UserDegreeRsModel();
-            $model->loadDefaultValues();
-            $degree = UserDegreeModel::findOne(['type' => $this->type]);
-            $model->setAttributes([
-                'degree_id' => $degree->id,
-                'user_id' => $this->id,
-                'type' => $this->type,
-            ]);
-            $model->save();
         } else {
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
                 $this->profile->syncRegionData();
@@ -275,10 +265,10 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         }
     }
 
-    public function beforeSave($insert)
-    {
-        return parent::beforeSave($insert);
-    }
+    // public function beforeSave($insert)
+    // {
+    //     parent::beforeSave($insert);
+    // }
 
     public function getUserDegreeRs()
     {
@@ -355,7 +345,28 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      */
     public function getRecommendCode()
     {
-        return $this->hasOne(FeUserAuthModel::className(), ['user_id' => 'id']);
+        return $this->hasOne(RecommendCodeModel::className(), ['user_id' => 'id']);
+    }
+
+    public function getRecCode($chess_id = '') {
+        return $this->getRecommendCode()->where(['chess_id' => $chess_id])->one();
+    }
+
+    public function getUserDegree()
+    {
+        return $this->hasMany(UserDegreeModel::className(), ['id' => 'degree_id'])
+            ->viaTable('{{%user_degree_rs}}', ['user_id' => 'id']);
+    }
+
+    public function getCurrentChessDegree($chess_id = '', $condition = [])
+    {
+        return $this->getUserDegree()->where(['chess_id' => $chess_id])->andFilterWhere($condition)->one();
+    }
+
+    public function getChess()
+    {
+        return $this->hasMany(ChessModel::className(), ['id' => 'chess_id'])
+            ->viaTable('{{%user_chess_rs}}', ['user_id' => 'id']);
     }
 
 }

@@ -21,7 +21,7 @@ class DefaultController extends Controller
             return $this->redirect(Yii::$app->user->getReturnUrl());
         }
         $user = Yii::$app->user->currentUser;
-        $query = $user->getMasters();
+        $query = $user->getCurrentChessUser();
         return $this->render('index', [
             'count' => $count = $query->count()
         ]);

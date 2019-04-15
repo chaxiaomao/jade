@@ -42,7 +42,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                             'label' => Yii::t('app.c2', 'CRM'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chess')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chess']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User Degree')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/user-degree']],
+                                // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User Degree')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/user-degree']],
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Lord')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/lord']],
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Elder')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/elder']],
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chieftain')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chieftain']],

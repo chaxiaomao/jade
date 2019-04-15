@@ -35,22 +35,7 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
 
     } else {
-        // echo Html::beginForm('/site/logout', 'post', ['class' => 'form-inline']);
-        // echo Html::submitButton(
-        //     'Logout (' . Yii::$app->user->identity->username . ')',
-        //     ['class' => 'btn btn-outline-success my-2 my-sm-0']
-        // );
-        // echo Html::endForm();
-        echo '<div class="btn-group">
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Right-aligned menu
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <button class="dropdown-item" type="button">Action</button>
-                    <button class="dropdown-item" type="button">Another action</button>
-                    <button class="dropdown-item" type="button">Something else here</button>
-                  </div>
-                </div>';
+        echo \frontend\widgets\ChessSelector::widget([]);
     }
     ?>
 </nav>

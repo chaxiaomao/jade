@@ -48,6 +48,10 @@ class RCodeGenerator extends \kartik\base\Widget
     public function registerClientScript()
     {
         $view = $this->getView();
+        // $chess_id = \Yii::$app->session->get('chess_id');
+        // if (!is_null()) {
+        //
+        // }
         $js = "$('#gen').click(function generate() {
                     $.post('{$this->captchaAction}', function(data) {
                       if (data) {

@@ -1,6 +1,8 @@
 <?php
+
 namespace frontend\controllers;
 
+use common\models\c2\entity\ChessModel;
 use frontend\components\Controller;
 use frontend\models\LoginForm;
 use Yii;
@@ -35,7 +37,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'index', 'recommend-code-captcha', 'login', 'signup'],
+                        'actions' => ['logout', 'index', 'recommend-code-captcha', 'login', 'signup', 'chess', 'settings'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,7 +55,8 @@ class SiteController extends Controller
         ];
     }
 
-    public function checkAccess() {
+    public function checkAccess()
+    {
         if (!Yii::$app->user->isGuest) {
             return true;
         }
@@ -176,7 +179,6 @@ class SiteController extends Controller
         }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            Yii::info(Yii::$app->request->post());
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
@@ -236,5 +238,17 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionChess($id)
+    {
+        $model = ChessModel::findOne($id);
+        Yii::$app->session->set('chess', ['chess_id' => $model->id, 'chess_name' => $model->label]);
+        return $this->redirect('/');
+    }
+
+    public function actionSettings()
+    {
+        return $this->render('settings');
     }
 }

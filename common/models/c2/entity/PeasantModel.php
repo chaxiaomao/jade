@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
 class PeasantModel extends FeUserModel
 {
     public $familiarId;
+    public $chessId;
+    public $degreeId;
 
     public function loadDefaultValues($skipIfSet = true)
     {
@@ -48,10 +50,24 @@ class PeasantModel extends FeUserModel
         if ($insert) {
             $rs = new FamiliarPeasantRsModel();
             $rs->setAttributes([
+                'chess_id' => $this->chessId,
                 'familiar_id' => $this->familiarId,
                 'peasant_id' => $this->id,
             ]);
             $rs->save();
+            $rs2 = new UserDegreeRsModel();
+            $rs2->setAttributes([
+                'use_id' => $this->id,
+                'degree_id' => $this->degreeId,
+                'type' => $this->type,
+            ]);
+            $rs2->save();
+            $rs3 = new UserChessRsModel();
+            $rs3->setAttributes([
+                'user_id' => $this->id,
+                'chess_id' => $this->chessId,
+            ]);
+            $rs3->save();
         }
     }
 

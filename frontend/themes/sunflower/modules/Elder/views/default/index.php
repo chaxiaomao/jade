@@ -36,6 +36,12 @@ $this->title = Yii::t('app.c2', 'Profile center');
                 <span class="col tr"><?= $count . Yii::t('app.c2', 'Men') ?></span>
             </a>
         </li>
+        <li class="list-group-item">
+            <div class="row">
+                <span class="col"></span>
+                <a href="/site/settings" class="col tr"><?= Yii::t('app.c2', 'Settings') ?></a>
+            </div>
+        </li>
     </ul>
     <!--    <button type="button" class="btn btn-info mt10" id="gen">Info</button>-->
 </div>

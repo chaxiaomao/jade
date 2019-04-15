@@ -48,7 +48,7 @@ $this->title = Yii::t('app.c2', 'User Login');
                 ]
             ],
             'password' => [
-                'type' => Form::INPUT_TEXT,
+                'type' => Form::INPUT_PASSWORD,
                 'label' => false,
                 'fieldConfig' => [
                     'template' => '<label for="signupform-password" class="col-xs-2 control-label">' . $model->getAttributeLabel('password') . '</label>

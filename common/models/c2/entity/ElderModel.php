@@ -17,6 +17,8 @@ use yii\helpers\ArrayHelper;
 class ElderModel extends FeUserModel
 {
     public $lordId;
+    public $chessId;
+    public $degreeId;
 
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
@@ -46,10 +48,18 @@ class ElderModel extends FeUserModel
         if ($insert) {
             $rs = new LordElderRsModel();
             $rs->setAttributes([
+                'chess_id' => $this->chessId,
                 'lord_id' => $this->lordId,
                 'elder_id' => $this->id,
             ]);
             $rs->save();
+            $rs2 = new UserDegreeRsModel();
+            $rs2->setAttributes([
+               'use_id' => $this->id,
+               'degree_id' => $this->degreeId,
+               'type' => $this->type,
+            ]);
+            $rs2->save();
         }
     }
 
@@ -58,6 +68,12 @@ class ElderModel extends FeUserModel
         return $this->hasMany(ChieftainModel::className(), ['id' => 'chieftain_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
             ->viaTable('{{%elder_chieftain_rs}}', ['elder_id' => 'id']);
+    }
+
+    public function getCurrentChessUser()
+    {
+        $currentChess = \Yii::$app->session->get('chess');
+        return $this->getChieftains()->where(['chess_id' => $currentChess['chess_id']]);
     }
 
 }

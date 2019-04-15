@@ -79,7 +79,7 @@ use yii\widgets\Pjax;
                 }
             ],
             // 'user_id',
-            'user.username',
+            'username',
             // 'userDegree.name',
             'created_at',
             'updated_at',
@@ -101,7 +101,7 @@ use yii\widgets\Pjax;
                 'class' => '\kartik\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/crm/fe-user/default/edit', 'id' => $model->user_id], [
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/crm/fe-user/default/edit', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                             'class' => 'update'

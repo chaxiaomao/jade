@@ -12,6 +12,7 @@ use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\LordElderRsModel;
 use common\models\c2\entity\MasterModel;
 use common\models\c2\entity\PeasantModel;
+use common\models\c2\entity\RecommendCodeModel;
 use common\models\c2\entity\UserDegreeModel;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\ModelTrait;
@@ -85,39 +86,54 @@ class SignupForm extends Model
             return null;
         }
 
-        $model = FeUserAuthModel::findOne(['source' => $this->recommendCode]);
+        $model = RecommendCodeModel::findOne(['source' => $this->recommendCode]);
         $type = FeUserType::TYPE_PEASANT;
         if (!is_null($model)) {
             $type = $model->type;
         }
         switch ($type):
             case FeUserType::TYPE_LORD:
+                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_ELDER])->one();
                 $user = new ElderModel();
                 $user->lordId = $model->user_id;
+                $user->chessId = $model->chess_id;
+                $user->degreeId = $degree->id;
                 // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_ELDER])->id;
                 $user->type = FeUserType::TYPE_ELDER;
                 break;
             case FeUserType::TYPE_ELDER:
+                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_CHIEFTAIN])->one();
                 $user = new ChieftainModel();
                 $user->elderId = $model->user_id;
+                $user->chessId = $model->chess_id;
+                $user->degreeId = $degree->id;
                 // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_CHIEFTAIN])->id;
                 $user->type = FeUserType::TYPE_CHIEFTAIN;
                 break;
             case FeUserType::TYPE_CHIEFTAIN:
+                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_MASTER])->one();
                 $user = new MasterModel();
                 $user->chieftainId = $model->user_id;
+                $user->chessId = $model->chess_id;
+                $user->degreeId = $degree->id;
                 // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_MASTER])->id;
                 $user->type = FeUserType::TYPE_MASTER;
                 break;
             case FeUserType::TYPE_MASTER:
+                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_FAMILIAR])->one();
                 $user = new FamiliarModel();
                 $user->masterId = $model->user_id;
+                $user->chessId = $model->chess_id;
+                $user->degreeId = $degree->id;
                 // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_FAMILIAR])->id;
                 $user->type = FeUserType::TYPE_FAMILIAR;
                 break;
             case FeUserType::TYPE_FAMILIAR:
+                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_PEASANT])->one();
                 $user = new PeasantModel();
                 $user->familiarId = $model->user_id;
+                $user->chessId = $model->chess_id;
+                $user->degreeId = $degree->id;
                 // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
                 $user->type = FeUserType::TYPE_PEASANT;
                 break;

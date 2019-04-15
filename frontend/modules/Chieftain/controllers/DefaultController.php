@@ -23,14 +23,14 @@ class DefaultController extends Controller
         $user = Yii::$app->user->currentUser;
         $query = $user->getCurrentChessUser();
         return $this->render('index', [
-            'count' => $count = $query->count()
+            'count' => $query->count()
         ]);
     }
 
     public function actionMemberList()
     {
         $user = Yii::$app->user->currentUser;
-        $query = $user->getMasters();
+        $query = $user->getCurrentChessUser();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

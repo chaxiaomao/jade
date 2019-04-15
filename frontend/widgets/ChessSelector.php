@@ -24,7 +24,7 @@ class ChessSelector extends Widget
         $user = \Yii::$app->user->currentUser;
         $chess = $user->chess;
         $currentChess = \Yii::$app->session->get('chess');
-        if (is_null($currentChess)) {
+        if ($currentChess == null) {
             if ($chess != null) {
                 \Yii::$app->session->set('chess', ['chess_id' => $chess[0]->id, 'chess_name' => $chess[0]->label]);
             }

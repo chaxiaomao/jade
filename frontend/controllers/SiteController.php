@@ -92,6 +92,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest) {
+
             return $this->redirect(Yii::$app->user->getReturnUrl());
         }
         // return $this->render('index');

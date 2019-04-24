@@ -3,9 +3,9 @@
 namespace common\models\c2\query;
 
 /**
- * This is the ActiveQuery class for [[\common\models\c2\entity\ChessModel]].
+ * This is the ActiveQuery class for [[\common\models\c2\entity\UserChessRsModel]].
  *
- * @see \common\models\c2\entity\ChessModel
+ * @see \common\models\c2\entity\UserChessRsModel
  */
 class ChessQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class ChessQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\ChessModel[]|array
+     * @return \common\models\c2\entity\UserChessRsModel[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class ChessQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\ChessModel|array|null
+     * @return \common\models\c2\entity\UserChessRsModel|array|null
      */
     public function one($db = null)
     {

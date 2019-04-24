@@ -3,11 +3,11 @@
 namespace common\models\c2\query;
 
 /**
- * This is the ActiveQuery class for [[\common\models\c2\entity\RecommendCodeModel]].
+ * This is the ActiveQuery class for [[\common\models\c2\entity\UserRecommendCodeModel]].
  *
- * @see \common\models\c2\entity\RecommendCodeModel
+ * @see \common\models\c2\entity\UserRecommendCodeModel
  */
-class RecommendCodeQuery extends \yii\db\ActiveQuery
+class UserRecommendCodeQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class RecommendCodeQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\RecommendCodeModel[]|array
+     * @return \common\models\c2\entity\UserRecommendCodeModel[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class RecommendCodeQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\RecommendCodeModel|array|null
+     * @return \common\models\c2\entity\UserRecommendCodeModel|array|null
      */
     public function one($db = null)
     {

@@ -10,6 +10,8 @@ use Yii;
  * @property string $id
  * @property string $user_id
  * @property string $chess_id
+ * @property integer $type
+ * @property integer $state
  * @property integer $status
  * @property integer $position
  * @property string $created_at
@@ -33,7 +35,7 @@ class UserChessRsModel extends \cza\base\models\ActiveRecord
         return [
             [['user_id', 'chess_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['status'], 'string', 'max' => 4],
+            [['type', 'status', 'state'], 'integer', 'max' => 4],
         ];
     }
 
@@ -46,6 +48,7 @@ class UserChessRsModel extends \cza\base\models\ActiveRecord
             'id' => Yii::t('app.c2', 'ID'),
             'user_id' => Yii::t('app.c2', 'User ID'),
             'chess_id' => Yii::t('app.c2', 'Chess ID'),
+            'type' => Yii::t('app.c2', 'Type'),
             'status' => Yii::t('app.c2', 'Status'),
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),

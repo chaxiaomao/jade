@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use common\components\SmsCaptcha\CaptchaValidator;
 use common\components\validators\FeUserUniqueValidator;
+use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\ChieftainModel;
 use common\models\c2\entity\ElderModel;
 use common\models\c2\entity\FamiliarModel;
@@ -14,8 +15,10 @@ use common\models\c2\entity\MasterModel;
 use common\models\c2\entity\PeasantModel;
 use common\models\c2\entity\RecommendCodeModel;
 use common\models\c2\entity\UserDegreeModel;
+use common\models\c2\entity\UserRecommendCodeModel;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\ModelTrait;
+use cza\base\models\statics\EntityModelStatus;
 use frontent\models\AbstractRegisterForm;
 use Yii;
 use yii\base\Model;
@@ -86,7 +89,7 @@ class SignupForm extends Model
             return null;
         }
 
-        $model = RecommendCodeModel::findOne(['source' => $this->recommendCode]);
+        $model = UserRecommendCodeModel::findOne(['code' => $this->recommendCode]);
         $type = FeUserType::TYPE_PEASANT;
         if (!is_null($model)) {
             $type = $model->type;
@@ -147,6 +150,25 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         return $user->save() ? $user : null;
+    }
+
+    public function signupPer()
+    {
+        $model = UserRecommendCodeModel::findOne(['code' => $this->recommendCode]);
+        $user = new FeUserModel();
+        $user->username = $this->username;
+        $user->mobile_number = $this->mobile_number;
+        $user->status = EntityModelStatus::STATUS_INACTIVE;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        if (is_null($model)) {
+            // No recommend code, normal signup, no chess no type(degree).
+            return $user->save() ? $user : null;
+        } else {
+            // Have recommend code
+            $user->currentChess = ChessModel::findOne($model->chess_id);
+            return ($user->save() && $user->createRelations()) ? $user : null;
+        }
     }
 
 }

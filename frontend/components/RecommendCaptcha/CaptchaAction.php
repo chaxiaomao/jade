@@ -11,6 +11,7 @@ namespace frontend\components\RecommendCaptcha;
 use common\models\c2\entity\FeUserAuthModel;
 use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\RecommendCodeModel;
+use common\models\c2\entity\UserRecommendCodeModel;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
@@ -61,15 +62,15 @@ class CaptchaAction extends Action {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $user = Yii::$app->user->currentUser;
         $currentChess = Yii::$app->session->get('chess');
-        $model = $user->getRecCode($currentChess['chess_id']);
+        $model = $user->getRecommendCode8ChessId($currentChess['chess_id']);
         if (is_null($model)) {
             $code = $this->generateRandomString();
-            $model = new RecommendCodeModel();
+            $model = new UserRecommendCodeModel();
             $model->setAttributes([
                 'type' => $user->type,
                 'chess_id' => $currentChess['chess_id'],
                 'user_id' => $user->id,
-                'source' => $code,
+                'code' => $code,
                 'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
                 'status' => EntityModelStatus::STATUS_ACTIVE,
             ]);
@@ -77,7 +78,7 @@ class CaptchaAction extends Action {
         } else {
             if (strtotime($model->expired_at) < strtotime(date('Y-m-d H:i:s', time()))) {
                 $model->updateAttributes([
-                    'source' => $this->generateRandomString(),
+                    'code' => $this->generateRandomString(),
                     'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
                 ]);
             }

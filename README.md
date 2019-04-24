@@ -15,3 +15,7 @@
 
 4.修改注册关系
 
+# 2019/4/24
+1.调整需求
+
+2.修改表c2_user_chess_rs,修改c2_recommend_code

@@ -180,7 +180,7 @@ class SiteController extends Controller
         }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
+            if ($user = $model->signupPer()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }
@@ -245,7 +245,7 @@ class SiteController extends Controller
     {
         $model = ChessModel::findOne($id);
         Yii::$app->session->set('chess', ['chess_id' => $model->id, 'chess_name' => $model->label]);
-        return $this->redirect('/');
+        return $this->refresh();
     }
 
     public function actionSettings()

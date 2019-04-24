@@ -3,6 +3,9 @@
 namespace common\models\c2\entity;
 
 use common\models\c2\statics\ChessType;
+use common\models\c2\statics\FeUserType;
+use common\models\c2\statics\UserChessRsState;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
@@ -131,6 +134,64 @@ class ChessModel extends \cza\base\models\ActiveRecord
 
     public function getCreator() {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'created_by']);
+    }
+
+    /**
+     * @param array $cons
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserChessRs($cons = [])
+    {
+        return $this->hasMany(UserChessRsModel::className(), ['chess_id' => 'id'])->andWhere($cons);
+    }
+
+    public function getChessLord()
+    {
+        return $this->getUserChessRs(['type' => FeUserType::TYPE_LORD, 'status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChessChieftain()
+    {
+        return $this->getUserChessRs(['type' => FeUserType::TYPE_CHIEFTAIN, 'status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChessMasters()
+    {
+        return $this->getUserChessRs(['type' => FeUserType::TYPE_MASTER, 'status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['created_at' => SORT_ASC]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFamiliars()
+    {
+        return $this->getUserChessRs(['type' => FeUserType::TYPE_FAMILIAR, 'status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['created_at' => SORT_ASC]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeasants()
+    {
+        return $this->getUserChessRs(['type' => FeUserType::TYPE_PEASANT, 'status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['created_at' => SORT_ASC]);
+    }
+
+    public function setToFinish()
+    {
+        // setp1
+        $lord = $this->getChessLord()->one();
+        $lord->updateAttributes([
+            'state' => UserChessRsState::TYPE_FINISH
+        ]);
     }
 
 }

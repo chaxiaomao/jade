@@ -5,27 +5,26 @@ namespace common\models\c2\entity;
 use Yii;
 
 /**
- * This is the model class for table "{{%recommend_code}}".
+ * This is the model class for table "{{%user_recommend_code}}".
  *
  * @property string $id
  * @property integer $type
  * @property string $user_id
- * @property string $source
- * @property string $degree_id
+ * @property string $code
  * @property string $chess_id
  * @property string $expired_at
  * @property integer $status
  * @property string $created_at
  * @property string $updated_at
  */
-class RecommendCodeModel extends \cza\base\models\ActiveRecord
+class UserRecommendCodeModel extends \cza\base\models\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%recommend_code}}';
+        return '{{%user_recommend_code}}';
     }
 
     /**
@@ -34,9 +33,9 @@ class RecommendCodeModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'user_id', 'degree_id', 'chess_id'], 'integer'],
+            [['type', 'user_id', 'chess_id'], 'integer'],
             [['expired_at', 'created_at', 'updated_at'], 'safe'],
-            [['source'], 'string', 'max' => 255],
+            [['code'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
     }
@@ -50,8 +49,7 @@ class RecommendCodeModel extends \cza\base\models\ActiveRecord
             'id' => Yii::t('app.c2', 'ID'),
             'type' => Yii::t('app.c2', 'Type'),
             'user_id' => Yii::t('app.c2', 'User ID'),
-            'source' => Yii::t('app.c2', 'Source'),
-            'degree_id' => Yii::t('app.c2', 'Degree ID'),
+            'code' => Yii::t('app.c2', 'Code'),
             'chess_id' => Yii::t('app.c2', 'Chess ID'),
             'expired_at' => Yii::t('app.c2', 'Expired At'),
             'status' => Yii::t('app.c2', 'Status'),
@@ -62,11 +60,11 @@ class RecommendCodeModel extends \cza\base\models\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\query\RecommendCodeQuery the active query used by this AR class.
+     * @return \common\models\c2\query\UserRecommendCodeQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\c2\query\RecommendCodeQuery(get_called_class());
+        return new \common\models\c2\query\UserRecommendCodeQuery(get_called_class());
     }
     
     /**

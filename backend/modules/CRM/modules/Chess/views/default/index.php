@@ -119,6 +119,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-pjax' => '0',
                         ]);
                     },
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $model->id], [
+                            'title' => Yii::t('app', 'View'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
                 ],
             ],
 

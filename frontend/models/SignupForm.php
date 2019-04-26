@@ -165,9 +165,10 @@ class SignupForm extends Model
             // No recommend code, normal signup, no chess no type(degree).
             return $user->save() ? $user : null;
         } else {
-            // Have recommend code
+            // Have recommend code.
             $user->currentChess = ChessModel::findOne($model->chess_id);
-            return ($user->save() && $user->createRelations()) ? $user : null;
+            $user->recommendUserId = $model->user_id;
+            return ($user->save() && $user->createDevelopment()) ? $user : null;
         }
     }
 

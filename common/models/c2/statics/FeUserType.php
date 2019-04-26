@@ -22,7 +22,7 @@ class FeUserType extends AbstractStaticClass
     // Master 主人
     // Familiar 仆人
     // Peasant 农民
-    const TYPE_DEFAULT = 100;
+    const TYPE_DEFAULT = 0;
     const TYPE_LORD = 6; // LV6
     const TYPE_ELDER = 5; // LV5
     const TYPE_CHIEFTAIN = 4; // LV4

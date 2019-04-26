@@ -19,3 +19,13 @@
 1.调整需求
 
 2.修改表c2_user_chess_rs,修改c2_recommend_code
+
+3.修改注册关系
+
+# 2019/4/26
+
+1.调整需求
+
+2.增加表c2_user_development,c2_user_profit,c2_user_profit_item
+
+3.层级岗位用二位锁定

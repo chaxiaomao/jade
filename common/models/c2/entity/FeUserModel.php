@@ -57,6 +57,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      * @var ChessModel
      */
     public $currentChess = null;
+    public $recommendUserId = null;
 
     /**
      * @inheritdoc
@@ -264,9 +265,9 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
                 $this->profile->syncRegionData();
             }
-            if (isset($changedAttributes['type'])) {
-                $this->userDegreeRs->updateRs($this->type);
-            }
+            // if (isset($changedAttributes['type'])) {
+            //     $this->userDegreeRs->updateRs($this->type);
+            // }
         }
     }
 
@@ -394,6 +395,19 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         }
     }
 
+    public function createDevelopment()
+    {
+        $model = new UserDevelopmentModel();
+        $model->setAttributes([
+           'chess_id' => $this->currentChess->id,
+           'user_id' => $this->id,
+           'parent_id' => $this->recommendUserId,
+        ]);
+        if ($model->save()) {
+            return true;
+        }
+    }
+
     /**
      * Create chess chieftain.
      * @return bool
@@ -426,7 +440,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         ];
         $model->setAttributes($attrs);
         $model->save();
-        // This chess Master
+        // This chess chieftain
         $chieftain = $this->currentChess->getChessChieftain(); // Only one.
         $rsModel = new ChieftainMasterRsModel();
         $attrs = [
@@ -448,7 +462,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      */
     public function createChessMasterFamiliarRs($familiarCount)
     {
-        // This chess Masters
+        // This chess masters
         $masters = $this->currentChess->getChessChieftain()->all();
         $masterIds = ArrayHelper::getColumn($masters, 'id');
         $currentUserIndex = $familiarCount + 1; // Current familiar user created index.
@@ -481,7 +495,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      */
     public function createChessFamiliarPeasantRs($peasantCount)
     {
-        // This chess Familiars.
+        // This chess familiars.
         $familiars = $this->currentChess->getFamiliars()->all();
         $masterIds = ArrayHelper::getColumn($familiars, 'id');
         $currentUserIndex = $peasantCount + 1; // Current peasant user created index.

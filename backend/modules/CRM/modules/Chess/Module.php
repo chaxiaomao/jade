@@ -18,7 +18,11 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        $this->modules = [
+            'user-chess-rs' => [
+                'class' => 'backend\modules\CRM\modules\Chess\modules\UserChessRs\Module',
+            ],
+        ];
         // custom initialization code goes here
     }
 }

@@ -46,32 +46,40 @@ $form = ActiveForm::begin([
             'form' => $form,
             'columns' => 2,
             'attributes' => [
-                'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => []],
-                'elder_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv5_id')]],
-                'chieftain_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('lv4_id')]],
+                'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\ChessType::getHashMap('id', 'label')],
                 // 'lord_id' => [
                 //     'type' => Form::INPUT_WIDGET,
                 //     'widgetClass' => '\kartik\widgets\Select2',
                 //     'options' => [
                 //         'language' => Yii::$app->language,
                 //         // 'disabled' => true,
-                //         'data' => common\models\c2\entity\LordModel::getHashMap('id', 'username'),
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
                 //         'pluginOptions' => [
                 //             'placeholder' => $model->getAttributeLabel('Select options ..')
                 //         ],
-                //         'value' => '2',
-                //         'initValueText' => 'Merchant2',
+                //     ],
+                // ],
+                // 'elder_id' => [
+                //     'type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'options' => [
+                //         'language' => Yii::$app->language,
+                //         // 'disabled' => true,
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
                 //         'pluginOptions' => [
-                //             'allowClear' => false,
-                //             'minimumInputLength' => 2,
-                //             'ajax' => [
-                //                 'url' => 'merchant-list',
-                //                 'dataType' => 'json',
-                //                 'data' => new JsExpression('function(params) { return {q:params.term, page:params.page}; }')
-                //             ],
-                //             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                //             'templateResult' => new JsExpression('function(item) { return item.username; }'),
-                //             'templateSelection' => new JsExpression('function (item) { return item.username; }'),
+                //             'placeholder' => $model->getAttributeLabel('Select options ..')
+                //         ],
+                //     ],
+                // ],
+                // 'chieftain_id' => [
+                //     'type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'options' => [
+                //         'language' => Yii::$app->language,
+                //         // 'disabled' => true,
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
+                //         'pluginOptions' => [
+                //             'placeholder' => $model->getAttributeLabel('Select options ..')
                 //         ],
                 //     ],
                 // ],
@@ -98,11 +106,11 @@ $form = ActiveForm::begin([
                 ],],
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
-                'biz_registration_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('biz_registration_number')]],
-                'product_style' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('product_style')]],
+                // 'biz_registration_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('biz_registration_number')]],
+                // 'product_style' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('product_style')]],
                 'tel' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('tel')]],
                 // 'open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('open_id')]],
-                'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id'), 'disabled' => true]],
+                // 'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id'), 'disabled' => true]],
                 // 'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],
                 // 'geo_latitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]],
                 // 'geo_marker_color' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]],
@@ -115,6 +123,7 @@ $form = ActiveForm::begin([
                 ],],
             ]
         ]);
+
         echo Html::beginTag('div', ['class' => 'box-footer']);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
         echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);

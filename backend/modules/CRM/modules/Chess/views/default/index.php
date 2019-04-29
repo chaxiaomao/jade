@@ -60,15 +60,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'id',
-            'type',
-            'lord_id',
-            'elder_id',
-            'chieftain_id',
+            // 'type',
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    return \common\models\c2\statics\ChessType::getLabel($model->type);
+                }
+            ],
+            // 'lord_id',
+            // 'elder_id',
+            // 'chieftain_id',
             // 'attributeset_id',
             // 'province_id',
             // 'city_id',
             // 'district_id',
-            // 'code',
+            'code',
             'label',
             // 'biz_registration_number',
             // 'product_style',
@@ -120,7 +126,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'view' => function ($url, $model, $key) {
+<<<<<<< HEAD
                         return Html::a(Yii::t('app.c2', 'View'), ['/crm/user-degree', 'chess_id' => $model->id], [
+=======
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $model->id], [
+>>>>>>> ed744b20759150dce99bcf5aaa616269c4ee1548
                             'title' => Yii::t('app', 'View'),
                             'data-pjax' => '0',
                         ]);

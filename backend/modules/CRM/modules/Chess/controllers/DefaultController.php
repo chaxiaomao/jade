@@ -74,7 +74,7 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
+        // $model->loadItems();
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
     

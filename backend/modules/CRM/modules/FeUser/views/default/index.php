@@ -61,12 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'id',
             // 'type',
-            [
-                'attribute' => 'type',
-                'value' => function ($model) {
-                    return \common\models\c2\statics\FeUserType::getLabel($model->type);
-                }
-            ],
             'mobile_number',
             'username',
             'email:email',
@@ -112,14 +106,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'class' => '\kartik\grid\ActionColumn',
+                'class' => '\common\widgets\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
-                    }
+                    },
+
                 ]
             ],
 

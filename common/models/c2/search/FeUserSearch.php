@@ -12,13 +12,15 @@ use common\models\c2\entity\FeUserModel;
  */
 class FeUserSearch extends FeUserModel
 {
+    public $chess_id;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'type', 'attributeset_id', 'flags', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
+            [['id', 'type', 'attributeset_id', 'flags', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position', 'chess_id'], 'integer'],
             [['username', 'email', 'password_hash', 'auth_key', 'confirmed_at', 'unconfirmed_email', 'blocked_at', 'registration_ip', 'registration_src_type', 'level', 'last_login_at', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -79,6 +81,14 @@ class FeUserSearch extends FeUserModel
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+
+        if (!empty($this->chess_id)) {
+            $query->joinWith([
+                'chess' => function($q) {
+                    $q->andFilterWhere(['chess_id' => $this->chess_id]);
+                }
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'email', $this->email])

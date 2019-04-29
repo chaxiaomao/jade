@@ -15,7 +15,7 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'backend\models\c2\entity\FeUserModel';
+    public $modelClass = 'common\models\c2\entity\FeUserModel';
     
     /**
      * Lists all FeUserModel models.
@@ -74,7 +74,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = \backend\models\c2\entity\FeUserModel::findOne($id)) !== null) {
+        if (($model = \common\models\c2\entity\FeUserModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

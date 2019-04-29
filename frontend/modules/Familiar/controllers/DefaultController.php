@@ -21,29 +21,23 @@ class DefaultController extends \frontend\components\Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->request->url != Yii::$app->user->getReturnUrl()) {
-            return $this->redirect(Yii::$app->user->getReturnUrl());
-        }
+
         $user = Yii::$app->user->currentUser;
-        $query = $user->getCurrentChessUser();
+        // $query = $user->getCurrentChessUser();
         return $this->render('index', [
-            'count' => $query->count()
+            // 'count' => $query->count()
+            'count' => 9
         ]);
     }
 
     public function actionMemberList()
     {
         $user = Yii::$app->user->currentUser;
-        $query = $user->getCurrentChessUser();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
-                'params' => Yii::$app->request->get(),
-            ],
-        ]);
+        $current_chess_id = Yii::$app->session->get('current_chess_id');
+        $model = $user->getDevelopments($current_chess_id);
+
         return $this->render('members', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 }

@@ -10,6 +10,7 @@ namespace frontend\widgets;
 
 
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 
 class ChessSelector extends Widget
 {
@@ -22,15 +23,10 @@ class ChessSelector extends Widget
     public function run()
     {
         $user = \Yii::$app->user->currentUser;
-        $chess = $user->chess;
-        $currentChess = \Yii::$app->session->get('chess');
-        if ($currentChess == null) {
-            if ($chess != null) {
-                \Yii::$app->session->set('chess', ['chess_id' => $chess[0]->id, 'chess_name' => $chess[0]->label]);
-            }
-        }
+        $model = $user->getChess()->all();
         return $this->render('chess_selector', [
-            'model' => $chess
+            // 'model' => ArrayHelper::remove($model, $current_chess_id),
+            'model' => $model,
         ]);
     }
 }

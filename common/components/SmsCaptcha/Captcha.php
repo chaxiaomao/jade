@@ -80,7 +80,7 @@ class Captcha extends InputWidget {
      * @var array HTML attributes to be applied to the CAPTCHA image tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $buttonOptions = ['class' => 'btn btn-success btn-lg', 'style' => 'height:100%;'];
+    public $buttonOptions = ['class' => 'btn btn-success'];
 
     /**
      * @var string the template for arranging the CAPTCHA image tag and the text input tag.
@@ -88,7 +88,7 @@ class Captcha extends InputWidget {
      * while `{input}` will be replaced with the text input tag.
      */
     // public $template = '<div class="input-group">{input}<div class="mf10">{button}</div></div>';
-    public $template = '<div class="input-group">{input}<div class="mf10">{button}</div></div>';
+    public $template = '<div class="input-group">{input}<span class="input-group-btn">{button}</div></div>';
 
     /**
      * @var array the HTML attributes for the input tag.
@@ -114,7 +114,7 @@ class Captcha extends InputWidget {
      */
     public function run() {
         $this->registerClientScript();
-        $this->options['placeholder'] = Yii::t('app.c2', 'Verification Code');
+        $this->options['placeholder'] = Yii::t('app.c2', 'Sms code');
         $this->options[] = ['type' => 'number'];
         if ($this->hasModel()) {
             $input = Html::activeTextInput($this->model, $this->attribute, $this->options);

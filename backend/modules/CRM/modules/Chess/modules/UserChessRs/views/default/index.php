@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
             ],
-            'id',
+            // 'id',
             // 'user_id',
             [
                 'attribute' => 'user_id',
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \common\models\c2\statics\FeUserType::getData($model->type, 'label');
                 }
             ],
-            'state',
+            // 'state',
             // 'status',
             'position',
             // 'created_at',

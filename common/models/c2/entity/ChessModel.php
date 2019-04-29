@@ -70,7 +70,7 @@ class ChessModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['lord_id', 'elder_id', 'chieftain_id', 'attributeset_id', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
-            [['label', 'lord_id', 'elder_id', 'chieftain_id'], 'required'],
+            // [['label', 'lord_id', 'elder_id', 'chieftain_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['type', 'status'], 'integer', 'max' => 4],
             [['code', 'label', 'biz_registration_number', 'product_style', 'tel', 'open_id', 'wechat_open_id', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],

@@ -359,9 +359,24 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->getRecommendCode()->where(['chess_id' => $chess_id])->one();
     }
 
+    public function getFirstChess()
+    {
+        $model = UserChessRsModel::find()->where(['user_id' => $this->id])->orderBy(['created_at' => SORT_ASC])->one();
+        return $model;
+    }
+
+    public function getDevelopments($current_chess_id = null)
+    {
+        if ($current_chess_id != null) {
+            $currentChessRs = UserChessRsModel::find()->where(['user_id' => $this->id, 'chess_id' => $current_chess_id])->one();
+            return $currentChessRs->getUserDevelopments()->all();
+        }
+
+    }
+
     public function getUserDegree()
     {
-        return $this->hasMany(UserDegreeModel::className(), ['id' => 'degree_id'])
+        return $this->hasMany(UserDegreeModel::className(), ['id' => 'degree_id'])->where(['status' => EntityModelStatus::STATUS_ACTIVE])
             ->viaTable('{{%user_degree_rs}}', ['user_id' => 'id']);
     }
 

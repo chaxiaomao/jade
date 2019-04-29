@@ -8,6 +8,8 @@
 
 namespace frontend\components;
 
+use common\models\c2\entity\FeUserModel;
+use common\models\c2\entity\UserChessRsModel;
 use Yii;
 use yii\web\User as BaseUser;
 use common\models\c2\statics\FeUserType;
@@ -60,7 +62,15 @@ class User extends BaseUser {
     }
 
     public function getReturnUrl($defaultUrl = null) {
-        switch ($this->getIdentity()->type) {
+        $current_chess_id = Yii::$app->session->get('current_chess_id');
+        if (empty($current_chess_id)) {
+            $model = $this->currentUser->getFirstChess();
+            Yii::$app->session->set('current_chess_id', $model->chess_id);
+        } else {
+            $model = UserChessRsModel::findOne($current_chess_id);
+        }
+
+        switch ($model->type) {
             case FeUserType::TYPE_LORD:
                 $url = Yii::$app->getUrlManager()->createUrl(['/lord']);
                 break;

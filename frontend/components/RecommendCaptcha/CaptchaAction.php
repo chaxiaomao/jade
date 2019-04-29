@@ -61,14 +61,14 @@ class CaptchaAction extends Action {
     public function run() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $user = Yii::$app->user->currentUser;
-        $currentChess = Yii::$app->session->get('chess');
-        $model = $user->getRecommendCode8ChessId($currentChess['chess_id']);
+        $current_chess_id = Yii::$app->session->get('current_chess_id');
+        $model = $user->getRecommendCode8ChessId($current_chess_id);
         if (is_null($model)) {
             $code = $this->generateRandomString();
             $model = new UserRecommendCodeModel();
             $model->setAttributes([
                 'type' => $user->type,
-                'chess_id' => $currentChess['chess_id'],
+                'chess_id' => $current_chess_id,
                 'user_id' => $user->id,
                 'code' => $code,
                 'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
@@ -84,7 +84,7 @@ class CaptchaAction extends Action {
             }
         }
 
-        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => $model->source]);
+        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => $model->code]);
         return $result;
     }
 

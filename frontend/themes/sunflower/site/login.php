@@ -15,7 +15,7 @@ $this->title = Yii::t('app.c2', 'User Login');
 ?>
 
 <div class="bg">
-    <p class="welcome"><?= Yii::t('app.c2', 'Welcome to Signup') ?></p>
+    <p class="welcome"><?= Yii::t('app.c2', 'Welcome to signup') ?></p>
 </div>
 <div class="container">
     <?php
@@ -38,36 +38,35 @@ $this->title = Yii::t('app.c2', 'User Login');
                 'type' => Form::INPUT_TEXT,
                 'label' => false,
                 'fieldConfig' => [
-                    'template' => '<label for="signupform-mobile_number" class="col-xs-2 control-label">' . $model->getAttributeLabel('mobile_number') . '</label>
-                                    <div class="col-xs-10">{input}</div>',
-                    'options' => ['class' => 'form-group row']
+                    // 'template' => '<label for="signupform-mobile_number" class="col-xs-2 control-label">' . $model->getAttributeLabel('mobile_number') . '</label>
+                    //                 <div class="col-xs-10">{input}</div>',
+                    // 'options' => ['class' => 'form-group row']
                 ],
                 'options' => [
                     'placeholder' => $model->getAttributeLabel('mobile_number'),
-                    'class' => 'form-control-lg'
+                    // 'class' => 'form-control-lg'
                 ]
             ],
             'password' => [
                 'type' => Form::INPUT_PASSWORD,
                 'label' => false,
                 'fieldConfig' => [
-                    'template' => '<label for="signupform-password" class="col-xs-2 control-label">' . $model->getAttributeLabel('password') . '</label>
-                                    <div class="col-xs-10">{input}</div>',
-                    'options' => ['class' => 'form-group row']
+                    // 'template' => '<label for="signupform-password" class="col-xs-2 control-label">' . $model->getAttributeLabel('password') . '</label>
+                    //                 <div class="col-xs-10">{input}</div>',
+                    // 'options' => ['class' => 'form-group row']
                 ],
                 'options' => [
                     'placeholder' => $model->getAttributeLabel('password'),
-                    'class' => 'form-control-lg'
+                    // 'class' => 'form-control-lg'
                 ]
             ],
         ]
     ]);
     ?>
 
-    <button type="submit" class="btn btn-warning btn-block font-white btn-lg"><?= Yii::t('app.c2', 'Login') ?></button>
-
+    <?php echo Html::submitButton(Yii::t('app.c2', 'Login'), ['class' => 'btn btn-warning btn-block font-white']) ?>
     <div class="tc mt40">
-        <a href="/site/signup"><h3><?= Yii::t('app.c2', 'Signup Account') ?></h3></a>
+        <?php echo Html::a(Yii::t('app.c2', 'Signup Account'), '/site/signup') ?>
     </div>
     <?php
     \kartik\widgets\ActiveForm::end();

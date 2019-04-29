@@ -72,7 +72,7 @@ class SignupForm extends Model
         return [
             'mobile_number' => Yii::t('app.c2', 'Mobile Number'),
             'password' => Yii::t('app.c2', 'Password'),
-            'verifyCode' => Yii::t('app.c2', 'Verification Code'),
+            'verifyCode' => Yii::t('app.c2', 'Sms code'),
             'recommendCode' => Yii::t('app.c2', 'Recommend Code'),
             'username' => Yii::t('app.c2', 'Username'),
         ];

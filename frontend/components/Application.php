@@ -19,12 +19,12 @@ use yii\base\InvalidRouteException;
  */
 class Application extends \yii\web\Application {
 
-    public function behaviors() {
-        return [
+//     public function behaviors() {
+//         return [
 //            'basicAuth' => [
 //                'class' => \yii\filters\auth\HttpBasicAuth::className(),
 //            ],
-
+//
 //            [
 //                'class' => \yii\filters\ContentNegotiator::className(),
 //                'formats' => [
@@ -39,7 +39,7 @@ class Application extends \yii\web\Application {
 //            ],
 //            'access' => [
 //                'class' => \yii\filters\AccessControl::className(),
-////                'except' => ['debug/default/toolbar', 'debug/default/view'],
+// //                'except' => ['debug/default/toolbar', 'debug/default/view'],
 //                'except' => ['debug*',],
 //                'rules' => [
 //                    [
@@ -47,7 +47,7 @@ class Application extends \yii\web\Application {
 //                        'allow' => true,
 //                    ],
 //                    [
-////                        'actions' => ['logout', 'index', 'page'],
+// //                        'actions' => ['logout', 'index', 'page'],
 //                        'allow' => true,
 //                        'roles' => ['@'],
 //                    ],
@@ -59,11 +59,11 @@ class Application extends \yii\web\Application {
 //                    'logout' => ['post'],
 //                ],
 //            ],
-            
+//
 //            'action-time' => [
 //                'class' => \cza\base\behaviors\ActionTimeFilter::className(),
 //            ],
-        ];
-    }
+//         ];
+//     }
 
 }

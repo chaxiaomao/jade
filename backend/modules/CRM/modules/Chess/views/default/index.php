@@ -126,11 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'view' => function ($url, $model, $key) {
-<<<<<<< HEAD
-                        return Html::a(Yii::t('app.c2', 'View'), ['/crm/user-degree', 'chess_id' => $model->id], [
-=======
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $model->id], [
->>>>>>> ed744b20759150dce99bcf5aaa616269c4ee1548
                             'title' => Yii::t('app', 'View'),
                             'data-pjax' => '0',
                         ]);

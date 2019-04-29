@@ -14,21 +14,21 @@ class AppAsset extends AssetBundle
 
     public $css = [
         // 'mdui/css/mdui.css',
-        'css/bootstrap.css',
-        'css/bootstrap-grid.css',
-        'css/bootstrap-reboot.css',
+        // 'css/bootstrap.css',
+        // 'css/bootstrap-grid.css',
+        // 'css/bootstrap-reboot.css',
         'css/main.css',
     ];
     public $js = [
         // 'mdui/js/mdui.js',
-        'js/bootstrap.bundle.js',
-        'js/bootstrap.js',
+        // 'js/bootstrap.bundle.js',
+        // 'js/bootstrap.js',
         'js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        // 'yii\bootstrap\BootstrapAsset',
-        // 'yii\bootstrap\BootstrapPluginAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
 
     ];
     public $publishOptions = [

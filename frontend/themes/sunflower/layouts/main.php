@@ -29,14 +29,14 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <?= isset($this->params['navbar']) ? '<button onclick="javascript:history.go(-1)" class="btn btn-light">' . $this->params['navbar'] . '</button>' : '<a class="navbar-brand">' . Yii::t('app.c2', 'Application') . '</a>' ?>
+    <?= isset($this->params['navbar']) ? '<a href="javascript:history.go(-1)" class="navbar-brand">' . $this->params['navbar'] . '</a>' : '<a class="navbar-brand">' . Yii::t('app.c2', 'Application') . '</a>' ?>
 
     <?php
-    if (Yii::$app->user->isGuest) {
-
-    } else {
-        echo \frontend\widgets\ChessSelector::widget([]);
-    }
+    // if (Yii::$app->user->isGuest) {
+    //
+    // } else {
+    //     echo \frontend\widgets\ChessSelector::widget([]);
+    // }
     ?>
 </nav>
 <?= $content ?>

@@ -114,8 +114,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'degree' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Degree'), ['/crm/user-degree', 'chess_id' => $model->id], [
+                        return Html::a(Yii::t('app.c2', 'View degree'), ['/crm/user-degree', 'chess_id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
+                    'view' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'View'), ['/crm/user-degree', 'chess_id' => $model->id], [
+                            'title' => Yii::t('app', 'View'),
                             'data-pjax' => '0',
                         ]);
                     },

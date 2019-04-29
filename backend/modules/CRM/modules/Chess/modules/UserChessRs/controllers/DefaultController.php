@@ -2,6 +2,7 @@
 
 namespace backend\modules\CRM\modules\Chess\modules\UserChessRs\controllers;
 
+use backend\models\c2\form\DevelopmentForm;
 use common\models\c2\statics\FeUserType;
 use Yii;
 use common\models\c2\entity\UserChessRsModel;
@@ -51,22 +52,15 @@ class DefaultController extends Controller
      * fit to pajax call
      * @return mixed
      */
-    public function actionEdit($id = null, $chess_id = null, $type = null)
+    public function actionEdit($id = null, $chess_id = null)
     {
         $model = $this->retrieveModel($id);
-        if (isset($chess_id) && isset($type)) {
-            $model->chess_id = $chess_id;
-            $model->type = $type;
-        } else {
-            $model->addErrors([Yii::t('app.c2', 'Chess ID or type not set yet.')]);
-            Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
-        }
+        $model->scenario = UserChessRsModel::SCENARIO_UPDATE_USER;
 
-        if ($model->type != FeUserType::TYPE_LORD && $model->getChessUser8Type() == null) {
-            $model->addErrors([Yii::t('app.c2', 'Please set higher user first.')]);
-            Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
-        }
-
+        // if ($model->type != FeUserType::TYPE_LORD && $model->getChessUser8Type() == null) {
+        //     $model->addErrors([Yii::t('app.c2', 'Please set higher user first.')]);
+        //     Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+        // }
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
@@ -76,6 +70,38 @@ class DefaultController extends Controller
             }
         }
         
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('_form', [ 'model' => $model,]) : $this->render('_form', [ 'model' => $model,]);
+    }
+
+    public function actionEditLord($id = null, $chess_id = null)
+    {
+        $model = $this->retrieveModel($id);
+        $model->type = FeUserType::TYPE_LORD;
+        $model->chess_id = $chess_id;
+        $model->scenario = UserChessRsModel::SCENARIO_CREATE_USER;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
+    }
+
+    public function actionAddDevelopment($id = null, $chess_id = null, $type = null)
+    {
+        $model = new DevelopmentForm(['parent_id' => $id, 'chess_id' => $chess_id, 'type' => $type]);
+        $model->scenario = UserChessRsModel::SCENARIO_CREATE_USER;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
     

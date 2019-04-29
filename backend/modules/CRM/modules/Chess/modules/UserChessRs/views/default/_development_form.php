@@ -5,21 +5,19 @@ use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
-use yii\widgets\Pjax;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
+$parent = \common\models\c2\entity\UserChessRsModel::findOne($model->parent_id);
 ?>
-
-<?php Pjax::begin(['id' => $model->getDetailPjaxName(), 'formSelector' => $model->getBaseFormName(true), 'enablePushState' => false, 'clientOptions' =>[
-    'skipOuterContainers'=>true
-]]) ?>
 
 <?php
 $form = ActiveForm::begin([
     'action' => [
-        'edit',
-        'id' => $model->id,
+        'add-development',
+        'id' => $model->parent_id,
+        'chess_id' => $model->chess_id,
+        'type' => $model->type
     ],
     'options' => [
         'id' => $model->getBaseFormName(),
@@ -51,6 +49,13 @@ $form = ActiveForm::begin([
             'form' => $form,
             'columns' => 2,
             'attributes' => [
+                'parent_id' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => [
+                        'value' => $parent->user->username,
+                        'disabled' => true,
+                    ]
+                ],
                 'user_id' => [
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => \kartik\select2\Select2::className(),
@@ -110,4 +115,3 @@ $form = ActiveForm::begin([
     </div>
 </div>
 <?php ActiveForm::end(); ?>
-<?php  Pjax::end() ?>

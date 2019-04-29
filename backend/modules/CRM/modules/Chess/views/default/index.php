@@ -60,15 +60,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'id',
-            'type',
-            'lord_id',
-            'elder_id',
-            'chieftain_id',
+            // 'type',
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    return \common\models\c2\statics\ChessType::getLabel($model->type);
+                }
+            ],
+            // 'lord_id',
+            // 'elder_id',
+            // 'chieftain_id',
             // 'attributeset_id',
             // 'province_id',
             // 'city_id',
             // 'district_id',
-            // 'code',
+            'code',
             'label',
             // 'biz_registration_number',
             // 'product_style',

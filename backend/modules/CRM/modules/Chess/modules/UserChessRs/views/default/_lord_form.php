@@ -5,22 +5,14 @@ use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
-use yii\widgets\Pjax;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
 ?>
 
-<?php Pjax::begin(['id' => $model->getDetailPjaxName(), 'formSelector' => $model->getBaseFormName(true), 'enablePushState' => false, 'clientOptions' =>[
-    'skipOuterContainers'=>true
-]]) ?>
-
 <?php
 $form = ActiveForm::begin([
-    'action' => [
-        'edit',
-        'id' => $model->id,
-    ],
+    'action' => ['edit', 'id' => $model->id],
     'options' => [
         'id' => $model->getBaseFormName(),
         'data-pjax' => true,
@@ -69,7 +61,7 @@ $form = ActiveForm::begin([
                 'type_label' => [
                     'type' => Form::INPUT_TEXT,
                     'options' => [
-                        'value' => \common\models\c2\statics\FeUserType::getData($model->type, 'label'),
+                        'value' => \common\models\c2\statics\FeUserType::getData(\common\models\c2\statics\FeUserType::TYPE_LORD, 'label'),
                         'disabled' => true,
                     ]
                 ],
@@ -99,15 +91,10 @@ $form = ActiveForm::begin([
             ]
         ]);
         echo Html::beginTag('div', ['class' => 'box-footer']);
-        if ($model->hasErrors()) {
-            echo '';
-        } else {
-            echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
-        }
+        echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
         echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index', 'UserChessRsSearch[chess_id]' => $model->chess->id], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
         echo Html::endTag('div');
         ?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>
-<?php  Pjax::end() ?>

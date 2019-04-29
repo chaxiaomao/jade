@@ -28,35 +28,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
             [
                 'content' =>
-                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Lord')]) . '</i>', ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_LORD], [
+                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Lord')]) . '</i>', ['edit-lord', 'chess_id' => $searchModel->chess_id], [
                         'class' => 'btn btn-success',
                         'title' => Yii::t('app.c2', 'Add'),
                         'data-pjax' => '0',
                     ]) . ' ' .
-                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Elder')]) . '</i>',
-                        ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_ELDER], [
-                            'class' => 'btn btn-success',
-                            'title' => Yii::t('app.c2', 'Add'),
-                            'data-pjax' => '0',
-                        ]) . ' ' .
-                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Chieftain')]) . '</i>',
-                        ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN], [
-                            'class' => 'btn btn-success',
-                            'title' => Yii::t('app.c2', 'Add'),
-                            'data-pjax' => '0',
-                        ]) . ' ' .
-                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Master')]) . '</i>',
-                        ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_MASTER], [
-                            'class' => 'btn btn-success',
-                            'title' => Yii::t('app.c2', 'Add'),
-                            'data-pjax' => '0',
-                        ]) . ' ' .
-                    Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Familiar')]) . '</i>',
-                        ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR], [
-                            'class' => 'btn btn-success',
-                            'title' => Yii::t('app.c2', 'Add'),
-                            'data-pjax' => '0',
-                        ]) . ' ' .
+                    // Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Elder')]) . '</i>',
+                    //     ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_ELDER], [
+                    //         'class' => 'btn btn-success',
+                    //         'title' => Yii::t('app.c2', 'Add'),
+                    //         'data-pjax' => '0',
+                    //     ]) . ' ' .
+                    // Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Chieftain')]) . '</i>',
+                    //     ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN], [
+                    //         'class' => 'btn btn-success',
+                    //         'title' => Yii::t('app.c2', 'Add'),
+                    //         'data-pjax' => '0',
+                    //     ]) . ' ' .
+                    // Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Master')]) . '</i>',
+                    //     ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_MASTER], [
+                    //         'class' => 'btn btn-success',
+                    //         'title' => Yii::t('app.c2', 'Add'),
+                    //         'data-pjax' => '0',
+                    //     ]) . ' ' .
+                    // Html::a('<i class="glyphicon glyphicon-plus">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Familiar')]) . '</i>',
+                    //     ['edit', 'chess_id' => $searchModel->chess_id, 'type' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR], [
+                    //         'class' => 'btn btn-success',
+                    //         'title' => Yii::t('app.c2', 'Add'),
+                    //         'data-pjax' => '0',
+                    //     ]) . ' ' .
                     Html::button('<i class="glyphicon glyphicon-remove"></i>', [
                         'class' => 'btn btn-danger',
                         'title' => Yii::t('app.c2', 'Delete Selected Items'),
@@ -108,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'state',
             // 'status',
-            // 'position',
+            'position',
             // 'created_at',
             // 'updated_at',
             [
@@ -127,17 +127,80 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
+                'template' => '{update} {add_elder} {add_chieftain} {add_master} {add_familiar}',
+                'visibleButtons' => [
+                    'add_elder' => function ($model) {
+                        return $model->type == \common\models\c2\statics\FeUserType::TYPE_LORD;
+                    },
+                    'add_chieftain' => function ($model) {
+                        return $model->type == \common\models\c2\statics\FeUserType::TYPE_ELDER;
+                    },
+                    'add_master' => function ($model) {
+                        return $model->type == \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN;
+                    },
+                    'add_familiar' => function ($model) {
+                        return $model->type == \common\models\c2\statics\FeUserType::TYPE_MASTER;
+                    }
+                ],
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [
-                            'edit', 'id' => $model->id,
-                            'chess_id' => $model->chess_id,
-                            'type' => $model->type
-                        ], [
-                            'title' => Yii::t('app', 'Info'),
-                            'data-pjax' => '0',
-                        ]);
-                    }
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                            [
+                                'edit',
+                                'id' => $model->id,
+                            ], [
+                                'title' => Yii::t('app', 'Info'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
+                    'add_elder' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Elder')]) . '</span>',
+                            [
+                                'add-development',
+                                'id' => $model->id,
+                                'chess_id' => $model->chess_id,
+                                'type' => \common\models\c2\statics\FeUserType::TYPE_ELDER
+                            ], [
+                                'title' => Yii::t('app', 'Add'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
+                    'add_master' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Master')]) . '</span>',
+                            [
+                                'add-development',
+                                'id' => $model->id,
+                                'chess_id' => $model->chess_id,
+                                'type' => \common\models\c2\statics\FeUserType::TYPE_MASTER
+                            ], [
+                                'title' => Yii::t('app', 'Add'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
+                    'add_chieftain' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Chieftain')]) . '</span>',
+                            [
+                                'add-development',
+                                'id' => $model->id,
+                                'chess_id' => $model->chess_id,
+                                'type' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN
+                            ], [
+                                'title' => Yii::t('app', 'Add'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
+                    'add_familiar' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Familiar')]) . '</span>',
+                            [
+                                'add-development',
+                                'id' => $model->id,
+                                'chess_id' => $model->chess_id,
+                                'type' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR
+                            ], [
+                                'title' => Yii::t('app', 'Add'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
                 ]
             ],
 

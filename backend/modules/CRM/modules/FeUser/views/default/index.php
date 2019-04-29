@@ -113,7 +113,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
-                    }
+                    },
+
                 ]
             ],
 

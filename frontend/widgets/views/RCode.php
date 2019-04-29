@@ -7,7 +7,7 @@
  */
 ?>
 
-<div class="card" style="width: 96%;margin: 10px auto 0;">
+<div class="card">
     <div class="card-img-top bg-recommend" id="m_recommend-broad">
 <!--        <div id="m_spinner" class="spinner-border text-warning" role="status" >-->
 <!--            <span class="sr-only">Loading...</span>-->

@@ -162,7 +162,6 @@ class SignupForm extends Model
         $user = new FeUserModel();
         $user->username = $this->username;
         $user->mobile_number = $this->mobile_number;
-        // $user->status = EntityModelStatus::STATUS_INACTIVE;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         if (is_null($model)) {
@@ -170,9 +169,7 @@ class SignupForm extends Model
             return $user->save() ? $user : null;
         } else {
             // Have recommend code.
-            $user->currentChess = ChessModel::findOne($model->chess_id);
-            $user->recommendUserId = $model->user_id;
-            return ($user->save() && $user->createDevelopment()) ? $user : null;
+            return ($user->save() && $user->createUserKpi($model->chess_id, $model->user_id)) ? $user : null;
         }
     }
 

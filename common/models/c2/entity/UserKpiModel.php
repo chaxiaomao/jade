@@ -5,10 +5,9 @@ namespace common\models\c2\entity;
 use Yii;
 
 /**
- * This is the model class for table "{{%user_development}}".
+ * This is the model class for table "{{%user_kpi}}".
  *
  * @property string $id
- * @property string $user_chess_rs_id
  * @property string $chess_id
  * @property string $user_id
  * @property string $parent_id
@@ -19,14 +18,14 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  */
-class UserDevelopmentModel extends \cza\base\models\ActiveRecord
+class UserKpiModel extends \cza\base\models\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user_development}}';
+        return '{{%user_kpi}}';
     }
 
     /**
@@ -35,7 +34,7 @@ class UserDevelopmentModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['chess_id', 'user_id', 'parent_id', 'position', 'user_chess_rs_id'], 'integer'],
+            [['chess_id', 'user_id', 'parent_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['type', 'state', 'status'], 'integer', 'max' => 4],
         ];
@@ -62,11 +61,11 @@ class UserDevelopmentModel extends \cza\base\models\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\query\UserDevelopmentQuery the active query used by this AR class.
+     * @return \common\models\c2\query\UserKpiQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\c2\query\UserDevelopmentQuery(get_called_class());
+        return new \common\models\c2\query\UserKpiQuery(get_called_class());
     }
     
     /**
@@ -75,21 +74,5 @@ class UserDevelopmentModel extends \cza\base\models\ActiveRecord
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
     }
-
-    public function getUser()
-    {
-        return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
-    }
-
-    public function getParent()
-    {
-        return $this->hasOne(UserChessRsModel::className(), ['id' => 'user_chess_rs_id']);
-    }
-
-    public function getChess()
-    {
-        return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
-    }
-
 
 }

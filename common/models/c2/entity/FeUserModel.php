@@ -6,9 +6,11 @@ use common\components\validators\FeUserUniqueValidator;
 use common\helpers\DeviceLogHelper;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\statics\EntityModelStatus;
+use frontend\models\FeUser;
 use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 use yii\web\IdentityInterface;
 use yii\web\NotFoundHttpException;
 
@@ -58,7 +60,6 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      * @var UserChessRsModel
      */
     public $currentChess = null;
-    public $recommendUserId = null;
 
     /**
      * @inheritdoc
@@ -390,147 +391,85 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             ->viaTable('{{%user_chess_rs}}', ['user_id' => 'id']);
     }
 
-    public function createRelations()
+    /**
+     * Set parent user kpi.
+     * @param $chess_id
+     * @param $parent_id
+     * @return bool|null
+     */
+    public function createUserKpi($chess_id, $parent_id)
     {
-        if ($this->currentChess->getChessChieftain()->count() == 0) {
-            return $this->createChessChieftain();
-        } elseif ($this->currentChess->getChessMasters()->count() <= 3) {
-            return $this->createChessChieftainMaserRs();
-        }
-
-        $familiarCount = $this->currentChess->getFamiliars()->count();
-        if ($familiarCount <= 9) {
-            return $this->createChessMasterFamiliarRs($familiarCount);
-        }
-
-        $peasantCount = $this->currentChess->getPeasants()->count();
-        if ($peasantCount <= 27) {
-            return $this->createChessFamiliarPeasantRs($peasantCount);
-        }
-    }
-
-    public function createDevelopment()
-    {
-        $model = new UserDevelopmentModel();
-        $model->setAttributes([
-            'chess_id' => $this->currentChess->id,
+        $kpiModel = new UserKpiModel();
+        $kpiModel->setAttributes([
+            'chess_id' => $chess_id,
             'user_id' => $this->id,
-            'parent_id' => $this->recommendUserId,
+            'parent_id' => $parent_id,
+            'status' => EntityModelStatus::STATUS_INACTIVE,
         ]);
-        if ($model->save()) {
+        if ($kpiModel->save()) {
             return true;
         }
+        return null;
     }
 
     /**
-     * Create chess chieftain.
+     * @param $chess_id
      * @return bool
+     * @throws HttpException
      */
-    public function createChessChieftain()
+    public function commitChessUser($chess_id)
     {
-        $model = new UserChessRsModel();
-        $attrs = [
-            'user_id' => $this->id,
-            'chess_id' => $this->currentChess->id,
-            'type' => FeUserType::TYPE_CHIEFTAIN,
-        ];
-        $model->setAttributes($attrs);
-        if ($model->save()) {
-            return true;
-        }
-    }
-
-    /**
-     * Create chess master, user below to this chess's C1.
-     * @return bool
-     */
-    public function createChessChieftainMaserRs()
-    {
-        $model = new UserChessRsModel();
-        $attrs = [
-            'user_id' => $this->id,
-            'chess_id' => $this->currentChess->id,
-            'type' => FeUserType::TYPE_MASTER,
-        ];
-        $model->setAttributes($attrs);
-        $model->save();
-        // This chess chieftain
-        $chieftain = $this->currentChess->getChessChieftain(); // Only one.
-        $rsModel = new ChieftainMasterRsModel();
-        $attrs = [
-            'chess_id' => $this->currentChess->id,
-            'chieftain_id' => $chieftain->id,
-            'master_id' => $this->id,
-        ];
-        $rsModel->setAttributes($attrs);
-        if ($model->save()) {
-            return true;
-        }
-    }
-
-    /**
-     * Evil epoll
-     * Create chess familiar and set the regular position.
-     * @param $familiarCount
-     * @return bool
-     */
-    public function createChessMasterFamiliarRs($familiarCount)
-    {
-        // This chess masters
-        $masters = $this->currentChess->getChessChieftain()->all();
-        $masterIds = ArrayHelper::getColumn($masters, 'id');
-        $currentUserIndex = $familiarCount + 1; // Current familiar user created index.
-        $baseNum = 1;
+        // Create the common arrange & jump arrange regulation position for peasant.
+        $familiarModels = UserChessRsModel::find()->where(['chess_id' => $chess_id, 'type' => FeUserType::TYPE_FAMILIAR])
+            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['position' => SORT_ASC])
+            ->asArray()
+            ->all();
+        $peasantModels = UserChessRsModel::find()->where(['chess_id' => $chess_id, 'type' => FeUserType::TYPE_PEASANT])
+            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->all();
+        $currentUserPosition = count($peasantModels) + 1;
+        $iBaseNum = 1;
+        $familiarIndex = -1;
         for ($i = 0; $i < 3; $i++) {
+            $kBaseNum = $iBaseNum;
             for ($j = 0; $j < 3; $j++) {
-                if ($currentUserIndex == $baseNum + $j * 3) {
-                    $rsModel = new MasterFamiliarRsModel();
-                    $attrs = [
-                        'chess_id' => $this->currentChess->id,
-                        'master_id' => $masterIds[$i],
-                        'familiar_id' => $this->id,
-                    ];
-                    $rsModel->setAttributes($attrs);
-                    if ($rsModel->save()) {
-                        return true;
-                        break;
+                $familiarIndex++;
+                for ($k = 0; $k < 3; $k++) {
+                    if ($currentUserPosition == $kBaseNum + $j * 9) {
+                        $developmentModel = new UserDevelopmentModel();
+                        $attrs = [
+                            'user_chess_rs_id' => $familiarModels[$familiarIndex]['id'],
+                            'chess_id' => $chess_id,
+                            'user_id' => $this->id,
+                            'type' => FeUserType::TYPE_PEASANT,
+                            'status' => EntityModelStatus::STATUS_ACTIVE
+                        ];
+                        $developmentModel->setAttributes($attrs);
+                        if ($developmentModel->save()) {
+                            break;
+                        } else {
+                            throw new HttpException('500', $developmentModel->getErrors());
+                        }
                     }
                 }
+                $kBaseNum += 3;
             }
-            $baseNum++;
+            $iBaseNum++;
         }
-    }
-
-    /**
-     * Evil epoll
-     * Create chess peasant and set the regular position.
-     * @param $peasantCount
-     * @return bool
-     */
-    public function createChessFamiliarPeasantRs($peasantCount)
-    {
-        // This chess familiars.
-        $familiars = $this->currentChess->getFamiliars()->all();
-        $masterIds = ArrayHelper::getColumn($familiars, 'id');
-        $currentUserIndex = $peasantCount + 1; // Current peasant user created index.
-        $baseNum = 1;
-        for ($i = 0; $i < 9; $i++) {
-            for ($j = 0; $j < 3; $j++) {
-                if ($currentUserIndex == $baseNum + $j * 8) {
-                    $rsModel = new FamiliarPeasantRsModel();
-                    $attrs = [
-                        'chess_id' => $this->currentChess->id,
-                        'familiar_id' => $masterIds[$i],
-                        'peasant_id' => $this->id,
-                    ];
-                    $rsModel->setAttributes($attrs);
-                    if ($rsModel->save()) {
-                        return true;
-                        break;
-                    }
-                }
-            }
-            $baseNum++;
+        // Put user's corresponding station in the chess.
+        $ucRsModel = new UserChessRsModel();
+        $ucRsModel->setAttributes([
+            'user_id' => $this->id,
+            'chess_id' => $chess_id,
+            'type' => FeUserType::TYPE_PEASANT,
+            'position' => $currentUserPosition,
+            'status' => EntityModelStatus::STATUS_INACTIVE,
+        ]);
+        if ($ucRsModel->save()) {
+            return true;
+        } else {
+            throw new HttpException('500', $ucRsModel->getErrors());
         }
     }
 

@@ -3,8 +3,10 @@
 namespace frontend\modules\Familiar\controllers;
 
 use common\models\c2\entity\FamiliarModel;
+use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\search\PeasantSearch;
 use common\models\c2\statics\FeUserType;
+use cza\base\models\statics\EntityModelStatus;
 use frontend\components\behaviors\UserTypeBehavior;
 use frontend\widgets\MemberListWidget;
 use Yii;
@@ -34,7 +36,12 @@ class DefaultController extends \frontend\components\Controller
      */
     public function actionIndex()
     {
-
+        $familiarModels = UserChessRsModel::find()->where(['chess_id' => 3, 'type' => FeUserType::TYPE_FAMILIAR])
+            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['position' => SORT_ASC])
+            ->asArray()
+            ->all();
+        Yii::info($familiarModels);
         return $this->render('index', [
         ]);
     }

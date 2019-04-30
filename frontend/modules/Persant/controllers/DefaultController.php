@@ -2,7 +2,9 @@
 
 namespace frontend\modules\Persant\controllers;
 
+use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\statics\FeUserType;
+use cza\base\models\statics\EntityModelStatus;
 use frontend\components\behaviors\UserTypeBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -30,6 +32,11 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $familiarModels = UserChessRsModel::find()->where(['chess_id' => 3, 'type' => FeUserType::TYPE_FAMILIAR])
+            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->orderBy(['position' => SORT_ASC])
+            ->asArray()
+            ->all();
         return $this->render('index');
     }
 }

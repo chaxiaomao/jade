@@ -66,7 +66,6 @@ class CaptchaAction extends Action {
             $code = $this->generateRandomString();
             $recommendCodeModel = new UserRecommendCodeModel();
             $recommendCodeModel->setAttributes([
-                'type' => $user->type,
                 'chess_id' => $currentChessModel->chess_id,
                 'user_id' => $user->id,
                 'code' => $code,

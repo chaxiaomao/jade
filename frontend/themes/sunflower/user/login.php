@@ -66,7 +66,7 @@ $this->title = Yii::t('app.c2', 'User Login');
 
     <?php echo Html::submitButton(Yii::t('app.c2', 'Login'), ['class' => 'btn btn-warning btn-block font-white']) ?>
     <div class="tc mt40">
-        <?php echo Html::a(Yii::t('app.c2', 'Signup Account'), '/site/signup') ?>
+        <?php echo Html::a(Yii::t('app.c2', 'Signup Account'), '/user/signup') ?>
     </div>
     <?php
     \kartik\widgets\ActiveForm::end();

@@ -81,4 +81,15 @@ class UserDevelopmentModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
     }
 
+    public function getParent()
+    {
+        return $this->hasOne(UserChessRsModel::className(), ['id' => 'user_chess_rs_id']);
+    }
+
+    public function getChess()
+    {
+        return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
+    }
+
+
 }

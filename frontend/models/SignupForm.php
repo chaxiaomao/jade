@@ -51,7 +51,8 @@ class SignupForm extends Model
             [['mobile_number',], 'match', 'pattern' => '/^1[0-9]{10}$/', 'message' => Yii::t('app.c2', '{attribute} must be mobile format!')],
             [['mobile_number'], 'string', 'length' => 11],
             [['mobile_number'], 'number', 'integerOnly' => true],
-            ['mobile_number', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => Yii::t('app.c2', 'This mobile number has already been taken.')],
+            [['username', 'mobile_number'], 'unique', 'targetClass' => FeUserModel::className(), 'message' => Yii::t('app.c2', '{attribute} "{value}" has already been taken.')],
+            // [['username', 'mobile_number'], FeUserUniqueValidator::className(), 'targetClass' => FeUserModel::className(), 'message' => Yii::t('app.c2', '{attribute} "{value}" has already been taken.')],
 
             // ['email', 'email'],
             // ['email', 'string', 'max' => 255],
@@ -154,11 +155,14 @@ class SignupForm extends Model
 
     public function signupPer()
     {
+        if (!$this->validate()) {
+            return null;
+        }
         $model = UserRecommendCodeModel::findOne(['code' => $this->recommendCode]);
         $user = new FeUserModel();
         $user->username = $this->username;
         $user->mobile_number = $this->mobile_number;
-        $user->status = EntityModelStatus::STATUS_INACTIVE;
+        // $user->status = EntityModelStatus::STATUS_INACTIVE;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         if (is_null($model)) {

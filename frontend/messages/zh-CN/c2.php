@@ -61,5 +61,12 @@ return [
     'Password' => '登录密码',
     'Sms code' => '验证码',
     'Developments' => '发展成员',
+    'Chess not in' => '尚没有加入资金盘',
+    'Tips' => '提示',
+    'Chess user type has been change.' => '用户等级发生改变，请您重新登陆',
+    'Data empty' => '暂无数据',
+    'Current chess' => '当前资金盘',
+    'Change' => '更换',
+    '{attribute} "{value}" has already been taken.' => '已被占用',
     '' => '',
 ];

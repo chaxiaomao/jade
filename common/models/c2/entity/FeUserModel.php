@@ -10,6 +10,7 @@ use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "{{%fe_user}}".
@@ -54,7 +55,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     /** @var string Plain password. Used for model validation. */
     public $password;
     /**
-     * @var ChessModel
+     * @var UserChessRsModel
      */
     public $currentChess = null;
     public $recommendUserId = null;
@@ -157,12 +158,13 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      * @return IdentityInterface the identity object that matches the given ID.
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
+     * @throws NotFoundHttpException
      */
     public static function findIdentity($id)
     {
         // TODO: Implement findIdentity() method.
-        $identity = static::findOne(['id' => $id, 'status' => EntityModelStatus::STATUS_ACTIVE]);
-        return static::getTerminalUser($identity);
+        return static::findOne(['id' => $id, 'status' => EntityModelStatus::STATUS_ACTIVE]);
+        // return static::getTerminalUser($identity);
     }
 
     /**
@@ -265,20 +267,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
                 $this->profile->syncRegionData();
             }
-            // if (isset($changedAttributes['type'])) {
-            //     $this->userDegreeRs->updateRs($this->type);
-            // }
         }
-    }
-
-    // public function beforeSave($insert)
-    // {
-    //     parent::beforeSave($insert);
-    // }
-
-    public function getUserDegreeRs()
-    {
-        return $this->hasOne(UserDegreeRsModel::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -346,6 +335,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return static::findOne(['mobile_number' => $mobile, 'status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
+    public function getUserChessRs()
+    {
+        return $this->hasMany(UserChessRsModel::className(), ['user_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -359,30 +353,35 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->getRecommendCode()->where(['chess_id' => $chess_id])->one();
     }
 
-    public function getFirstChess()
+    /**
+     * @return array|UserChessRsModel|null
+     * @throws NotFoundHttpException
+     */
+    public function getCurrentChess()
     {
-        $model = UserChessRsModel::find()->where(['user_id' => $this->id])->orderBy(['created_at' => SORT_ASC])->one();
-        return $model;
-    }
-
-    public function getDevelopments($current_chess_id = null)
-    {
-        if ($current_chess_id != null) {
-            $currentChessRs = UserChessRsModel::find()->where(['user_id' => $this->id, 'chess_id' => $current_chess_id])->one();
-            return $currentChessRs->getUserDevelopments()->all();
+        $current_chess_id = Yii::$app->session->get('current_chess_id');
+        $model = null;
+        if (empty($current_chess_id)) {
+            $model = UserChessRsModel::find()->where(['user_id' => $this->id])->orderBy(['created_at' => SORT_ASC])->one();
+        } else {
+            $model = UserChessRsModel::find()->where(['chess_id' => $current_chess_id, 'user_id' => $this->id])->one();
         }
-
+        if (!empty($model)) {
+            Yii::$app->session->set('current_chess_id', $model->chess_id);
+            return $model;
+        } else {
+            throw new NotFoundHttpException(Yii::t('app.c2', 'Chess not in'));
+        }
     }
 
-    public function getUserDegree()
+    public function getDevelopments()
     {
-        return $this->hasMany(UserDegreeModel::className(), ['id' => 'degree_id'])->where(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->viaTable('{{%user_degree_rs}}', ['user_id' => 'id']);
-    }
-
-    public function getCurrentChessDegree($chess_id = '', $condition = [])
-    {
-        return $this->getUserDegree()->where(['chess_id' => $chess_id])->andFilterWhere($condition)->one();
+        try {
+            return $this->getCurrentChess()->getUserDevelopments()
+                ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+                ->all();
+        } catch (NotFoundHttpException $e) {
+        }
     }
 
     public function getChess()
@@ -414,9 +413,9 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     {
         $model = new UserDevelopmentModel();
         $model->setAttributes([
-           'chess_id' => $this->currentChess->id,
-           'user_id' => $this->id,
-           'parent_id' => $this->recommendUserId,
+            'chess_id' => $this->currentChess->id,
+            'user_id' => $this->id,
+            'parent_id' => $this->recommendUserId,
         ]);
         if ($model->save()) {
             return true;

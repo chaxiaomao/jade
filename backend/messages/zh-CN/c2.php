@@ -30,5 +30,12 @@ return [
     'Fe user' => '用户列表',
     'Branch' => '分支',
     '{s1} add' => '{s1}添加',
+    'Parent' => '上级用户',
+    'Code' => '编码',
+    'Username' => '用户名称',
+    'Status' => '状态',
+    'Active' => '活动',
+    'Inactive' => '停止',
+    '' => '',
 ];
 

@@ -29,3 +29,9 @@
 2.增加表c2_user_development,c2_user_profit,c2_user_profit_item
 
 3.层级岗位用二位锁定
+
+
+# 2019/4/30
+1.增加UserChessRs,UserDevelopment模块
+
+2.修改前台登陆介面逻辑

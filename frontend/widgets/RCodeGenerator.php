@@ -11,7 +11,7 @@ namespace frontend\widgets;
 
 class RCodeGenerator extends \kartik\base\Widget
 {
-    public $captchaAction = '/site/recommend-code-captcha';
+    public $captchaAction = '/user/recommend-code-captcha';
 
     /**
      * @var array HTML attributes to be applied to the CAPTCHA image tag.

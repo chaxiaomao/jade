@@ -15,7 +15,7 @@ use yii\helpers\Html;
     <div style="margin-top: 60px">
         <?php
 
-        echo Html::beginForm('/site/logout', 'post', ['class' => 'form-inline']);
+        echo Html::beginForm('/user/logout', 'post', ['class' => 'form-inline']);
         echo Html::submitButton(
             'Logout (' . Yii::$app->user->identity->username . ')',
             // ['class' => 'btn btn-outline-success my-2 my-sm-0']

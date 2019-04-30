@@ -11,6 +11,7 @@ namespace frontend\components;
 use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\UserChessRsModel;
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\web\User as BaseUser;
 use common\models\c2\statics\FeUserType;
 
@@ -19,38 +20,44 @@ use common\models\c2\statics\FeUserType;
  *
  * @author Ben bi <bennybi@qq.com>
  */
-class User extends BaseUser {
+class User extends BaseUser
+{
 
     private $_attributes = [];
-    protected $_chess = null;
+    public $_chess = null;
     public $loginUrl = ['user/login'];
 
-    public function getUsername() {
+    public function getUsername()
+    {
         if (!isset($this->_attributes['username'])) {
             $this->_attributes['username'] = $this->getIdentity()->username;
         }
         return $this->_attributes['username'];
     }
 
-    public function getAvatarUrl() {
+    public function getAvatarUrl()
+    {
         if (!isset($this->_attributes['avatarUrl'])) {
             $this->_attributes['avatarUrl'] = $this->getIdentity()->profile->getImageUrl();
         }
         return $this->_attributes['avatarUrl'];
     }
 
-    public function getFullname() {
+    public function getFullname()
+    {
         if (!isset($this->_attributes['fullname'])) {
             $this->_attributes['fullname'] = $this->getIdentity()->profile->getMemberName();
         }
         return $this->_attributes['fullname'];
     }
 
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
         return $this->getIdentity();
     }
 
-    public function loginByUserId($id, $type = null) {
+    public function loginByUserId($id, $type = null)
+    {
         /* @var $class IdentityInterface */
         $class = $this->identityClass;
         $identity = $class::findIdentity($id, $type);
@@ -61,15 +68,9 @@ class User extends BaseUser {
         }
     }
 
-    public function getReturnUrl($defaultUrl = null) {
-        $current_chess_id = Yii::$app->session->get('current_chess_id');
-        if (empty($current_chess_id)) {
-            $model = $this->currentUser->getFirstChess();
-            Yii::$app->session->set('current_chess_id', $model->chess_id);
-        } else {
-            $model = UserChessRsModel::findOne($current_chess_id);
-        }
-
+    public function getReturnUrl($defaultUrl = null)
+    {
+        $model = $this->identity->getCurrentChess();
         switch ($model->type) {
             case FeUserType::TYPE_LORD:
                 $url = Yii::$app->getUrlManager()->createUrl(['/lord']);
@@ -99,12 +100,14 @@ class User extends BaseUser {
         return $url;
     }
 
-    public function registerUrl() {
+    public function registerUrl()
+    {
         $url = Yii::$app->getUrlManager()->createUrl(['user/signup']);
         return $url;
     }
 
-    public function loginUrl() {
+    public function loginUrl()
+    {
         $url = Yii::$app->getUrlManager()->createUrl(['user/login']);
         return $url;
     }

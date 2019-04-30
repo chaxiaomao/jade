@@ -34,7 +34,7 @@ $this->title = Yii::t('app.c2', 'Profile center');
         <a href="/site/settings" class="list-group-item">
             <?= Yii::t('app.c2', 'Settings') ?>
         </a>
-        <a href="<?= \yii\helpers\Url::toRoute('member-list') ?>" class="list-group-item">
+        <a href="/developments" class="list-group-item">
             <div class="row">
                 <div class="col-xs-8"><?= Yii::t('app.c2', 'Developments') ?></div>
             </div>

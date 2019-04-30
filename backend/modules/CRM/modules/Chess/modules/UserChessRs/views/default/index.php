@@ -13,17 +13,49 @@ use cza\base\models\statics\OperationEvent;
 $this->title = Yii::t('app.c2', 'User Chess Rs Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<div class="panel panel-warning">
+    <div class="panel-heading"><?= Yii::t('app.c2', 'Event Assigned') ?></div>
+    <div class="panel-body">
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_LORD]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Lord') ?>
+        </a>
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_ELDER]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Elder') ?>
+        </a>
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Chieftain') ?>
+        </a>
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_MASTER]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Master') ?>
+        </a>
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Familiar') ?>
+        </a>
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
+            'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_PEASANT]) ?>" class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Peasant') ?>
+        </a>
+    </div>
+</div>
+
+
 <div class="well user-chess-rs-model-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
 
         'pjax' => true,
         'hover' => true,
-        'showPageSummary' => true,
+        'showPageSummary' => false,
         'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
         'toolbar' => [
             [
@@ -86,10 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             // 'user_id',
             [
-                'attribute' => 'user_id',
-                'value' => function ($model) {
-                    return $model->user->username;
-                }
+                'attribute' => 'user.username',
             ],
             // 'chess_id',
             [
@@ -127,7 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
-                'template' => '{update} {add_elder} {add_chieftain} {add_master} {add_familiar}',
+                'template' => '{update} {add_elder} {add_chieftain} {add_master} {add_familiar} {developments}',
                 'visibleButtons' => [
                     'add_elder' => function ($model) {
                         return $model->type == \common\models\c2\statics\FeUserType::TYPE_LORD;
@@ -144,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                        return Html::a('<span class="glyphicon glyphicon-pencil">Update</span>',
                             [
                                 'edit',
                                 'id' => $model->id,
@@ -196,6 +225,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'id' => $model->id,
                                 'chess_id' => $model->chess_id,
                                 'type' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR
+                            ], [
+                                'title' => Yii::t('app', 'Add'),
+                                'data-pjax' => '0',
+                            ]);
+                    },
+                    'developments' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-user">' . Yii::t('app.c2', 'Developments') . '</span>',
+                            [
+                                '/crm/chess/user-development',
+                                'UserDevelopmentSearch[user_chess_rs_id]' => $model->id
                             ], [
                                 'title' => Yii::t('app', 'Add'),
                                 'data-pjax' => '0',

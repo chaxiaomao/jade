@@ -167,14 +167,17 @@ class Captcha extends InputWidget {
 
         $js .= "$('#{$id}').on('click', function(e) {
                    e.preventDefault();
-//                   var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-//                   if($('#{$this->mobileId}').val() == ''){
-//                       bootbox.alert('" . Yii::t('app.c2', "Mobile number is required!") . "');
-//                       return false;
-//                   }else if(!myreg.test($('#{$this->mobileId}').val())){
-//                       bootbox.alert('" . Yii::t('app.c2', "Mobile number must be right!") . "');
-//                       return false;
-//                   }
+                  // var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+                  if($('#{$this->mobileId}').val() == ''){
+                      // bootbox.alert('" . Yii::t('app.c2', "Mobile number is required!") . "');
+                      $('#mobile_tip').show();
+                      return false;
+                  }
+                  // if(!myreg.test($('#{$this->mobileId}').val())){
+                  //     bootbox.alert('" . Yii::t('app.c2', "Mobile number must be right!") . "');
+                  //     $('#mobile_tip').show();
+                  //     return false;
+                  // }
                    
                    addCookie('secondsremained_login'," . $this->delaySeconds . ", " . $this->delaySeconds . ");//valid time 60s
                    settime($('#{$id}'));
@@ -185,7 +188,7 @@ class Captcha extends InputWidget {
                             type: 'post',
                             data: data,
                             success: function(data) {
-//                              bootbox.alert(data._meta.message);
+                             // bootbox.alert(data._meta.message);
                             },
                             error :function(data){alert(data._meta.message);}
                     });

@@ -10,7 +10,6 @@ namespace frontend\components\RecommendCaptcha;
 
 use common\models\c2\entity\FeUserAuthModel;
 use common\models\c2\entity\FeUserModel;
-use common\models\c2\entity\RecommendCodeModel;
 use common\models\c2\entity\UserRecommendCodeModel;
 use common\models\c2\statics\FeUserType;
 use cza\base\models\statics\EntityModelStatus;
@@ -61,30 +60,30 @@ class CaptchaAction extends Action {
     public function run() {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $user = Yii::$app->user->currentUser;
-        $current_chess_id = Yii::$app->session->get('current_chess_id');
-        $model = $user->getRecommendCode8ChessId($current_chess_id);
-        if (is_null($model)) {
+        $recommendCodeModel = $user->recommendCode;
+        $currentChessModel = $user->getCurrentChess();
+        if (is_null($recommendCodeModel)) {
             $code = $this->generateRandomString();
-            $model = new UserRecommendCodeModel();
-            $model->setAttributes([
+            $recommendCodeModel = new UserRecommendCodeModel();
+            $recommendCodeModel->setAttributes([
                 'type' => $user->type,
-                'chess_id' => $current_chess_id,
+                'chess_id' => $currentChessModel->chess_id,
                 'user_id' => $user->id,
                 'code' => $code,
                 'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
                 'status' => EntityModelStatus::STATUS_ACTIVE,
             ]);
-            $model->save();
+            $recommendCodeModel->save();
         } else {
-            if (strtotime($model->expired_at) < strtotime(date('Y-m-d H:i:s', time()))) {
-                $model->updateAttributes([
+            if (strtotime($recommendCodeModel->expired_at) < strtotime(date('Y-m-d H:i:s', time()))) {
+                $recommendCodeModel->updateAttributes([
                     'code' => $this->generateRandomString(),
                     'expired_at' => date("Y-m-d H:i:s", strtotime('+900 seconds')),
                 ]);
             }
         }
 
-        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => $model->code]);
+        $result = ResponseDatum::getSuccessDatum(['message' => Yii::t('app.c2', 'Recommend code generated!')], ['data' => $recommendCodeModel->code]);
         return $result;
     }
 

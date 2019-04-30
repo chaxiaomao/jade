@@ -18,6 +18,13 @@ $this->title = Yii::t('app.c2', 'User Register');
     <p class="welcome"><?= Yii::t('app.c2', 'Welcome to signup') ?></p>
 </div>
 <div class="container">
+
+    <div id="mobile_tip" style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+        <?= Yii::t('app.c2', 'Mobile is not allow') ?>
+    </div>
+
     <?php
     $form = \kartik\widgets\ActiveForm::begin([
         'options' => [
@@ -68,7 +75,7 @@ $this->title = Yii::t('app.c2', 'User Register');
                 'label' => false,
                 'options' => [
                     'form' => $form,
-                    'mobileId' => Html::getInputId($model, 'verifyCode'),
+                    'mobileId' => Html::getInputId($model, 'mobile_number'),
                 ],
             ],
 
@@ -76,12 +83,11 @@ $this->title = Yii::t('app.c2', 'User Register');
     ]);
 
 
-
     ?>
 
     <div class="container tr">
         <?php echo Html::submitButton(Yii::t('app.c2', 'Signup'), ['class' => 'btn btn-warning btn-block font-white mb10']) ?>
-        <?php echo Html::a(Yii::t('app.c2', 'Login account right now'), '/site/login', ['class' => '']) ?>
+        <?php echo Html::a(Yii::t('app.c2', 'Login account right now'), '/user/login', ['class' => '']) ?>
     </div>
 
 

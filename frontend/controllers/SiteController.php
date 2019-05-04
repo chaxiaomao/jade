@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\c2\entity\ChessModel;
+use common\models\c2\entity\UserChessRsModel;
 use frontend\components\Controller;
 use frontend\models\LoginForm;
 use Yii;
@@ -38,7 +39,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'tips', 'error',],
+                        'actions' => ['index', 'tips', 'error', 'station'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -112,6 +113,16 @@ class SiteController extends Controller
                 return $this->render('error', ['message' => $exception]);
             }
         }
+    }
+
+    public function actionStation($t)
+    {
+        $user = Yii::$app->user->currentUser;
+        $currentChess = $user->getCurrentChess();
+        $model = UserChessRsModel::find()->where(['chess_id' => $currentChess->chess_id, 'type' => $t])->all();
+        return $this->render('station', [
+            'model' => $model
+        ]);
     }
 
 }

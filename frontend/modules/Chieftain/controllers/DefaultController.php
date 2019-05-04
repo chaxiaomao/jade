@@ -2,6 +2,8 @@
 
 namespace frontend\modules\Chieftain\controllers;
 
+use common\models\c2\entity\UserKpiModel;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -17,29 +19,19 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->request->url != Yii::$app->user->getReturnUrl()) {
-            return $this->redirect(Yii::$app->user->getReturnUrl());
-        }
-        $user = Yii::$app->user->currentUser;
-        $query = $user->getCurrentChessUser();
         return $this->render('index', [
-            'count' => $query->count()
         ]);
     }
 
-    public function actionMemberList()
+    public function actionKpiList()
     {
+        $status = Yii::$app->request->get('status', EntityModelStatus::STATUS_INACTIVE);
         $user = Yii::$app->user->currentUser;
-        $query = $user->getCurrentChessUser();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
-                'params' => Yii::$app->request->get(),
-            ],
-        ]);
-        return $this->render('members', [
-            'dataProvider' => $dataProvider,
+        $currentChess = $user->getCurrentChess();
+        $model = UserKpiModel::find()->where(['chess_id' => $currentChess->chess_id, 'status' => $status])->all();
+        return $this->render('kpi_list', [
+            'model' => $model
         ]);
     }
+
 }

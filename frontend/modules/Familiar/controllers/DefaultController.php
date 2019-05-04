@@ -36,12 +36,7 @@ class DefaultController extends \frontend\components\Controller
      */
     public function actionIndex()
     {
-        $familiarModels = UserChessRsModel::find()->where(['chess_id' => 3, 'type' => FeUserType::TYPE_FAMILIAR])
-            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->orderBy(['position' => SORT_ASC])
-            ->asArray()
-            ->all();
-        Yii::info($familiarModels);
+
         return $this->render('index', [
         ]);
     }

@@ -41,7 +41,8 @@ class UserController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => [ 'recommend-code-captcha', 'login', 'signup', 'chess', 'settings','developments', 'logout', 'error'],
+                        'actions' => [ 'recommend-code-captcha', 'login', 'signup',
+                            'chess', 'settings','developments', 'logout', 'kpi'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -89,8 +90,17 @@ class UserController extends Controller
     public function actionDevelopments()
     {
         $user = Yii::$app->user->currentUser;
-        $model = $user->getDevelopments();
+        $model = $user->userKip;
         return $this->render('members', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionKpi()
+    {
+        $user = Yii::$app->user->currentUser;
+        $model = $user->userKpi;
+        return $this->render('kpi', [
             'model' => $model,
         ]);
     }

@@ -4,5 +4,5 @@ return [
     // 'user/sign' => '/site/sign',
     // 'user/login' => '/site/login',
     // 'user/logout' => '/site/logout',
-    // 'developments' => '/site/developments',
+    'station' => '/site/station',
 ];

@@ -385,6 +385,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         }
     }
 
+    public function getUserKpi()
+    {
+        return $this->hasMany(UserKpiModel::className(), ['parent_id' => 'id']);
+    }
+
     public function getChess()
     {
         return $this->hasMany(ChessModel::className(), ['id' => 'chess_id'])

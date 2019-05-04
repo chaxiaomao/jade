@@ -7,7 +7,8 @@
  */
 
 use yii\helpers\Html;
-
+$this->title = Yii::t('app.c2', 'Setting');
+$this->params['navbar'] = Yii::t('app.c2', 'Back');
 ?>
 
 <div class="container">

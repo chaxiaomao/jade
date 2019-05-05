@@ -36,6 +36,7 @@ return [
     'Status' => '状态',
     'Active' => '活动',
     'Inactive' => '停止',
+    'Kpi' => '考核',
     '' => '',
 ];
 

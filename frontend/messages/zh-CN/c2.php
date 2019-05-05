@@ -99,5 +99,6 @@ return [
     'Pls confirm the user had already pay due' => "*请确认用户已经转账!<br>*并确认金额正确！",
     'Kpi commit successful.' => '审核成功，请等待后台管理员审核通知',
     'Kpi commit' => '会员审核',
+    'Kpi commit multiple.' => '已提交会员申请，请等待管理员审核',
     '' => '',
 ];

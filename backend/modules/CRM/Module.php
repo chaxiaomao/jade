@@ -46,6 +46,9 @@ class Module extends \yii\base\Module
             'fe-user' => [
                 'class' => 'backend\modules\CRM\modules\FeUser\Module',
             ],
+            'kpi' => [
+                'class' => 'backend\modules\CRM\modules\Kpi\\Module',
+            ],
         ];
         // custom initialization code goes here
     }

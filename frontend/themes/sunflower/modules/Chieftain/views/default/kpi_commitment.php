@@ -7,6 +7,8 @@
  */
 
 use cza\base\widgets\ui\adminlte2\InfoBox;
+use yii\helpers\Html;
+
 $messageName = $kpiModel->getMessageName();
 
 $this->title = Yii::t('app.c2', 'Kpi commit');
@@ -19,10 +21,12 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
         <?php if (!$kpiModel->hasErrors()) {
             echo InfoBox::widget([
                 'withWrapper' => false,
+                'defaultMessageType' => InfoBox::TYPE_SUCCESS,
                 'messages' => Yii::$app->session->getFlash($messageName),
             ]);
         } else {
             echo InfoBox::widget([
+                'withWrapper' => false,
                 'defaultMessageType' => InfoBox::TYPE_WARNING,
                 'messages' => Yii::$app->session->getFlash($messageName),
             ]);
@@ -30,6 +34,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
         ?>
     <?php endif; ?>
 
+    <?= Html::a(Yii::t('app.c2', 'Back'), \yii\helpers\Url::toRoute('kpi-list'), ['class' => 'btn btn-success btn-block']) ?>
 
 </div>
 

@@ -101,6 +101,16 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
     }
 
+    public function getFamiliar()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'familiar_id']);
+    }
+
+    public function getProfitItem()
+    {
+        return $this->hasOne(UserProfitItemModel::className(), ['kpi_id' => 'id']);
+    }
+
     /**
      * @param $chess_id
      * @return FeUserModel
@@ -161,17 +171,13 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
                         'income' => $item['income'],
                         'state' => UserKpiStateType::TYPE_CHIEFTAIN_COMMIT
                     ];
-                    $model = UserProfitItemModel::find()->where(['kpi_id' => $this->id, 'user_id' => $item['user_id']])->one();
-                    if ($model) {
-                        $model->updateAttributes($attrs);
-                    } else {
-                        $model = new UserProfitItemModel();
-                        $model->setAttributes($attrs);
-                        $model->save();
-                    }
+                    $model = new UserProfitItemModel();
+                    $model->setAttributes($attrs);
+                    $model->save();
                 }
             }
         }
+        $this->updateAttributes(['state' => UserKpiStateType::TYPE_CHIEFTAIN_COMMIT]);
     }
 
 }

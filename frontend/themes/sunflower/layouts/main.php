@@ -28,8 +28,8 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <?= isset($this->params['navbar']) ? '<a href="javascript:history.go(-1)" class="navbar-brand">' . $this->params['navbar'] . '</a>' : '<a class="navbar-brand">' . Yii::t('app.c2', 'Application') . '</a>' ?>
+<nav class="navbar navbar-light" style="background-color: #dff0d8;">
+    <?= isset($this->params['navbar']) ? '<a href="javascript:history.go(-1)" class="navbar-brand" style="color: #3c763d;">' . $this->params['navbar'] . '</a>' : '<a class="navbar-brand">' . Yii::t('app.c2', 'Application') . '</a>' ?>
 
     <?php
     // if (Yii::$app->user->isGuest) {

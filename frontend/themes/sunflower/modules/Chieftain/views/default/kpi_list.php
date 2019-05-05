@@ -52,9 +52,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                             </a>
                         </div>
                         <div class="media-body">
-                            <h6 class="mt-0"><?= $item->user->username ?><span
-                                        class="badge badge-info mf10"><?= \common\models\c2\statics\UserKpiStateType::getLabel($item->status) ?></span>
-                            </h6>
+                            <h6 class="mt-0"><?= $item->user->username ?></h6>
                             <p><?= Yii::t('app.c2', 'Register at') . "：" . $item->user->created_at ?></p>
                             <p><?= Yii::t('app.c2', 'Recommend user') . "：" . $item->recommendUser->username ?></p>
                         </div>
@@ -63,7 +61,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                         <?php if ($item->state == \common\models\c2\statics\UserKpiStateType::TYPE_NOT_COMMIT): ?>
                             <a href="<?= \yii\helpers\Url::toRoute(['kpi-edit', 'id' => $item->id]) ?>" class="btn btn-danger"><?= Yii::t('app.c2', 'Commit') ?></a>
                         <?php else: ?>
-                            <a href="#" class="btn btn-success"><?= Yii::t('app.c2', 'Detail') ?></a>
+                            <a href="<?= \yii\helpers\Url::toRoute(['kpi-detail', 'id' => $item->id]) ?>" class="btn btn-success"><?= Yii::t('app.c2', 'Detail') ?></a>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -32,11 +32,6 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $familiarModels = UserChessRsModel::find()->where(['chess_id' => 3, 'type' => FeUserType::TYPE_FAMILIAR])
-            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->orderBy(['position' => SORT_ASC])
-            ->asArray()
-            ->all();
         return $this->render('index');
     }
 }

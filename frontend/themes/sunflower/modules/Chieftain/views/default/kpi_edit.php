@@ -27,9 +27,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
     </div><!-- /.modal -->
 </div>
 
-<div class="container-fluid">
-
-
+<div class="container-fluid mb10">
 
 
     <?php $form = ActiveForm::begin(['id' => 'form-commit-kpi', 'action' => \yii\helpers\Url::toRoute(['kpi-commit', 'id' => $kpiModel->id])]); ?>
@@ -127,8 +125,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                 'placeholder' => '0.00'
             ])->label(false) ?>
             <span class="input-group-btn">
-                    <button data-toggle="modal" data-target="#tipsModal" class="btn btn-default"
-                            type="button">?</button>
+                    <button data-toggle="modal" data-target="#tipsModal" class="btn btn-default" type="button">?</button>
                 </span>
         </div>
     </div>

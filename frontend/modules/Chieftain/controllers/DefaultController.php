@@ -65,13 +65,25 @@ class DefaultController extends Controller
 
     }
 
+    public function actionKpiDetail($id)
+    {
+        $kpiModel = UserKpiModel::findOne($id);
+        $profitItemModels = $kpiModel->getProfitItem()->all();
+        return $this->render('kpi_detail', [
+            'kpiModel' => $kpiModel,
+            'profitItemModels' => $profitItemModels,
+        ]);
+    }
+
     public function actionKpiCommit($id)
     {
         $kpiModel = UserKpiModel::findOne($id);
-        if (Yii::$app->request->isPost) {
+        if ($kpiModel->state == UserKpiStateType::TYPE_CHIEFTAIN_COMMIT) {
+            $kpiModel->addError('');
+            Yii::$app->session->setFlash($kpiModel->getMessageName(), [Yii::t('app.c2', 'Kpi commit multiple.')]);
+        } elseif (Yii::$app->request->isPost) {
             $params = Yii::$app->request->post();
             $kpiModel->setAttributes($params['UserKpiModel']);
-            $kpiModel->state = UserKpiStateType::TYPE_CHIEFTAIN_COMMIT;
             $kpiModel->items = $params['items'];
             if ($kpiModel->save()) {
                 Yii::$app->session->setFlash($kpiModel->getMessageName(), [Yii::t('app.c2', 'Kpi commit successful.')]);
@@ -79,6 +91,8 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($kpiModel->getMessageName(), $kpiModel->errors);
             }
         }
+
+
         return $this->render('kpi_commitment', ['kpiModel' => $kpiModel]);
     }
 

@@ -75,4 +75,9 @@ class UserProfitItemModel extends \cza\base\models\ActiveRecord
         parent::loadDefaultValues($skipIfSet);
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
+    }
+
 }

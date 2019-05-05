@@ -37,7 +37,7 @@ $currentChess = Yii::$app->user->currentUser->getCurrentChess();
         <a href="/user/settings" class="list-group-item">
             <?= Yii::t('app.c2', 'Settings') ?>
         </a>
-        <a href="<?= \yii\helpers\Url::toRoute(['kpi-list', 'status' => \cza\base\models\statics\EntityModelStatus::STATUS_INACTIVE]) ?>" class="list-group-item">
+        <a href="<?= \yii\helpers\Url::toRoute('kpi-list') ?>" class="list-group-item">
             <div class="row">
                 <div class="col-xs-8"><?= Yii::t('app.c2', 'Kpi list') ?></div>
             </div>

@@ -8,9 +8,10 @@ use Yii;
  * This is the model class for table "{{%user_profit_item}}".
  *
  * @property string $id
- * @property string $profit_id
+ * @property integer $type
+ * @property string $kpi_id
  * @property string $chess_id
- * @property string $from_user_id
+ * @property string $user_id
  * @property string $income
  * @property integer $state
  * @property integer $status
@@ -33,10 +34,10 @@ class UserProfitItemModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['profit_id', 'chess_id', 'from_user_id'], 'integer'],
+            [['kpi_id', 'chess_id', 'user_id',], 'integer'],
             [['income'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['state', 'status'], 'string', 'max' => 4],
+            [['state', 'status', 'type'], 'integer', 'max' => 4],
         ];
     }
 
@@ -47,9 +48,9 @@ class UserProfitItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
-            'profit_id' => Yii::t('app.c2', 'Profit ID'),
+            'kpi_id' => Yii::t('app.c2', 'Kpi ID'),
             'chess_id' => Yii::t('app.c2', 'Chess ID'),
-            'from_user_id' => Yii::t('app.c2', 'From User ID'),
+            'user_id' => Yii::t('app.c2', 'User ID'),
             'income' => Yii::t('app.c2', 'Income'),
             'state' => Yii::t('app.c2', 'State'),
             'status' => Yii::t('app.c2', 'Status'),

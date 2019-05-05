@@ -169,7 +169,7 @@ class SignupForm extends Model
             return $user->save() ? $user : null;
         } else {
             // Have recommend code.
-            return ($user->save() && $user->createUserKpi($model->chess_id, $model->user_id)) ? $user : null;
+            return ($user->save() && $user->createRecommendUserKpi($model->chess_id, $model->user_id)) ? $user : null;
         }
     }
 

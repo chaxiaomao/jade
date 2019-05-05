@@ -5,6 +5,7 @@ namespace common\models\c2\entity;
 use common\components\validators\FeUserUniqueValidator;
 use common\helpers\DeviceLogHelper;
 use common\models\c2\statics\FeUserType;
+use common\models\c2\statics\UserKpiStateType;
 use cza\base\models\statics\EntityModelStatus;
 use frontend\models\FeUser;
 use Yii;
@@ -399,17 +400,18 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     /**
      * Set parent user kpi.
      * @param $chess_id
-     * @param $parent_id
+     * @param $recommend_user_id
      * @return bool|null
      */
-    public function createUserKpi($chess_id, $parent_id)
+    public function createRecommendUserKpi($chess_id, $recommend_user_id)
     {
         $kpiModel = new UserKpiModel();
         $kpiModel->setAttributes([
             'chess_id' => $chess_id,
             'user_id' => $this->id,
-            'parent_id' => $parent_id,
-            'status' => EntityModelStatus::STATUS_INACTIVE,
+            'recommend_user_id' => $recommend_user_id,
+            'state' => UserKpiStateType::TYPE_NOT_COMMIT,
+            'type' => FeUserType::TYPE_PEASANT,
         ]);
         if ($kpiModel->save()) {
             return true;

@@ -1,35 +1,29 @@
 <?php
 
-namespace backend\modules\CRM\modules\Kpi\controllers;
+namespace backend\modules\CRM\modules\Chess\modules\UserProfit\controllers;
 
-use backend\models\c2\form\KpiCommitForm;
-use common\models\c2\statics\UserKpiStateType;
-use common\models\c2\statics\UserProfitType;
-use cza\base\models\statics\ResponseDatum;
 use Yii;
-use common\models\c2\entity\UserKpiModel;
-use common\models\c2\search\UserKpiSearch;
+use common\models\c2\entity\UserProfitItemModel;
+use common\models\c2\search\UserProfitItemSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for UserKpiModel model.
+ * DefaultController implements the CRUD actions for UserProfitItemModel model.
  */
 class DefaultController extends Controller
 {
-    // public $modelClass = 'common\models\c2\entity\UserKpiModel';
-    public $modelClass = 'backend\models\c2\form\KpiCommitForm';
-
+    public $modelClass = 'common\models\c2\entity\UserProfitItemModel';
+    
     /**
-     * Lists all UserKpiModel models.
+     * Lists all UserProfitItemModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserKpiSearch();
-        // $searchModel->state = UserKpiStateType::TYPE_CHIEFTAIN_COMMIT;
+        $searchModel = new UserProfitItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -40,7 +34,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single UserKpiModel model.
+     * Displays a single UserProfitItemModel model.
      * @param string $id
      * @return mixed
      */
@@ -52,7 +46,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * create/update a UserKpiModel model.
+     * create/update a UserProfitItemModel model.
      * fit to pajax call
      * @return mixed
      */
@@ -67,33 +61,23 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        $model->loadItems();
+        
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
     
     /**
-     * Finds the UserKpiModel model based on its primary key value.
+     * Finds the UserProfitItemModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return UserKpiModel the loaded model
+     * @return UserProfitItemModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = KpiCommitForm::findOne($id)) !== null) {
+        if (($model = UserProfitItemModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionEnsureDo($id)
-    {
-        $model = UserKpiModel::findOne($id);
-        if ($model->setKpiStateAdminCommit()) {
-            $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
-            return $this->asJson($responseData);
-        }
-        return null;
     }
 }

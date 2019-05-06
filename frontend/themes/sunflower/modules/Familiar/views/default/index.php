@@ -43,6 +43,11 @@ $currentChess = Yii::$app->user->currentUser->getCurrentChess();
                 <div class="col-xs-8"><?= Yii::t('app.c2', 'Developments') ?></div>
             </div>
         </a>
+        <a href="/user/profit" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'My profit') ?></div>
+            </div>
+        </a>
     </div>
 
     <?php

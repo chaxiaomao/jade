@@ -25,7 +25,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                 </div>
                 <div class="media-body">
                     <h6 class="mt-0"><?= $item->user->username ?><span
-                            class="badge badge-info mf10"><?= \cza\base\models\statics\EntityModelStatus::getLabel($item->status) ?></span>
+                            class="badge badge-info mf10"><?= $item->user->mobile_number ?></span>
                     </h6>
                     <p><?= Yii::t('app.c2', 'Created at') . "：" . $item->user->created_at ?></p>
                 </div>

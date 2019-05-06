@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\UserKpiStateType;
 use Yii;
 
 /**
@@ -78,6 +79,21 @@ class UserProfitItemModel extends \cza\base\models\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
+    }
+
+    public function getChess()
+    {
+        return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
+    }
+
+    public function getUserKpi()
+    {
+        return $this->hasOne(UserKpiModel::className(), ['id' => 'kpi_id']);
+    }
+
+    public function isFinishCommit()
+    {
+        return ($this->state == UserKpiStateType::TYPE_FINISH_COMMIT);
     }
 
 }

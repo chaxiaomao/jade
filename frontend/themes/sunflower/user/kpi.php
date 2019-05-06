@@ -31,9 +31,6 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                     <p><?= Yii::t('app.c2', 'Register at') . "：" . $item->user->created_at ?></p>
                 </div>
             </div>
-
-
-
         <?php endforeach; ?>
     <?php else: ?>
         <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Data empty') ?></div>

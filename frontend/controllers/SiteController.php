@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\UserChessRsModel;
+use cza\base\models\statics\ResponseDatum;
 use frontend\components\Controller;
 use frontend\models\LoginForm;
 use Yii;
@@ -39,7 +40,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'tips', 'error', 'station'],
+                        'actions' => ['index', 'tips', 'error', 'station', 'chess-list', 'chess-change'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -123,6 +124,24 @@ class SiteController extends Controller
         return $this->render('station', [
             'model' => $model
         ]);
+    }
+
+    public function actionChessList()
+    {
+        $user = Yii::$app->user->currentUser;
+        $model = $user->userChessRs;
+        return $this->render('chess_list', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionChessChange()
+    {
+
+        $params = Yii::$app->request->post();
+        Yii::$app->session->set('current_chess_id', $params['chess_id']);
+        $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params['chess_id']);
+        return $this->asJson($responseData);
     }
 
 }

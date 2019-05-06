@@ -6,36 +6,99 @@
  * Time: 10:21
  */
 
+use yii\helpers\Url;
+
 $this->title = Yii::t('app.c2', 'Profile center');
+$currentChess = Yii::$app->user->currentUser->getCurrentChess();
 ?>
-<div class="card" style="width: 96%;margin: 10px auto 0;">
-    <div class="card-header">
-        <?= Yii::t('app.c2', 'Base Profile') ?>
+
+<div class="container">
+    <div class="list-group">
+        <a href="javascript:;" class="list-group-item disabled">
+            <?= Yii::t('app.c2', 'Base Profile') ?>
+        </a>
+        <a href="javascript:;" class="list-group-item ">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Username') ?></div>
+                <div class="col-xs-4"><?= Yii::$app->user->username ?></div>
+            </div>
+        </a>
+        <a href="javascript:;" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'User degree') ?></div>
+                <div class="col-xs-4"><?= \common\models\c2\statics\FeUserType::getLabel(Yii::$app->user->currentUser->type) ?></div>
+            </div>
+        </a>
+        <a href="javascript:;" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Register At') ?></div>
+                <div class="col-xs-4"><?= date('Y-m-d', strtotime(Yii::$app->user->currentUser->created_at)) ?></div>
+            </div>
+        </a>
+        <a href="/user/settings" class="list-group-item">
+            <?= Yii::t('app.c2', 'Settings') ?>
+        </a>
+        <a href="/user/kpi" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Developments') ?></div>
+            </div>
+        </a>
+        <a href="/user/profit" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'My profit') ?></div>
+            </div>
+        </a>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+
+    <?php
+    echo \frontend\widgets\RCodeGenerator::widget([]);
+    ?>
+
+    <div class="list-group mt40">
+        <a href="javascript:;" class="list-group-item disabled">
+            <?= Yii::t('app.c2', 'Current chess') ?>
+        </a>
+        <a href="/chess-list" class="list-group-item ">
             <div class="row">
-                <a class="col"><?= Yii::t('app.c2', 'Username') ?></a>
-                <a class="col tr"><?= Yii::$app->user->username ?></a>
+                <div class="col-xs-8"><?= $currentChess->chess->code ?></div>
+                <div class="col-xs-4"><?= Yii::t('app.c2', 'Change') ?></div>
             </div>
-        </li>
-        <li class="list-group-item">
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_LORD]) ?>" class="list-group-item">
             <div class="row">
-                <a class="col"><?= Yii::t('app.c2', 'User Degree') ?></a>
-                <a class="col tr"><?= \common\models\c2\statics\FeUserType::getLabel(Yii::$app->user->currentUser->type) ?></a>
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Lord') ?></div>
             </div>
-        </li>
-        <li class="list-group-item">
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_ELDER]) ?>" class="list-group-item">
             <div class="row">
-                <a class="col"><?= Yii::t('app.c2', 'Register At') ?></a>
-                <a class="col tr"><?= date('Y-m-d', strtotime(Yii::$app->user->currentUser->created_at)) ?></a>
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Elder') ?></div>
             </div>
-        </li>
-        <li class="list-group-item">
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN]) ?>" class="list-group-item">
             <div class="row">
-                <span class="col"></span>
-                <a href="/site/settings" class="col tr"><?= Yii::t('app.c2', 'Settings') ?></a>
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Chieftain') ?></div>
             </div>
-        </li>
-    </ul>
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_MASTER]) ?>" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Master') ?></div>
+            </div>
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR]) ?>" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Familiar') ?></div>
+            </div>
+        </a>
+        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_PEASANT]) ?>" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'Peasant') ?></div>
+            </div>
+        </a>
+    </div>
+
 </div>
+
+
+
+
+

@@ -25,6 +25,10 @@ class Module extends \yii\base\Module
             'user-development' => [
                 'class' => 'backend\modules\CRM\modules\Chess\modules\UserDevelopment\Module',
             ],
+            'user-profit' => [
+                'class' => 'backend\modules\CRM\modules\Chess\modules\UserProfit\Module',
+            ],
+
         ];
         // custom initialization code goes here
     }

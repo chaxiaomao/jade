@@ -9,6 +9,8 @@
 namespace backend\models\c2\form;
 
 
+use common\models\c2\entity\UserChessRsModel;
+use common\models\c2\entity\UserDevelopmentModel;
 use common\models\c2\entity\UserKpiModel;
 use common\models\c2\entity\UserProfitItemModel;
 use common\models\c2\statics\UserKpiStateType;
@@ -38,6 +40,7 @@ class KpiCommitForm extends UserKpiModel
 
     public function validateItems($attributeNames)
     {
+
     }
 
     public function afterSave($insert, $changedAttributes)

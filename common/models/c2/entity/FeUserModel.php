@@ -342,6 +342,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->hasMany(UserChessRsModel::className(), ['user_id' => 'id']);
     }
 
+    public function getProfitItem()
+    {
+        return $this->hasMany(UserProfitItemModel::className(), ['user_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -388,7 +393,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     public function getUserKpi()
     {
-        return $this->hasMany(UserKpiModel::className(), ['parent_id' => 'id']);
+        return $this->hasMany(UserKpiModel::className(), ['recommend_user_id' => 'id']);
     }
 
     public function getChess()

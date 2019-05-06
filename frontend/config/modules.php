@@ -35,7 +35,10 @@ return [
 
         ],
     ],
-
+    'gridview' => [
+        'class' => 'kartik\grid\Module',
+        'downloadAction' => '/attachments/export/download',
+    ],
     // 'user' => [
     //     'class' => 'dektrium\user\Module',
     //     'confirmWithin' => 21600,

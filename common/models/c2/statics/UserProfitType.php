@@ -26,8 +26,8 @@ class UserProfitType extends AbstractStaticClass {
     public static function getData($id = '', $attr = '') {
         if (is_null(static::$_data)) {
             static::$_data = [
-                static::TYPE_PROFIT => ['id' => static::TYPE_PROFIT, 'label' => Yii::t('app.c2', 'Profit')],
-                static::TYPE_AWARD => ['id' => static::TYPE_AWARD, 'label' => Yii::t('app.c2', 'Award')],
+                static::TYPE_PROFIT => ['id' => static::TYPE_PROFIT, 'label' => Yii::t('app.c2', 'Kpi profit')],
+                static::TYPE_AWARD => ['id' => static::TYPE_AWARD, 'label' => Yii::t('app.c2', 'Kpi award')],
             ];
         }
         if ($id !== '' && !empty($attr)) {

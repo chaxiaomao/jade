@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 
 use common\models\c2\entity\ChessModel;
+use common\models\c2\search\UserProfitItemSearch;
 use frontend\components\Controller;
 use frontend\models\ContactForm;
 use frontend\models\LoginForm;
@@ -42,7 +43,7 @@ class UserController extends Controller
                     ],
                     [
                         'actions' => [ 'recommend-code-captcha', 'login', 'signup',
-                            'chess', 'settings','developments', 'logout', 'kpi'],
+                            'chess', 'settings','developments', 'logout', 'kpi', 'profit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -102,6 +103,18 @@ class UserController extends Controller
         $model = $user->userKpi;
         return $this->render('kpi', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionProfit()
+    {
+        $user = Yii::$app->user->currentUser;
+        // $model = $user->profitItem;
+        $searchModel = new UserProfitItemSearch();
+        $searchModel->user_id = $user->id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('profit_list', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 

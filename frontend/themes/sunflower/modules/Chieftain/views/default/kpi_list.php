@@ -16,19 +16,19 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
         <div class="btn-group" role="group">
-            <a href="<?= \yii\helpers\Url::toRoute(['kpi-list', 'state' => \common\models\c2\statics\UserKpiStateType::TYPE_NOT_COMMIT]) ?>"
+            <a href="<?= \yii\helpers\Url::toRoute(['kpi-not-commit', 'state' => \common\models\c2\statics\UserKpiStateType::TYPE_NOT_COMMIT]) ?>"
                class="btn btn-default <?= $state == \common\models\c2\statics\UserKpiStateType::TYPE_NOT_COMMIT ? 'active' : '' ?>"><?= Yii::t('app.c2', 'Not commit') ?></a>
         </div>
         <div class="btn-group" role="group">
-            <a href="<?= \yii\helpers\Url::toRoute(['kpi-list', 'state' => \common\models\c2\statics\UserKpiStateType::TYPE_CHIEFTAIN_COMMIT]) ?>"
+            <a href="<?= \yii\helpers\Url::toRoute(['kpi-chieftain-commit']) ?>"
                class="btn btn-default <?= $state == \common\models\c2\statics\UserKpiStateType::TYPE_CHIEFTAIN_COMMIT ? 'active' : '' ?>"><?= Yii::t('app.c2', 'Chieftain commit') ?></a>
         </div>
         <div class="btn-group" role="group">
-            <a href="<?= \yii\helpers\Url::toRoute(['kpi-list', 'state' => \common\models\c2\statics\UserKpiStateType::TYPE_ADMIN_COMMIT]) ?>"
+            <a href="<?= \yii\helpers\Url::toRoute(['kpi-admin-commit']) ?>"
                class="btn btn-default <?= $state == \common\models\c2\statics\UserKpiStateType::TYPE_ADMIN_COMMIT ? 'active' : '' ?>"><?= Yii::t('app.c2', 'Admin commit') ?></a>
         </div>
         <div class="btn-group" role="group">
-            <a href="<?= \yii\helpers\Url::toRoute(['kpi-list', 'state' => \common\models\c2\statics\UserKpiStateType::TYPE_FINISH_COMMIT]) ?>"
+            <a href="<?= \yii\helpers\Url::toRoute(['kpi-finish-commit']) ?>"
                class="btn btn-default <?= $state == \common\models\c2\statics\UserKpiStateType::TYPE_FINISH_COMMIT ? 'active' : '' ?>"><?= Yii::t('app.c2', 'Finish commit') ?></a>
         </div>
     </div>

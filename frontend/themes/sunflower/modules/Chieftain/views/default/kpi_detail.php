@@ -7,14 +7,16 @@
  */
 
 use cza\base\widgets\ui\adminlte2\InfoBox;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 $this->title = Yii::t('app.c2', 'Kpi commit');
 $this->params['navbar'] = Yii::t('app.c2', 'Back');
+$url = $kpiModel->isAdminCommit() ? 'kpi-finish' : 'kpi-cancel';
 ?>
 
-<div class="container">
+<div class="container mb10">
 
     <?php if ($kpiModel->isAdminCommit()): ?>
         <?php
@@ -26,6 +28,8 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
         ]);
         ?>
     <?php endif; ?>
+
+    <?php $form = ActiveForm::begin(['id' => 'form-commit-kpi', 'action' => \yii\helpers\Url::toRoute([$url, 'id' => $kpiModel->id])]); ?>
 
     <div class="form-group has-success has-feedback">
         <label class="control-label"
@@ -121,7 +125,8 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
 
         <?php if ($profitItemModel->type == \common\models\c2\statics\UserProfitType::TYPE_AWARD): ?>
             <div class="form-group has-success has-feedback">
-                <label class="control-label" for="inputGroupSuccess2"><?= Yii::t('app.c2', 'Obtain award') ?></label>
+                <label class="control-label"
+                       for="inputGroupSuccess2"><?= Yii::t('app.c2', 'Obtain award') ?></label>
                 <div class="input-group">
                     <span class="input-group-addon"><?= $profitItemModel->user->username ?></span>
                     <input type="text" class="form-control" id="inputGroupSuccess1"
@@ -133,7 +138,8 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
             </div>
         <?php else: ?>
             <div class="form-group has-success has-feedback">
-                <label class="control-label" for="inputGroupSuccess2"><?= Yii::t('app.c2', 'Obtain profit') ?></label>
+                <label class="control-label"
+                       for="inputGroupSuccess2"><?= Yii::t('app.c2', 'Obtain profit') ?></label>
                 <div class="input-group">
                     <span class="input-group-addon"><?= $profitItemModel->user->username ?></span>
                     <input type="text" class="form-control" id="inputGroupSuccess1"
@@ -148,49 +154,18 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
     <?php endforeach; ?>
 
     <?php if ($kpiModel->isAdminCommit()): ?>
-        <?= Html::a(Yii::t('app.c2', 'Commit profit finish'), '#', ['class' => 'btn btn-success btn-block ensure-do']) ?>
+        <?= Html::submitButton(Yii::t('app.c2', 'Commit profit finish'), [
+            'class' => 'btn btn-success btn-block',
+            // 'data-toggle' => 'modal',
+            // 'data-target' => '#tipsModal',
+        ]) ?>
+    <?php elseif ($kpiModel->isChieftainCommit()): ?>
+        <?= Html::submitButton(Yii::t('app.c2', 'Cancel Chieftain commit'), [
+            'class' => 'btn btn-warning btn-block',
+            // 'data-toggle' => 'modal',
+            // 'data-target' => '#tipsModal',
+        ]) ?>
     <?php endif; ?>
+
+    <?php ActiveForm::end(); ?>
 </div>
-<?php
-Modal::begin([
-    'id' => 'inventory-delivery-note-modal',
-    'size' => 'modal-lg',
-]);
-Modal::end();
-$js = "";
-
-$js .= "jQuery(document).off('click', 'a.ensure-do').on('click', 'a.ensure-do', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Not matter kpi commit') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
-
-$js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup
-
-$this->registerJs($js);
-?>

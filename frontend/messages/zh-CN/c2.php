@@ -100,5 +100,7 @@ return [
     'Kpi commit successful.' => '审核成功，请等待后台管理员审核通知',
     'Kpi commit' => '会员审核',
     'Kpi commit multiple.' => '已提交会员申请，请等待管理员审核',
+    'Admin commit finish, pls commit profit.' => '管理员审核通过，请分配佣金，分配完成后操作确认。',
+    'Commit profit finish' => '完成考核',
     '' => '',
 ];

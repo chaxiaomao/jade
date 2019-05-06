@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-
+            'id' => $model->getPrefixName('grid'),
             'pjax' => true,
             'hover' => true,
             'showPageSummary' => true,

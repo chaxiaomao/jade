@@ -85,7 +85,7 @@ class DefaultController extends Controller
             $params = Yii::$app->request->post();
             $kpiModel->setAttributes($params['UserKpiModel']);
             $kpiModel->items = $params['items'];
-            if ($kpiModel->save()) {
+            if ($kpiModel->save() && $kpiModel->commitUp()) {
                 Yii::$app->session->setFlash($kpiModel->getMessageName(), [Yii::t('app.c2', 'Kpi commit successful.')]);
             } else {
                 Yii::$app->session->setFlash($kpiModel->getMessageName(), $kpiModel->errors);

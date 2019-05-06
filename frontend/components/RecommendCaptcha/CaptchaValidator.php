@@ -35,9 +35,11 @@ class CaptchaValidator extends Validator
     protected function validateValue($value)
     {
         $model = UserRecommendCodeModel::findOne(['code' => $value]);
-        if (strtotime($model->expired_at) > strtotime(date('Y-m-d H:i:s')) || $value == "") {
-            return $this->message = [];
+        if ($model) {
+            if (strtotime($model->expired_at) > strtotime(date('Y-m-d H:i:s')) || $value == "") {
+                return [];
+            }
         }
-        return null;
+        return [Yii::t('app.c2', 'The Recommend code is incorrect.'), []];
     }
 }

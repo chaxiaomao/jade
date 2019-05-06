@@ -74,7 +74,7 @@ return [
     'Kpi list' => '考核列表',
     'Commit' => '审核',
     'Not commit' => '待审核',
-    'Chieftain commit' => '组长审核',
+    'Chieftain commit' => '提交审核',
     'Admin commit' => '管理员审核',
     'Finish commit' => '审核完成',
     'Recommend user' => '推荐人',

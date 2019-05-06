@@ -2,8 +2,10 @@
 
 namespace backend\modules\CRM\modules\Kpi\controllers;
 
+use backend\models\c2\form\KpiCommitForm;
 use common\models\c2\statics\UserKpiStateType;
 use common\models\c2\statics\UserProfitType;
+use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\UserKpiModel;
 use common\models\c2\search\UserKpiSearch;
@@ -17,8 +19,9 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\UserKpiModel';
-    
+    // public $modelClass = 'common\models\c2\entity\UserKpiModel';
+    public $modelClass = 'backend\models\c2\form\KpiCommitForm';
+
     /**
      * Lists all UserKpiModel models.
      * @return mixed
@@ -26,7 +29,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserKpiSearch();
-        $searchModel->state = UserKpiStateType::TYPE_CHIEFTAIN_COMMIT;
+        // $searchModel->state = UserKpiStateType::TYPE_CHIEFTAIN_COMMIT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -64,7 +67,7 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
+        $model->loadItems();
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
     
@@ -77,10 +80,18 @@ class DefaultController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = UserKpiModel::findOne($id)) !== null) {
+        if (($model = KpiCommitForm::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionEnsureDo($id)
+    {
+        $model = UserKpiModel::findOne($id);
+        $model->updateAttributes(['state' => UserKpiStateType::TYPE_ADMIN_COMMIT]);
+        $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+        return $this->asJson($responseData);
     }
 }

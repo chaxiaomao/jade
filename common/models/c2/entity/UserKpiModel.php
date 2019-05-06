@@ -64,6 +64,7 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
             'type' => Yii::t('app.c2', 'Type'),
             'state' => Yii::t('app.c2', 'State'),
             'status' => Yii::t('app.c2', 'Status'),
+            'dues' => Yii::t('app.c2', 'Dues'),
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
@@ -96,6 +97,10 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(FeUserModel::className(), ['id' => 'recommend_user_id']);
     }
 
+    public function getChieftain() {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'chieftain_id']);
+    }
+
     public function getChess()
     {
         return $this->hasOne(ChessModel::className(), ['id' => 'chess_id']);
@@ -109,6 +114,16 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
     public function getProfitItem()
     {
         return $this->hasOne(UserProfitItemModel::className(), ['kpi_id' => 'id']);
+    }
+
+    public function isChieftainCommit()
+    {
+        return ($this->state == UserKpiStateType::TYPE_CHIEFTAIN_COMMIT);
+    }
+
+    public function isAdminCommit()
+    {
+        return ($this->state == UserKpiStateType::TYPE_ADMIN_COMMIT);
     }
 
     /**

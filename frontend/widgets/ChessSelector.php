@@ -24,7 +24,7 @@ class ChessSelector extends Widget
     {
         $user = \Yii::$app->user->currentUser;
         $model = $user->getChess()->all();
-        return $this->render('chess_selector', [
+        return $this->render('chess_', [
             // 'model' => ArrayHelper::remove($model, $current_chess_id),
             'model' => $model,
         ]);

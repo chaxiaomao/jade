@@ -46,47 +46,7 @@ $currentChess = Yii::$app->user->currentUser->getCurrentChess();
 
     <?php //echo \frontend\widgets\RCodeGenerator::widget([]); ?>
 
-    <div class="list-group mt40">
-        <a href="javascript:;" class="list-group-item disabled">
-            <?= Yii::t('app.c2', 'Current chess') ?>
-        </a>
-        <a href="javascript:;" class="list-group-item ">
-            <div class="row">
-                <div class="col-xs-8"><?= $currentChess->chess->code ?></div>
-                <div class="col-xs-4"><?= Yii::t('app.c2', 'Change') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_LORD]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Lord') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_ELDER]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Elder') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Chieftain') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_MASTER]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Master') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Familiar') ?></div>
-            </div>
-        </a>
-        <a href="<?= Url::toRoute(['/station', 't' => \common\models\c2\statics\FeUserType::TYPE_PEASANT]) ?>" class="list-group-item">
-            <div class="row">
-                <div class="col-xs-8"><?= Yii::t('app.c2', 'Peasant') ?></div>
-            </div>
-        </a>
-    </div>
+    <?php echo \frontend\widgets\ChessStation::widget([])?>
 
 </div>
 

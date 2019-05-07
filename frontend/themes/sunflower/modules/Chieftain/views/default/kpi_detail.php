@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app.c2', 'Kpi commit');
 $this->params['navbar'] = Yii::t('app.c2', 'Back');
-$url = $kpiModel->isAdminCommit() ? 'kpi-finish' : 'kpi-cancel';
+$actionUrl = $kpiModel->isAdminCommit() ? 'kpi-finish' : 'kpi-cancel';
 ?>
 
 <div class="container mb10">
@@ -23,13 +23,13 @@ $url = $kpiModel->isAdminCommit() ? 'kpi-finish' : 'kpi-cancel';
 
         echo InfoBox::widget([
             'withWrapper' => false,
-            'defaultMessageType' => InfoBox::TYPE_INFO,
+            'defaultMessageType' => InfoBox::TYPE_DANGER,
             'messages' => [Yii::t('app.c2', 'Admin commit finish, pls commit profit.')],
         ]);
         ?>
     <?php endif; ?>
 
-    <?php $form = ActiveForm::begin(['id' => 'form-commit-kpi', 'action' => \yii\helpers\Url::toRoute([$url, 'id' => $kpiModel->id])]); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-commit-kpi', 'action' => \yii\helpers\Url::toRoute([$actionUrl, 'id' => $kpiModel->id])]); ?>
 
     <div class="form-group has-success has-feedback">
         <label class="control-label"

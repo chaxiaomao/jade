@@ -5,7 +5,7 @@
  * Date: 2019/5/4
  * Time: 22:44
  */
-$this->title = Yii::t('app.c2', 'Lord');
+$this->title = Yii::t('app.c2', 'Chess station');
 $this->params['navbar'] = Yii::t('app.c2', 'Back');
 ?>
 
@@ -25,7 +25,9 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                 </div>
                 <div class="media-body">
                     <h6 class="mt-0"><?= $item->user->username ?><span
-                            class="badge badge-info mf10"><?= $item->user->mobile_number ?></span>
+                            class="label label-info mf10"><?= $item->user->mobile_number ?></span>
+                        <span
+                                class="label label-success mf10"><?= \common\models\c2\statics\FeUserType::getLabel($item->type) ?></span>
                     </h6>
                     <p><?= Yii::t('app.c2', 'Created at') . "：" . $item->user->created_at ?></p>
                 </div>

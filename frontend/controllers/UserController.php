@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         $user = Yii::$app->user->currentUser;
         $model = $user->userKpi;
-        return $this->render('kpi', [
+        return $this->render('kpi_list', [
             'model' => $model,
         ]);
     }
@@ -170,7 +170,10 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signupPer()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                    $this->layout = 'main';
+                    return $this->render('error', [
+                        'message' => Yii::t('app.c2', 'Waiting for chieftain commit'),
+                    ]);
                 }
             }
         }

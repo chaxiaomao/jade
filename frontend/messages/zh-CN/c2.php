@@ -115,5 +115,9 @@ return [
     'Kpi type' => '佣金类型',
     'Kpi state' => '审核流程',
     'All' => '全部',
+    'Chess station' => '岗位用户列表',
+    'Waiting for chieftain commit' => '注册成功，请您耐心等待审核',
+    'Mobile is not allow.' => '手机号码不正确',
+    'Other account{s1}' => '切换账号({s1})',
     '' => '',
 ];

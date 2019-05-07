@@ -19,10 +19,10 @@ $this->title = Yii::t('app.c2', 'User Register');
 </div>
 <div class="container">
 
-    <div id="mobile_tip" style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
+    <div id="tip_body" style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
-        <?= Yii::t('app.c2', 'Mobile is not allow') ?>
+        <p id="tip_content"></p>
     </div>
 
     <?php

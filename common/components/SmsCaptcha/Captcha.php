@@ -60,7 +60,8 @@ use yii\widgets\InputWidget;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class Captcha extends InputWidget {
+class Captcha extends InputWidget
+{
 
     /**
      * @var string|array the route of the action that generates the CAPTCHA images.
@@ -100,7 +101,8 @@ class Captcha extends InputWidget {
     /**
      * Initializes the widget.
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
         static::checkRequirements();
 
@@ -112,7 +114,8 @@ class Captcha extends InputWidget {
     /**
      * Renders the widget.
      */
-    public function run() {
+    public function run()
+    {
         $this->registerClientScript();
         $this->options['placeholder'] = Yii::t('app.c2', 'Sms code');
         $this->options[] = ['type' => 'number'];
@@ -138,7 +141,8 @@ class Captcha extends InputWidget {
     /**
      * Registers the needed JavaScript.
      */
-    public function registerClientScript() {
+    public function registerClientScript()
+    {
         $id = $this->buttonOptions['id'];
         $view = $this->getView();
 
@@ -170,7 +174,8 @@ class Captcha extends InputWidget {
                   // var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
                   if($('#{$this->mobileId}').val() == ''){
                       // bootbox.alert('" . Yii::t('app.c2', "Mobile number is required!") . "');
-                      $('#mobile_tip').show();
+                      $('#tip_content').html('" . Yii::t('app.c2', 'Mobile is not allow.') . "');
+                      $('#tip_body').show();
                       return false;
                   }
                   // if(!myreg.test($('#{$this->mobileId}').val())){
@@ -188,6 +193,8 @@ class Captcha extends InputWidget {
                             type: 'post',
                             data: data,
                             success: function(data) {
+                            $('#tip_content').html(data._data.data);
+                            $('#tip_body').show();
                              // bootbox.alert(data._meta.message);
                             },
                             error :function(data){alert(data._meta.message);}
@@ -201,7 +208,8 @@ class Captcha extends InputWidget {
     /**
      *  cookie function
      */
-    public function getCookieFuncJs() {
+    public function getCookieFuncJs()
+    {
         $js = "";
         $js .= "function addCookie(name,value,expiresHours){
             var cookieString=name+'='+escape(value);
@@ -267,7 +275,8 @@ class Captcha extends InputWidget {
      * @return string the name of the graphic extension, either "imagick" or "gd".
      * @throws InvalidConfigException if neither ImageMagick nor GD is installed.
      */
-    public static function checkRequirements() {
+    public static function checkRequirements()
+    {
         if (!isset(Yii::$app->sms)) {
             throw new InvalidConfigException('Require Sms Component Support!');
         }

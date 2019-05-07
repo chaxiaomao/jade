@@ -18,7 +18,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Your verify code is:{s1}' => '【可比优居】您的验证码是：{s1}',
+    'Your verify code is:{s1}' => '【原玉】您的验证码是：{s1}',
+    'Your test verify code is:{s1}' => '【原玉】您的测试验证码是：{s1}',
     'Have new distributors:{s1}, cell phone number:{s2} apply to join, please login background review' => '有新的代理商{s1}、手机号{s2}申请加入，请登入后台审核。【北欧私享馆】',
     'Have new franchisee:{s1}, cell phone number:{s2} apply to join, please login background review' => '有新的加盟商{s1}、手机号{s2}申请加入，请登入后台审核。【北欧私享馆】',
 

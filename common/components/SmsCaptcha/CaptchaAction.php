@@ -39,7 +39,8 @@ use cza\base\models\statics\ResponseDatum;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class CaptchaAction extends Action {
+class CaptchaAction extends Action
+{
 
     /**
      * The name of the GET parameter indicating whether the CAPTCHA image should be regenerated.
@@ -82,14 +83,16 @@ class CaptchaAction extends Action {
      * Initializes the action.
      * @throws InvalidConfigException if the font file does not exist.
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
     }
 
     /**
      * Runs the action.
      */
-    public function run() {
+    public function run()
+    {
         $mobile = Yii::$app->request->post('mobile');
         if (is_null($mobile)) {
             throw new \yii\web\HttpException("Missing parameter!");
@@ -98,24 +101,28 @@ class CaptchaAction extends Action {
         // AJAX request for regenerating code
         $code = $this->getVerifyCode(true);
 
-        $smsContent = Yii::t("app.sms", "Your verify code is:{s1}", ['s1' => $code]);
+        $smsContent = Yii::t("app.sms", "Your test verify code is:{s1}", ['s1' => $code]);
         Yii::info('smsContent:' . $smsContent);
 
         if ($this->sendSms) {
             if (Yii::$app->sms->send($mobile, $smsContent)) {
                 $result = ResponseDatum::getSuccessDatum([
-                            'message' => Yii::t('app.c2', 'Sms Verify Code Sent!')
+                    'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
                 ]);
             } else {
                 $result = ResponseDatum::getErrorDatum([
-                            'message' => Yii::t('app.c2', 'Cannot send sms verify code!')
+                    'message' => Yii::t('app.c2', 'Cannot send sms verify code!'),
                 ]);
             }
         } else {
             $result = ResponseDatum::getSuccessDatum([
-                        'message' => Yii::t('app.c2', 'Sms Verify Code Sent!')
+                'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
             ]);
         }
+
+        $result = ResponseDatum::getSuccessDatum([
+            'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
+        ], ['data' => $smsContent]);
 
 
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -128,7 +135,8 @@ class CaptchaAction extends Action {
      * @param string $code the CAPTCHA code
      * @return string a hash code generated from the CAPTCHA code
      */
-    public function generateValidationHash($code) {
+    public function generateValidationHash($code)
+    {
         for ($h = 0, $i = strlen($code) - 1; $i >= 0; --$i) {
             $h += ord($code[$i]);
         }
@@ -141,7 +149,8 @@ class CaptchaAction extends Action {
      * @param bool $regenerate whether the verification code should be regenerated.
      * @return string the verification code.
      */
-    public function getVerifyCode($regenerate = false) {
+    public function getVerifyCode($regenerate = false)
+    {
         if ($this->fixedVerifyCode !== null) {
             return $this->fixedVerifyCode;
         }
@@ -163,9 +172,10 @@ class CaptchaAction extends Action {
      * @param bool $caseSensitive whether the comparison should be case-sensitive
      * @return bool whether the input is valid
      */
-    public function validate($input, $caseSensitive) {
+    public function validate($input, $caseSensitive)
+    {
         $code = $this->getVerifyCode();
-        
+
         $valid = $caseSensitive ? ($input === $code) : strcasecmp($input, $code) === 0;
         $session = Yii::$app->getSession();
         $session->open();
@@ -182,7 +192,8 @@ class CaptchaAction extends Action {
      * Generates a new verification code.
      * @return string the generated verification code
      */
-    protected function generateVerifyCode() {
+    protected function generateVerifyCode()
+    {
         if ($this->minLength > $this->maxLength) {
             $this->maxLength = $this->minLength;
         }
@@ -194,8 +205,8 @@ class CaptchaAction extends Action {
         }
         $length = mt_rand($this->minLength, $this->maxLength);
 
-//        $letters = 'bcdfghjklmnpqrstvwxyz';
-//        $vowels = 'aeiou';
+        //        $letters = 'bcdfghjklmnpqrstvwxyz';
+        //        $vowels = 'aeiou';
         $letters = '012345678998765432101';
         $vowels = '83856';
         $code = '';
@@ -207,8 +218,8 @@ class CaptchaAction extends Action {
             }
         }
 
-        if (strlen($code) === 3){
-            $code .= mt_rand(1,9);
+        if (strlen($code) === 3) {
+            $code .= mt_rand(1, 9);
         }
 
         return $code;
@@ -218,7 +229,8 @@ class CaptchaAction extends Action {
      * Returns the session variable name used to store verification code.
      * @return string the session variable name
      */
-    protected function getSessionKey() {
+    protected function getSessionKey()
+    {
         return '__captcha/' . $this->getUniqueId();
     }
 

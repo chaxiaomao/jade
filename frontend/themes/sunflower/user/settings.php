@@ -18,7 +18,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
 
         echo Html::beginForm('/user/logout', 'post', ['class' => 'form-inline']);
         echo Html::submitButton(
-            'Logout (' . Yii::$app->user->identity->username . ')',
+            Yii::t('app.c2', 'Other account{s1}', ['s1' => Yii::$app->user->identity->mobile_number]),
             // ['class' => 'btn btn-outline-success my-2 my-sm-0']
             ['class' => 'btn btn-danger btn-lg btn-block']
         );

@@ -15,7 +15,7 @@ $user = Yii::$app->user->identity;
 
     <?php echo \frontend\widgets\ProfilePanel::widget(['user' => $user, 'isChieftain' => true])?>
 
-    <?php echo \frontend\widgets\RecommendCodeGenerator::widget([]); ?>
+    <?php //echo \frontend\widgets\RecommendCodeGenerator::widget([]); ?>
 
     <?php echo \frontend\widgets\ChessStation::widget(['user' => $user])?>
 

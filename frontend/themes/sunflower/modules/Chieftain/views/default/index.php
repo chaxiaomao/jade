@@ -25,7 +25,7 @@ $currentChess = Yii::$app->user->currentUser->getCurrentChess();
         <a href="javascript:;" class="list-group-item">
             <div class="row">
                 <div class="col-xs-8"><?= Yii::t('app.c2', 'User degree') ?></div>
-                <div class="col-xs-4"><?= \common\models\c2\statics\FeUserType::getLabel(Yii::$app->user->currentUser->type) ?></div>
+                <div class="col-xs-4"><?= \common\models\c2\statics\FeUserType::getLabel($currentChess->type) ?></div>
             </div>
         </a>
         <a href="javascript:;" class="list-group-item">

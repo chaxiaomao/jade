@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Administrator
  * Date: 2019/5/7
- * Time: 10:37
+ * Time: 12:22
  */
 
 namespace frontend\widgets;
@@ -12,13 +12,14 @@ namespace frontend\widgets;
 use common\models\c2\entity\FeUserModel;
 use yii\base\Widget;
 
-class ChessStation extends Widget
+class ProfilePanel extends Widget
 {
-
     /**
      * @var FeUserModel
      */
     public $user;
+
+    public $isChieftain = false;
 
     public function init()
     {
@@ -27,10 +28,11 @@ class ChessStation extends Widget
 
     public function run()
     {
-        $currentChess = $this->user->getCurrentChess()->getChess()->one();
-        return $this->render('chess_station', [
-            'currentChess' => $currentChess
+        $stations = $this->user->getUserChessRs()->all();
+        return $this->render('profile_panel', [
+            'user' => $this->user,
+            'stations' => $stations,
+            'isChieftain' => $this->isChieftain,
         ]);
     }
-
 }

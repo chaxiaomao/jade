@@ -119,5 +119,9 @@ return [
     'Waiting for chieftain commit' => '注册成功，请您耐心等待审核',
     'Mobile is not allow.' => '手机号码不正确',
     'Other account{s1}' => '切换账号({s1})',
+    'You have these station to login in' => '你所在当前的资金盘有如下等级，请选择一个登陆',
+    'Chess code' => '资金盘识别码',
+    'User login' => '用户登录',
+    'User register' => '用户注册',
     '' => '',
 ];

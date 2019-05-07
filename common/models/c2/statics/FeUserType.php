@@ -7,6 +7,7 @@
  */
 
 namespace common\models\c2\statics;
+
 use Yii;
 
 /**
@@ -38,16 +39,52 @@ class FeUserType extends AbstractStaticClass
      * @param type $attr
      * @return string|array
      */
-    public static function getData($id = '', $attr = '') {
+    public static function getData($id = '', $attr = '')
+    {
         if (is_null(static::$_data)) {
             static::$_data = [
-                static::TYPE_DEFAULT => ['id' => static::TYPE_DEFAULT, 'modelClass' => '\common\models\c2\entity\FeUserProfile', 'label' => Yii::t('app.c2', 'Default')],
-                static::TYPE_LORD => ['id' => static::TYPE_LORD, 'modelClass' => '\common\models\c2\entity\LordProfileModel', 'label' => Yii::t('app.c2', 'Lord')],
-                static::TYPE_ELDER => ['id' => static::TYPE_ELDER, 'modelClass' => '\common\models\c2\entity\SalesmanProfile', 'label' => Yii::t('app.c2', 'Elder')],
-                static::TYPE_CHIEFTAIN => ['id' => static::TYPE_CHIEFTAIN, 'modelClass' => '\common\models\c2\entity\CustomerProfile', 'label' => Yii::t('app.c2', 'Chieftain')],
-                static::TYPE_MASTER => ['id' => static::TYPE_MASTER, 'modelClass' => '\common\models\c2\entity\FranchiseeProfile', 'label' => Yii::t('app.c2', 'Master')],
-                static::TYPE_FAMILIAR => ['id' => static::TYPE_FAMILIAR, 'modelClass' => '\common\models\c2\entity\DistributorProfile', 'label' => Yii::t('app.c2', 'Familiar')],
-                static::TYPE_PEASANT => ['id' => static::TYPE_PEASANT, 'modelClass' => '\common\models\c2\entity\BizManagerProfile', 'label' => Yii::t('app.c2', 'Peasant')],
+                static::TYPE_DEFAULT => [
+                    'id' => static::TYPE_DEFAULT,
+                    'modelClass' => '\common\models\c2\entity\FeUserProfile',
+                    'url' => '/peasant',
+                    'label' => Yii::t('app.c2', 'Default')
+                ],
+                static::TYPE_LORD => [
+                    'id' => static::TYPE_LORD,
+                    'modelClass' => '\common\models\c2\entity\LordProfileModel',
+                    'url' => '/lord',
+                    'label' => Yii::t('app.c2', 'Lord')
+                ],
+                static::TYPE_ELDER => [
+                    'id' => static::TYPE_ELDER,
+                    'modelClass' => '\common\models\c2\entity\SalesmanProfile',
+                    'url' => '/elder',
+                    'label' => Yii::t('app.c2', 'Elder')
+                ],
+                static::TYPE_CHIEFTAIN => [
+                    'id' => static::TYPE_CHIEFTAIN,
+                    'modelClass' => '\common\models\c2\entity\CustomerProfile',
+                    'url' => '/chieftain',
+                    'label' => Yii::t('app.c2', 'Chieftain')
+                ],
+                static::TYPE_MASTER => [
+                    'id' => static::TYPE_MASTER,
+                    'modelClass' => '\common\models\c2\entity\FranchiseeProfile',
+                    'url' => '/master',
+                    'label' => Yii::t('app.c2', 'Master')
+                ],
+                static::TYPE_FAMILIAR => [
+                    'id' => static::TYPE_FAMILIAR,
+                    'modelClass' => '\common\models\c2\entity\DistributorProfile',
+                    'url' => '/familiar',
+                    'label' => Yii::t('app.c2', 'Familiar')
+                ],
+                static::TYPE_PEASANT => [
+                    'id' => static::TYPE_PEASANT,
+                    'modelClass' => '\common\models\c2\entity\BizManagerProfile',
+                    'url' => '/peasant',
+                    'label' => Yii::t('app.c2', 'Peasant')
+                ],
             ];
         }
         if ($id !== '' && !empty($attr)) {
@@ -59,7 +96,8 @@ class FeUserType extends AbstractStaticClass
         return static::$_data;
     }
 
-    public static function getModelClass($id) {
+    public static function getModelClass($id)
+    {
         return static::getData($id, 'modelClass');
     }
 

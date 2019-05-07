@@ -87,7 +87,13 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
 
-            return $this->redirect(Yii::$app->user->getReturnUrl());
+            // $user = Yii::$app->user->currentUser;
+            // $stations = $user->getUserChessRs()->all();
+            // return $this->render('user_station_list', [
+            //     'stations' => $stations
+            // ]);
+            $this->goBack();
+            // return $this->redirect(Yii::$app->user->getReturnUrl());
         }
         // return $this->render('index');
     }

@@ -43,7 +43,7 @@ class UserController extends Controller
                     ],
                     [
                         'actions' => [ 'recommend-code-captcha', 'login', 'signup',
-                            'chess', 'settings','developments', 'logout', 'kpi', 'profit'],
+                            'chess', 'settings','developments', 'logout', 'kpi', 'profit', 'station-list'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -132,7 +132,8 @@ class UserController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            // return $this->goBack();
+            return $this->redirect('/user/station-list');
         } else {
             $model->password = '';
 
@@ -140,6 +141,15 @@ class UserController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionStationList()
+    {
+        $user = Yii::$app->user->currentUser;
+        $stations = $user->getUserChessRs()->all();
+        return $this->render('user_station_list', [
+            'stations' => $stations
+        ]);
     }
 
     /**

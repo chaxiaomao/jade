@@ -7,7 +7,6 @@
  */
 
 use yii\helpers\Url;
-$currentChess = Yii::$app->user->currentUser->getCurrentChess();
 ?>
 
 <div class="list-group mt40">
@@ -16,7 +15,7 @@ $currentChess = Yii::$app->user->currentUser->getCurrentChess();
     </a>
     <a href="/chess-list" class="list-group-item ">
         <div class="row">
-            <div class="col-xs-8"><?= $currentChess->chess->code ?></div>
+            <div class="col-xs-8"><?= $currentChess->code ?></div>
             <div class="col-xs-4"><?= Yii::t('app.c2', 'Change') ?></div>
         </div>
     </a>

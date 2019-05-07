@@ -361,7 +361,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     }
 
     /**
-     * @return array|UserChessRsModel|null
+     * @return UserChessRsModel|null
      * @throws NotFoundHttpException
      */
     public function getCurrentChess()

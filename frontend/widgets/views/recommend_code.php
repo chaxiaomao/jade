@@ -22,7 +22,7 @@
     </div>
     <div class="card-body">
         <p class="card-text red"><?= Yii::t('app.c2', 'Recommend code has been expired after 15min') ?></p>
-        <button id="m_gen" class="btn btn-info w100"><?= Yii::t('app.c2', 'Generate') ?></button>
+        <button id="m_gen" class="btn btn-success btn-block"><?= Yii::t('app.c2', 'Generate') ?></button>
     </div>
 </div>
 

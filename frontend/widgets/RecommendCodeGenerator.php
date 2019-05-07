@@ -9,7 +9,7 @@
 namespace frontend\widgets;
 
 
-class RCodeGenerator extends \kartik\base\Widget
+class RecommendCodeGenerator extends \kartik\base\Widget
 {
     public $captchaAction = '/user/recommend-code-captcha';
 
@@ -17,7 +17,7 @@ class RCodeGenerator extends \kartik\base\Widget
      * @var array HTML attributes to be applied to the CAPTCHA image tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $buttonOptions = ['class' => 'btn btn-info w100'];
+    public $buttonOptions = ['class' => 'btn btn-success btn-block'];
 
     /**
      * @var array the HTML attributes for the input tag.
@@ -40,7 +40,7 @@ class RCodeGenerator extends \kartik\base\Widget
     public function run()
     {
         // $this->registerClientScript();
-        return $this->render('RCode', [
+        return $this->render('recommend_code', [
             'captchaAction' => $this->captchaAction
         ]);
     }

@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
         // 'js/bootstrap.bundle.js',
         // 'js/bootstrap.js',
         'js/main.js',
+        'js/jqm-tree.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

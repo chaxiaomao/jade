@@ -146,9 +146,11 @@ class UserController extends Controller
     public function actionStationList()
     {
         $user = Yii::$app->user->currentUser;
+        $currentChess = $user->getCurrentChess();
         $stations = $user->getUserChessRs()->all();
         return $this->render('user_station_list', [
-            'stations' => $stations
+            'stations' => $stations,
+            'currentChess' => $currentChess,
         ]);
     }
 

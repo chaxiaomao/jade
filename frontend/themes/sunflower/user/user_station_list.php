@@ -14,7 +14,7 @@ use yii\helpers\Url;
 <div class="container-fluid">
     <div class="alert alert-success" role="alert">
         <p><?= Yii::t('app.c2', 'You have these station to login in') ?></p>
-        <p><?= Yii::t('app.c2', 'Chess code') . ":" . $stations[0]->chess->code ?></p>
+        <p><?= Yii::t('app.c2', 'Chess code') . ":" . $currentChess->chess->code ?></p>
     </div>
     <?php foreach ($stations as $station): ?>
 

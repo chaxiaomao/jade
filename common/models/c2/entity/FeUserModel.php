@@ -424,64 +424,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return null;
     }
 
-    /**
-     * @param $chess_id
-     * @return bool
-     * @throws HttpException
-     */
-    public function commitChessUser($chess_id)
+    public function getUserDevelopmentTreeData()
     {
-        // Create the common arrange & jump arrange regulation position for peasant.
-        $familiarModels = UserChessRsModel::find()->where(['chess_id' => $chess_id, 'type' => FeUserType::TYPE_FAMILIAR])
-            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->orderBy(['position' => SORT_ASC])
-            ->asArray()
-            ->all();
-        $peasantModels = UserChessRsModel::find()->where(['chess_id' => $chess_id, 'type' => FeUserType::TYPE_PEASANT])
-            ->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->all();
-        $currentUserPosition = count($peasantModels) + 1;
-        $iBaseNum = 1;
-        $familiarIndex = -1;
-        for ($i = 0; $i < 3; $i++) {
-            $kBaseNum = $iBaseNum;
-            for ($j = 0; $j < 3; $j++) {
-                $familiarIndex++;
-                for ($k = 0; $k < 3; $k++) {
-                    if ($currentUserPosition == $kBaseNum + $j * 9) {
-                        $developmentModel = new UserDevelopmentModel();
-                        $attrs = [
-                            'user_chess_rs_id' => $familiarModels[$familiarIndex]['id'],
-                            'chess_id' => $chess_id,
-                            'user_id' => $this->id,
-                            'type' => FeUserType::TYPE_PEASANT,
-                            'status' => EntityModelStatus::STATUS_ACTIVE
-                        ];
-                        $developmentModel->setAttributes($attrs);
-                        if ($developmentModel->save()) {
-                            break;
-                        } else {
-                            throw new HttpException('500', $developmentModel->getErrors());
-                        }
-                    }
-                }
-                $kBaseNum += 3;
-            }
-            $iBaseNum++;
-        }
-        // Put user's corresponding station in the chess.
-        $ucRsModel = new UserChessRsModel();
-        $ucRsModel->setAttributes([
-            'user_id' => $this->id,
-            'chess_id' => $chess_id,
-            'type' => FeUserType::TYPE_PEASANT,
-            'position' => $currentUserPosition,
-            'status' => EntityModelStatus::STATUS_INACTIVE,
-        ]);
-        if ($ucRsModel->save()) {
-            return true;
-        } else {
-            throw new HttpException('500', $ucRsModel->getErrors());
+        $models = $this->getUserKpi()->all();
+        foreach ($models as $model) {
+            $user = $model->user;
         }
     }
 

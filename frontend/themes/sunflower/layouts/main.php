@@ -10,6 +10,7 @@ use yii\helpers\Html;
 use frontend\themes\sunflower\AppAsset;
 
 AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

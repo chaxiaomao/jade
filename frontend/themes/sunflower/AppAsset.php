@@ -11,6 +11,7 @@ class AppAsset extends AssetBundle
 {
     // public $basePath = '@webroot';
     // public $baseUrl = '@web';
+    public $sourcePath = '@frontend/modules/sunflower/assets';
 
     public $css = [
         // 'mdui/css/mdui.css',
@@ -18,13 +19,16 @@ class AppAsset extends AssetBundle
         // 'css/bootstrap-grid.css',
         // 'css/bootstrap-reboot.css',
         'css/main.css',
+        // 'css/jquery.mobile-1.4.5.min.css',
     ];
     public $js = [
         // 'mdui/js/mdui.js',
         // 'js/bootstrap.bundle.js',
         // 'js/bootstrap.js',
         'js/main.js',
-        'js/jqm-tree.js',
+        // 'js/jquery-1.11.3.min.js',
+        // 'js/jquery.mobile-1.4.5.min.js',
+        // 'js/jqm-tree.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
@@ -42,8 +46,8 @@ class AppAsset extends AssetBundle
         parent::init();
     }
 
-    public $jsOptions=[
-        'position'=>\yii\web\View::POS_HEAD,
+    public $jsOptions = [
+        'position' => \yii\web\View::POS_HEAD,
     ];
 
 }

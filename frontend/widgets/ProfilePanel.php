@@ -20,6 +20,7 @@ class ProfilePanel extends Widget
     public $user;
 
     public $isChieftain = false;
+    public $isShowDevelopment = false;
 
     public function init()
     {
@@ -33,6 +34,7 @@ class ProfilePanel extends Widget
             'user' => $this->user,
             'stations' => $stations,
             'isChieftain' => $this->isChieftain,
+            'isShowDevelopment' => $this->isShowDevelopment,
         ]);
     }
 }

@@ -13,7 +13,7 @@ $user = Yii::$app->user->identity;
 ?>
 <div class="container">
 
-    <?php echo \frontend\widgets\ProfilePanel::widget(['user' => $user])?>
+    <?php echo \frontend\widgets\ProfilePanel::widget(['user' => $user, 'isShowDevelopment' => true])?>
 
     <?php echo \frontend\widgets\RecommendCodeGenerator::widget([]); ?>
 

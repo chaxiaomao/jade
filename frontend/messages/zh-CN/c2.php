@@ -123,5 +123,6 @@ return [
     'Chess code' => '资金盘识别码',
     'User login' => '用户登录',
     'User register' => '用户注册',
+    'My development user' => '我的发展成员',
     '' => '',
 ];

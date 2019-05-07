@@ -43,7 +43,7 @@ class UserController extends Controller
                     ],
                     [
                         'actions' => [ 'recommend-code-captcha', 'login', 'signup',
-                            'chess', 'settings','developments', 'logout', 'kpi', 'profit', 'station-list'],
+                            'chess', 'settings','development', 'logout', 'profit', 'station-list'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -88,23 +88,23 @@ class UserController extends Controller
         return $this->render('settings');
     }
 
-    public function actionDevelopments()
+    public function actionDevelopment()
     {
         $user = Yii::$app->user->currentUser;
-        $model = $user->userKip;
-        return $this->render('members', [
+        $model = $user->userKpi;
+        return $this->render('development', [
             'model' => $model,
         ]);
     }
 
-    public function actionKpi()
-    {
-        $user = Yii::$app->user->currentUser;
-        $model = $user->userKpi;
-        return $this->render('kpi_list', [
-            'model' => $model,
-        ]);
-    }
+    // public function actionKpi()
+    // {
+    //     $user = Yii::$app->user->currentUser;
+    //     $model = $user->userKpi;
+    //     return $this->render('kpi_list', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     public function actionProfit()
     {

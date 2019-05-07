@@ -50,11 +50,13 @@
             </div>
         </a>
     <?php endif; ?>
-    <a href="/user/kpi" class="list-group-item">
-        <div class="row">
-            <div class="col-xs-8"><?= Yii::t('app.c2', 'Kpi list') ?></div>
-        </div>
-    </a>
+    <?php if ($isShowDevelopment): ?>
+        <a href="/user/development" class="list-group-item">
+            <div class="row">
+                <div class="col-xs-8"><?= Yii::t('app.c2', 'My development user') ?></div>
+            </div>
+        </a>
+    <?php endif; ?>
     <a href="/user/profit" class="list-group-item">
         <div class="row">
             <div class="col-xs-8"><?= Yii::t('app.c2', 'My profit') ?></div>

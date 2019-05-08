@@ -242,7 +242,17 @@ class UserChessRsModel extends \cza\base\models\ActiveRecord
             ->joinWith(['user'])
             // ->select(['{{%user_chess_rs}}.id', '{{%fe_user}}.username'])
             ->asArray()->all();
-        return ArrayHelper::map($items,'id', 'user.username');
+        return ArrayHelper::map($items, 'id', 'user.username');
+    }
+
+    public function isCanKpi()
+    {
+        if ($this->type == FeUserType::TYPE_PEASANT ||
+            $this->type == FeUserType::TYPE_FAMILIAR ||
+            $this->type == FeUserType::TYPE_MASTER) {
+            return true;
+        }
+        return false;
     }
 
 }

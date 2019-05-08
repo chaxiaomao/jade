@@ -52,6 +52,10 @@ return [
     'Are you sure?' => '确定要执行吗',
     'Not matter kpi commit' => '确认分配数据无误，确认要执行审核通过吗',
     'Operation completed successfully!' => '操作成功!',
+    'Update' => '更新',
+    'Developments' => '下级成员',
+    'Kpi line' => '考核线',
+    'User kpi line draw' => '用户考核图',
     '' => '',
 ];
 

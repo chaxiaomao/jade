@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle {
     ];
     public $js = [
         'js/app.js',
+        'js/d3.v3.min.js',
         //        'js/jquery-3.2.1.min.js',
         'js/jquery.multipleInput.min.js',
         'js/jquery-sortable.min.js',

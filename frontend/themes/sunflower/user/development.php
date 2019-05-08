@@ -26,41 +26,22 @@ $this->registerJsFile("{$assets->baseUrl}/layui/layui.js");
     }
 </style>
 <div class="container-fluid">
-    <?php if (count($model) > 0): ?>
-        <?php foreach ($model as $item): ?>
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img src="/images/avatar.png" class="mr-3 avatar60" alt="">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h6 class="mt-0"><?= $item->user->username ?><span
-                                class="label label-info mf10"><?= $item->user->mobile_number ?></span>
-                    </h6>
-                    <p><?= Yii::t('app.c2', 'Register at') . "：" . $item->user->created_at ?></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Data empty') ?></div>
-    <?php endif; ?>
 
 <!--    <div id="tree"></div>-->
+    <div class="alert alert-success">
+        <?= Yii::t('app.c2', 'Place the mobile horizontally for a good experience.') ?>
+    </div>
 
     <table id="table1" class="layui-table" lay-filter="table1"></table>
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="oper-col">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">查看</a>
 </script>
-
-<script>
-
-</script>
+<!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
 
 <?php
+$developmentRequestUrl = '/user/user-development';
 $js = <<<JS
 
  layui.config({
@@ -75,7 +56,7 @@ $js = <<<JS
 
         // 渲染表格
         var renderTable = function () {
-            layer.load(2);
+            layer.load(4);
             treetable.render({
                 treeColIndex: 1,
                 treeSpid: -1,
@@ -84,15 +65,15 @@ $js = <<<JS
                 treeDefaultClose: true,
                 treeLinkage: false,
                 elem: '#table1',
-                url: 'json/data.json',
+                url: "{$developmentRequestUrl}",
                 page: false,
                 cols: [[
                     {type: 'numbers'},
-                    {field: 'name', title: 'name'},
-                    {field: 'id', title: 'id'},
-                    {field: 'sex', title: 'sex'},
-                    {field: 'pid', title: 'pid'},
-                    {templet: '#oper-col', title: 'oper'}
+                    {field: 'username', title: '用户名称'},
+                    // {field: 'id', title: 'id'},
+                    {field: 'mobile_number', title: '手机号码'},
+                    // {field: 'pid', title: 'pid'},
+                    {templet: '#oper-col', title: '操作'}
                 ]],
                 done: function () {
                     layer.closeAll('loading');
@@ -122,22 +103,10 @@ $js = <<<JS
             if (layEvent === 'del') {
                 layer.msg('删除' + data.id);
             } else if (layEvent === 'edit') {
-                layer.msg('修改' + data.id);
+                layer.msg(data.mobile_number);
             }
         });
     });
-// $("#tree").jqmtree({
-//         title : 'Items',
-//         collapsed: false,
-//         data: [
-//             { "id": 1, "title": "item1" },
-//             { "id": 2, "title": "item1_1", "pid":1 },
-//             { "id": 3, "title": "item1_2", "pid": 1 },
-//             { "id": 4, "title": "item2", "pid": 0 },
-//             { "id": 5, "title": "item3", "pid": 0 },
-//             { "id": 6, "title": "item1_2_1", "pid": 3 }
-//         ]
-//     });
 JS;
 $this->registerJs($js);
 

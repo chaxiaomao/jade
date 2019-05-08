@@ -63,7 +63,7 @@ class LoginForm extends Model
                 $user->last_login_ip = Yii::$app->getRequest()->getUserIP();
                 $user->update(false);
             });
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
         }
         
         return false;

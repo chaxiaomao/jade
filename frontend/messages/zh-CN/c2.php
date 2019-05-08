@@ -124,5 +124,6 @@ return [
     'User login' => '用户登录',
     'User register' => '用户注册',
     'My development user' => '我的发展成员',
+    'Place the mobile horizontally for a good experience.' => '将手机水平放置以获得良好的体验。',
     '' => '',
 ];

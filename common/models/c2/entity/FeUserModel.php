@@ -62,6 +62,8 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
      */
     public $currentChess = null;
 
+    public $developmentData;
+
     /**
      * @inheritdoc
      */
@@ -396,6 +398,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->hasMany(UserKpiModel::className(), ['recommend_user_id' => 'id']);
     }
 
+    public function getFinishUserKpi()
+    {
+        return $this->getUserKpi()->andFilterWhere(['state' => UserKpiStateType::TYPE_FINISH_COMMIT]);
+    }
+
     public function getChess()
     {
         return $this->hasMany(ChessModel::className(), ['id' => 'chess_id'])
@@ -426,10 +433,91 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     public function getUserDevelopmentTreeData()
     {
-        $models = $this->getUserKpi()->all();
+        $this->developmentData = [];
+        $root = [
+            'id' => $this->id,
+            'username' => $this->username,
+            'mobile_number' => $this->mobile_number,
+            'pid' => -1,
+        ];
+        array_push($this->developmentData, $root);
+        $this->userDevelopmentTreeDataAppend($this);
+        $result = [
+          'code' => 0,
+          'msg' => "ok",
+          'data' => $this->developmentData,
+        ];
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param $parent FeUserModel
+     */
+    public function userDevelopmentTreeDataAppend($parent)
+    {
+        $models = $parent->getFinishUserKpi()->all();
+        foreach ($models as $model) {
+            $data = [
+                'id' => $model->user_id,
+                'username' => $model->user->username,
+                'mobile_number' => $model->user->mobile_number,
+                'pid' => $parent->id,
+            ];
+            array_push($this->developmentData, $data);
+            $user = $model->user;
+            if ($user->getUserKpi()->count() > 0) {
+                    $this->userDevelopmentTreeDataAppend($user);
+            }
+        }
+    }
+
+    public function getKpiLineData()
+    {
+        $this->developmentData = [];
+        $data = $this->getKpiLineDataAppend($this);
+        $children = [];
+        if (count($data) > 0) {
+            $children[] = $data;
+            $root = [
+                'name' => $this->username,
+                'parent' => null,
+                'children' => $children
+            ];
+        } else {
+            $root = [
+                'name' => $this->username,
+                'parent' => null,
+                'children' => $children
+            ];
+        }
+        array_push($this->developmentData, $root);
+        return json_encode($this->developmentData);
+    }
+
+    /**
+     * @param $parent FeUserModel
+     * @return array
+     */
+    public function getKpiLineDataAppend($parent)
+    {
+        $models = $parent->getFinishUserKpi()->all();
         foreach ($models as $model) {
             $user = $model->user;
+            if ($user->getUserKpi()->count() > 0) {
+                return [
+                    'name' => $model->user->username,
+                    'parent' => $parent->username,
+                    'children' => $this->getKpiLineDataAppend($user),
+                ];
+            }
+            return [
+                'name' => $model->user->username,
+                'parent' => $parent->username,
+                'children' => [],
+            ];
         }
+        return [];
     }
 
 }

@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app.c2', 'ApolloPre Console');
+$this->title = Yii::t('app.c2', 'Jade Console');
 ?>
 <div class="site-index">
 

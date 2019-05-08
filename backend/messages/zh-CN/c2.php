@@ -18,7 +18,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Chess' => '盘',
+    'Chess' => '资金盘',
     'Lord' => 'C3',
     'Elder' => 'C2',
     'Chieftain' => 'C1',
@@ -56,6 +56,9 @@ return [
     'Developments' => '下级成员',
     'Kpi line' => '考核线',
     'User kpi line draw' => '用户考核图',
+    'View chess station' => '查看资金盘结构',
+    'View degree' => '查看等级',
+    '' => '',
     '' => '',
 ];
 

@@ -17,8 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php echo GridView::widget([
-        'dataProvider' => $dataProvider,
+    <?php echo GridView::widget(['dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 
         'pjax' => true,
@@ -33,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'title' => Yii::t('app.c2', 'Add'),
                         'data-pjax' => '0',
                     ]) . ' ' .
-                    Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-                        'class' => 'btn btn-danger',
-                        'title' => Yii::t('app.c2', 'Delete Selected Items'),
-                        'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-                    ]) . ' ' .
+                    // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                    //     'class' => 'btn btn-danger',
+                    //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                    //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                    // ]) . ' ' .
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
                         'class' => 'btn btn-default',
                         'title' => Yii::t('app.c2', 'Reset Grid')
@@ -47,8 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             '{toggleData}',
         ],
         'exportConfig' => [],
-        'columns' => [
-            ['class' => 'kartik\grid\CheckboxColumn'],
+        'columns' => [['class' => 'kartik\grid\CheckboxColumn'],
             ['class' => 'kartik\grid\SerialColumn'],
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
@@ -111,22 +109,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
-                'template' => '{degree} {update} {delete} {view}',
+                'template' => '{degree} {update} {view}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                        return Html::a('<span class="glyphicon glyphicon-pencil">' . Yii::t('app.c2', 'Update') . '</span>', ['edit', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
                     },
-                    'degree' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'View degree'), ['/crm/user-degree', 'chess_id' => $model->id], [
-                            'title' => Yii::t('app', 'Info'),
-                            'data-pjax' => '0',
-                        ]);
-                    },
+                    // 'degree' => function ($url, $model, $key) {
+                    //     return Html::a(Yii::t('app.c2', 'View degree'), ['/crm/user-degree', 'chess_id' => $model->id], [
+                    //         'title' => Yii::t('app', 'Info'),
+                    //         'data-pjax' => '0',
+                    //     ]);
+                    // },
                     'view' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $model->id], [
+                        return Html::a('<span class="glyphicon glyphicon-eye-open">' . Yii::t('app.c2', 'View chess station') . '</span>', ['/crm/chess/user-chess-rs',
+                            'UserChessRsSearch[chess_id]' => $model->id], [
                             'title' => Yii::t('app', 'View'),
                             'data-pjax' => '0',
                         ]);

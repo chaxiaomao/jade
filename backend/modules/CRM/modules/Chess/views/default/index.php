@@ -110,6 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 'template' => '{degree} {update} {view}',
+                'width' => 400,
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil">' . Yii::t('app.c2', 'Update') . '</span>', ['edit', 'id' => $model->id], [

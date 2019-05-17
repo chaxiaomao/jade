@@ -25,6 +25,7 @@ class LoginForm extends Model
         return [
             // username and password are both required
             [['mobile_number', 'password'], 'required'],
+            ['mobile_number', 'trim'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -63,7 +64,7 @@ class LoginForm extends Model
                 $user->last_login_ip = Yii::$app->getRequest()->getUserIP();
                 $user->update(false);
             });
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
         }
         
         return false;

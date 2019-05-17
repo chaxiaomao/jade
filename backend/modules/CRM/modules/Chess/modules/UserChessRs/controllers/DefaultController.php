@@ -2,6 +2,7 @@
 
 namespace backend\modules\CRM\modules\Chess\modules\UserChessRs\controllers;
 
+use backend\models\c2\entity\FeUserModel;
 use backend\models\c2\form\DevelopmentForm;
 use common\models\c2\statics\FeUserType;
 use Yii;
@@ -119,5 +120,12 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionUserKpiLine($id)
+    {
+        $this->layout = '/main-empty';
+        $user = FeUserModel::findOne($id);
+        return $this->render('user_kpi_line', ['data' => $user->getKpiLineData()]);
     }
 }

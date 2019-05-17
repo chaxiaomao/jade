@@ -17,6 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="panel panel-warning">
     <div class="panel-heading"><?= Yii::t('app.c2', 'Event Assigned') ?></div>
     <div class="panel-body">
+        <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id]) ?>"
+           class="btn btn-app">
+            <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'All') ?>
+        </a>
         <a href="<?= Url::toRoute(['/crm/chess/user-chess-rs', 'UserChessRsSearch[chess_id]' => $searchModel->chess_id,
             'UserChessRsSearch[type]' => \common\models\c2\statics\FeUserType::TYPE_LORD]) ?>" class="btn btn-app">
             <i class="fa fa-renren"></i> <?= Yii::t('app.c2', 'Lord') ?>
@@ -156,7 +160,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
-                'template' => '{update} {add_elder} {add_chieftain} {add_master} {add_familiar} {developments}',
+                'width' => 400,
+                'template' => '{update} {add_elder} {add_chieftain} {add_master} {add_familiar} {developments} {kpi}',
                 'visibleButtons' => [
                     'add_elder' => function ($model) {
                         return $model->type == \common\models\c2\statics\FeUserType::TYPE_LORD;
@@ -169,64 +174,67 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'add_familiar' => function ($model) {
                         return $model->type == \common\models\c2\statics\FeUserType::TYPE_MASTER;
-                    }
+                    },
+                    'kpi' => function ($model) {
+                        return $model->isCanKpi();
+                    },
                 ],
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil">Update</span>',
+                        return Html::a('<span class="glyphicon glyphicon-pencil">' . Yii::t('app.c2', 'Update') . '</span>',
                             [
                                 'edit',
                                 'id' => $model->id,
                             ], [
-                                'title' => Yii::t('app', 'Info'),
+                                'title' => Yii::t('app.c2', 'Update'),
                                 'data-pjax' => '0',
                             ]);
                     },
                     'add_elder' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Elder')]) . '</span>',
+                        return Html::a('<span class="glyphicon glyphicon-object-align-vertical">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Elder')]) . '</span>',
                             [
                                 'add-development',
                                 'id' => $model->id,
                                 'chess_id' => $model->chess_id,
                                 'type' => \common\models\c2\statics\FeUserType::TYPE_ELDER
                             ], [
-                                'title' => Yii::t('app', 'Add'),
+                                'title' => Yii::t('app.c2', 'Add'),
                                 'data-pjax' => '0',
                             ]);
                     },
                     'add_master' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Master')]) . '</span>',
+                        return Html::a('<span class="glyphicon glyphicon-object-align-vertical">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Master')]) . '</span>',
                             [
                                 'add-development',
                                 'id' => $model->id,
                                 'chess_id' => $model->chess_id,
                                 'type' => \common\models\c2\statics\FeUserType::TYPE_MASTER
                             ], [
-                                'title' => Yii::t('app', 'Add'),
+                                'title' => Yii::t('app.c2', 'Add'),
                                 'data-pjax' => '0',
                             ]);
                     },
                     'add_chieftain' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Chieftain')]) . '</span>',
+                        return Html::a('<span class="glyphicon glyphicon-object-align-vertical">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Chieftain')]) . '</span>',
                             [
                                 'add-development',
                                 'id' => $model->id,
                                 'chess_id' => $model->chess_id,
                                 'type' => \common\models\c2\statics\FeUserType::TYPE_CHIEFTAIN
                             ], [
-                                'title' => Yii::t('app', 'Add'),
+                                'title' => Yii::t('app.c2', 'Add'),
                                 'data-pjax' => '0',
                             ]);
                     },
                     'add_familiar' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-grain">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Familiar')]) . '</span>',
+                        return Html::a('<span class="glyphicon glyphicon-object-align-vertical">' . Yii::t('app.c2', '{s1} add', ['s1' => Yii::t('app.c2', 'Familiar')]) . '</span>',
                             [
                                 'add-development',
                                 'id' => $model->id,
                                 'chess_id' => $model->chess_id,
                                 'type' => \common\models\c2\statics\FeUserType::TYPE_FAMILIAR
                             ], [
-                                'title' => Yii::t('app', 'Add'),
+                                'title' => Yii::t('app.c2', 'Add'),
                                 'data-pjax' => '0',
                             ]);
                     },
@@ -236,8 +244,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 '/crm/chess/user-development',
                                 'UserDevelopmentSearch[user_chess_rs_id]' => $model->id
                             ], [
-                                'title' => Yii::t('app', 'Add'),
+                                'title' => Yii::t('app.c2', 'Developments'),
                                 'data-pjax' => '0',
+                            ]);
+                    },
+                    'kpi' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-tree-deciduous">' . Yii::t('app.c2', 'User kpi line draw') . '</span>',
+                            Url::toRoute(['user-kpi-line', 'id' => $model->user_id]), [
+                                'title' => Yii::t('app.c2', 'User kpi line draw'),
+                                'data-pjax' => '0',
+                                'target' => 'blank'
                             ]);
                     },
                 ]

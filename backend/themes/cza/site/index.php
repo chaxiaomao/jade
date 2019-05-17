@@ -2,12 +2,12 @@
 
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app.c2', 'ApolloPre Console');
+$this->title = Yii::t('app.c2', 'Jade Console');
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h3><?=Yii::t('app.c2', 'Welcome to ApolloPre Console')?></h3>
+        <h3><?=Yii::t('app.c2', 'Welcome to Jade Console')?></h3>
 
         <p class="lead"><?=Yii::t('app.c2', 'Please use sidebar menu to process...')?></p>
 

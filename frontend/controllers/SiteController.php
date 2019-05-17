@@ -92,8 +92,9 @@ class SiteController extends Controller
             // return $this->render('user_station_list', [
             //     'stations' => $stations
             // ]);
-            $this->goBack();
+            // $this->goBack();
             // return $this->redirect(Yii::$app->user->getReturnUrl());
+            return $this->redirect('user/station-list');
         }
         // return $this->render('index');
     }

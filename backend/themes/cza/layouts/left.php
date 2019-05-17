@@ -11,13 +11,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
-            <div class="pull-left image">
-                <img src="<?= \Yii::$app->user->avatarUrl ?>" class="img-circle" alt="User Image"/>
-            </div>
-            <div class="pull-left info">
-                <p><?= \Yii::$app->user->username ?></p>
-                <a href="#"><i class="fa fa-circle text-success"></i> <?= Yii::t('app.c2', 'Online') ?></a>
-            </div>
+
         </div>
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">

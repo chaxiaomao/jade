@@ -8,7 +8,7 @@
 ?>
 
 <div class="card">
-    <div class="card-img-top bg-recommend" id="m_recommend-broad">
+    <div class="card-img-top bg-recommend mb10" id="m_recommend-broad">
 <!--        <div id="m_spinner" class="spinner-border text-warning" role="status" >-->
 <!--            <span class="sr-only">Loading...</span>-->
 <!--        </div>-->
@@ -21,7 +21,8 @@
 
     </div>
     <div class="card-body">
-        <p class="card-text red"><?= Yii::t('app.c2', 'Recommend code has been expired after 15min') ?></p>
+        <p class="card-text red"><?= Yii::t('app.c2', 'Recommend code has been expired after 15min.') ?></p>
+        <p class="card-text red"><?= Yii::t('app.c2', 'Long click to copy the recommend code.') ?></p>
         <button id="m_gen" class="btn btn-success btn-block"><?= Yii::t('app.c2', 'Generate') ?></button>
     </div>
 </div>

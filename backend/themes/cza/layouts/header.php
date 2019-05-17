@@ -10,7 +10,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::t('app.c2', 'ApolloPre Console') . '</span>', Yii::$app->homeUrl, ['destination' => 'main-content-pjax', 'class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::t('app.c2', 'Jade Console') . '</span>', Yii::$app->homeUrl, ['destination' => 'main-content-pjax', 'class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -228,14 +228,13 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?=\Yii::$app->user->avatarUrl?>" class="user-image" alt="User Image"/>
+                        <img src="http://img3.imgtn.bdimg.com/it/u=2603931716,3344738765&fm=26&gp=0.jpg" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?=\Yii::$app->user->username?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?=\Yii::$app->user->avatarUrl?>" class="img-circle" alt="User Image"/>
-
+                            <img src="http://img3.imgtn.bdimg.com/it/u=2603931716,3344738765&fm=26&gp=0.jpg" class="user-image" alt="User Image"/>
                             <p>
                                 <?=\Yii::$app->user->fullname?>
                                 <!--<small>Member since Nov. 2012</small>-->

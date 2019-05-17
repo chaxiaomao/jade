@@ -40,7 +40,7 @@ return [
     'Base Profile' => '基本信息',
     'User degree' => '用户等级',
     'Register At' => '注册时间',
-    'Recommend code has been expired after 15min' => '推荐码有效时间15分钟',
+    'Recommend code has been expired after 15min.' => '推荐码有效时间15分钟。',
     'Generate' => '生成推荐码',
     'The Recommend code is incorrect.' => '推荐码过期或不正确',
     'My members' => '我的成员',
@@ -124,5 +124,8 @@ return [
     'User login' => '用户登录',
     'User register' => '用户注册',
     'My development user' => '我的发展成员',
+    'Place the mobile horizontally for a good experience.' => '将手机水平放置以获得良好的体验。',
+    'Long click to copy the recommend code.' => '手机用户长按推荐码复制。',
+    'Incorrect username or password.' => '手机号无效或密码错误',
     '' => '',
 ];

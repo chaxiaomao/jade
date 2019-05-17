@@ -43,7 +43,7 @@ class UserController extends Controller
                     ],
                     [
                         'actions' => [ 'recommend-code-captcha', 'login', 'signup',
-                            'chess', 'settings','development', 'logout', 'profit', 'station-list'],
+                            'chess', 'settings','development', 'logout', 'profit', 'station-list', 'user-development'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -73,6 +73,9 @@ class UserController extends Controller
             'recommend-code-captcha' => [
                 'class' => 'frontend\components\RecommendCaptcha\CaptchaAction',
             ],
+            'user-development' => [
+                'class' => 'frontend\components\actions\UserDevelopmentAction',
+            ],
         ];
     }
 
@@ -90,10 +93,10 @@ class UserController extends Controller
 
     public function actionDevelopment()
     {
-        $user = Yii::$app->user->currentUser;
-        $model = $user->userKpi;
+        // $user = Yii::$app->user->currentUser;
+        // $model = $user->userKpi;
         return $this->render('development', [
-            'model' => $model,
+            // 'model' => $model,
         ]);
     }
 

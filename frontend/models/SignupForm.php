@@ -42,7 +42,7 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'trim'],
+            ['username', 'mobile_number', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => Yii::t('app.c2', 'This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],

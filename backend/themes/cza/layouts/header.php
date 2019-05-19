@@ -228,13 +228,11 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="http://img3.imgtn.bdimg.com/it/u=2603931716,3344738765&fm=26&gp=0.jpg" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?=\Yii::$app->user->username?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="http://img3.imgtn.bdimg.com/it/u=2603931716,3344738765&fm=26&gp=0.jpg" class="user-image" alt="User Image"/>
                             <p>
                                 <?=\Yii::$app->user->fullname?>
                                 <!--<small>Member since Nov. 2012</small>-->

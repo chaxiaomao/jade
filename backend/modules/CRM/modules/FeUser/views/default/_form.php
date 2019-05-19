@@ -1,10 +1,13 @@
 <?php
 
+use common\models\c2\entity\RegionCity;
+use common\models\c2\entity\RegionProvince;
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
+use yii\helpers\Url;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
@@ -55,10 +58,10 @@ $form = ActiveForm::begin([
                 //     'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                 // ],],
                 // 'unconfirmed_email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('unconfirmed_email')]],
-                'blocked_at' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
-                    'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
-                ],],
-                'registration_ip' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('registration_ip')]],
+                // 'blocked_at' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
+                //     'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
+                // ],],
+                // 'registration_ip' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('registration_ip')]],
                 // 'registration_src_type' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
                 //     'pluginOptions' => ['threeState' => false],
                 // ],],
@@ -73,9 +76,34 @@ $form = ActiveForm::begin([
                 // 'wechat_open_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('wechat_open_id')]],
                 'mobile_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('mobile_number')]],
                 // 'access_token' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('access_token')]],
-                'province_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('province_id')]],
-                'city_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('city_id')]],
-                'district_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('district_id')]],
+                'province_id' => [
+                    'type' => Form::INPUT_DROPDOWN_LIST,
+                    'items' => ['0' => Yii::t('app.c2', 'Select Options ...')] + RegionProvince::getHashMap('id', 'label'),
+                    'options' => ['id' => 'province-id']
+                ],
+                'city_id' => [
+                    'type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
+                        'data' => empty($model->province_id) ? [] : RegionProvince::findOne(['id' => $model->province_id])->getCityHashMap(),
+                        'options' => [
+                            'id' => 'city-id'
+                        ],
+                        'pluginOptions' => [
+                            'depends' => ['province-id'],
+                            'placeholder' => Yii::t('app.c2', 'Select Options ...'),
+                            'url' => Url::toRoute(['citys'])
+                        ],
+                    ],
+                ],
+                'district_id' => [
+                    'type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
+                        'data' => empty($model->city_id) ? [] : RegionCity::findOne(['id' => $model->city_id])->getDistrictHashMap(),
+                        'pluginOptions' => [
+                            'depends' => ['city-id', 'province-id'],
+                            'placeholder' => Yii::t('app.c2', 'Select options ..'),
+                            'url' => Url::toRoute(['districts'])
+                        ],
+                    ],
+                ],
                 'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
                 'position' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\touchspin\TouchSpin', 'options' => [
                     'pluginOptions' => [

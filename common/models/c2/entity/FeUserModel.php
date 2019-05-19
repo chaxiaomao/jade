@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\rbac\BeUser;
 use common\components\validators\FeUserUniqueValidator;
 use common\helpers\DeviceLogHelper;
 use common\models\c2\statics\FeUserType;
@@ -10,6 +11,7 @@ use cza\base\models\statics\EntityModelStatus;
 use frontend\models\FeUser;
 use Yii;
 use yii\base\Object;
+use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\IdentityInterface;
@@ -124,9 +126,9 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             'sms_receipt' => Yii::t('app.c2', 'Sms Receipt'),
             'access_token' => Yii::t('app.c2', 'Access Token'),
             'password_reset_token' => Yii::t('app.c2', 'Password Reset Token'),
-            'province_id' => Yii::t('app.c2', 'Province ID'),
-            'city_id' => Yii::t('app.c2', 'City ID'),
-            'district_id' => Yii::t('app.c2', 'District ID'),
+            'province_id' => Yii::t('app.c2', 'Province'),
+            'city_id' => Yii::t('app.c2', 'City'),
+            'district_id' => Yii::t('app.c2', 'District'),
             'created_by' => Yii::t('app.c2', 'Created By'),
             'updated_by' => Yii::t('app.c2', 'Updated By'),
             'status' => Yii::t('app.c2', 'Status'),
@@ -265,7 +267,8 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         parent::afterSave($insert, $changedAttributes);
         if ($insert) {
             $this->updateAttributes([
-                'registration_src_type' => DeviceLogHelper::getDeviceType()
+                'registration_src_type' => DeviceLogHelper::getDeviceType(),
+                'registration_ip' => Yii::$app->request->userIP
             ]);
         } else {
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
@@ -339,185 +342,21 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return static::findOne(['mobile_number' => $mobile, 'status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
-    public function getUserChessRs()
+    public function behaviors()
     {
-        return $this->hasMany(UserChessRsModel::className(), ['user_id' => 'id']);
-    }
-
-    public function getProfitItem()
-    {
-        return $this->hasMany(UserProfitItemModel::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRecommendCode()
-    {
-        return $this->hasOne(UserRecommendCodeModel::className(), ['user_id' => 'id']);
-    }
-
-    public function getRecommendCode8ChessId($chess_id = '')
-    {
-        return $this->getRecommendCode()->where(['chess_id' => $chess_id])->one();
-    }
-
-    /**
-     * @return UserChessRsModel|null
-     * @throws NotFoundHttpException
-     */
-    public function getCurrentChess()
-    {
-        $current_chess_id = Yii::$app->session->get('current_chess_id');
-        $model = null;
-        if (empty($current_chess_id)) {
-            $model = UserChessRsModel::find()->where(['user_id' => $this->id])->orderBy(['created_at' => SORT_ASC])->one();
-        } else {
-            $model = UserChessRsModel::find()->where(['chess_id' => $current_chess_id, 'user_id' => $this->id])->one();
-        }
-        if (!empty($model)) {
-            Yii::$app->session->set('current_chess_id', $model->chess_id);
-            return $model;
-        } else {
-            throw new NotFoundHttpException(Yii::t('app.c2', 'Chess not in'));
-        }
-    }
-
-    public function getDevelopments()
-    {
-        try {
-            return $this->getCurrentChess()->getUserDevelopments()
-                ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
-                ->all();
-        } catch (NotFoundHttpException $e) {
-        }
-    }
-
-    public function getUserKpi()
-    {
-        return $this->hasMany(UserKpiModel::className(), ['recommend_user_id' => 'id']);
-    }
-
-    public function getFinishUserKpi()
-    {
-        return $this->getUserKpi()->andFilterWhere(['state' => UserKpiStateType::TYPE_FINISH_COMMIT]);
-    }
-
-    public function getChess()
-    {
-        return $this->hasMany(ChessModel::className(), ['id' => 'chess_id'])
-            ->viaTable('{{%user_chess_rs}}', ['user_id' => 'id']);
-    }
-
-    /**
-     * Set parent user kpi.
-     * @param $chess_id
-     * @param $recommend_user_id
-     * @return bool|null
-     */
-    public function createRecommendUserKpi($chess_id, $recommend_user_id)
-    {
-        $kpiModel = new UserKpiModel();
-        $kpiModel->setAttributes([
-            'chess_id' => $chess_id,
-            'user_id' => $this->id,
-            'recommend_user_id' => $recommend_user_id,
-            'state' => UserKpiStateType::TYPE_NOT_COMMIT,
-            'type' => FeUserType::TYPE_PEASANT,
+        return ArrayHelper::merge(parent::behaviors(), [
+            BlameableBehavior::className()
         ]);
-        if ($kpiModel->save()) {
-            return true;
-        }
-        return null;
     }
 
-    public function getUserDevelopmentTreeData()
+    public function getCreator()
     {
-        $this->developmentData = [];
-        $root = [
-            'id' => $this->id,
-            'username' => $this->username,
-            'mobile_number' => $this->mobile_number,
-            'pid' => -1,
-        ];
-        array_push($this->developmentData, $root);
-        $this->userDevelopmentTreeDataAppend($this);
-        $result = [
-          'code' => 0,
-          'msg' => "ok",
-          'data' => $this->developmentData,
-        ];
-
-        return json_encode($result);
+        return $this->hasOne(BeUser::className(), ['id' => 'created_by']);
     }
 
-    /**
-     * @param $parent FeUserModel
-     */
-    public function userDevelopmentTreeDataAppend($parent)
+    public function getUpdater()
     {
-        $models = $parent->getFinishUserKpi()->all();
-        foreach ($models as $model) {
-            $data = [
-                'id' => $model->user_id,
-                'username' => $model->user->username,
-                'mobile_number' => $model->user->mobile_number,
-                'pid' => $parent->id,
-            ];
-            array_push($this->developmentData, $data);
-            $user = $model->user;
-            if ($user->getUserKpi()->count() > 0) {
-                    $this->userDevelopmentTreeDataAppend($user);
-            }
-        }
-    }
-
-    public function getKpiLineData()
-    {
-        $this->developmentData = [];
-        $data = $this->getKpiLineDataAppend($this);
-        $children = [];
-        if (count($data) > 0) {
-            $children[] = $data;
-            $root = [
-                'name' => $this->username,
-                'parent' => null,
-                'children' => $children
-            ];
-        } else {
-            $root = [
-                'name' => $this->username,
-                'parent' => null,
-                'children' => $children
-            ];
-        }
-        array_push($this->developmentData, $root);
-        return json_encode($this->developmentData);
-    }
-
-    /**
-     * @param $parent FeUserModel
-     * @return array
-     */
-    public function getKpiLineDataAppend($parent)
-    {
-        $models = $parent->getFinishUserKpi()->all();
-        foreach ($models as $model) {
-            $user = $model->user;
-            if ($user->getUserKpi()->count() > 0) {
-                return [
-                    'name' => $model->user->username,
-                    'parent' => $parent->username,
-                    'children' => $this->getKpiLineDataAppend($user),
-                ];
-            }
-            return [
-                'name' => $model->user->username,
-                'parent' => $parent->username,
-                'children' => [],
-            ];
-        }
-        return [];
+        return $this->hasOne(BeUser::className(), ['id' => 'updated_by']);
     }
 
 }

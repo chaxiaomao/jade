@@ -7,13 +7,13 @@ use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\OperationEvent;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\c2\search\FeUserSearch */
+/* @var $searchModel common\models\c2\search\GRPSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app.c2', 'Fe User Models');
+$this->title = Yii::t('app.c2', 'G R P Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="well fe-user-model-index">
+<div class="well grpmodel-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -60,39 +60,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'id',
-            'type',
-            'mobile_number',
-            'username',
-            'email:email',
-            // 'password_hash',
-            // 'auth_key',
-            // 'confirmed_at',
-            // 'unconfirmed_email:email',
-            // 'blocked_at',
-            'registration_ip',
-            // 'registration_src_type',
+            // 'type',
             [
-                'attribute' => 'registration_src_type',
+                'attribute' => 'type',
                 'value' => function ($model) {
-                    return \common\models\c2\statics\RegistrationSrcType::getData($model->registration_src_type, 'label');
+                    return \common\models\c2\statics\GRPType::getData($model->type, 'label');
                 }
             ],
-            // 'flags',
-            // 'level',
-            'last_login_at',
-            'last_login_ip',
-            // 'open_id',
-            // 'wechat_union_id',
-            // 'wechat_open_id',
-            // 'mobile_number',
-            // 'sms_receipt',
-            // 'access_token',
-            // 'password_reset_token',
+            // 'attributeset_id',
             // 'province_id',
             // 'city_id',
             // 'district_id',
+            'code',
+            'label',
+            // 'geo_longitude',
+            // 'geo_latitude',
+            // 'geo_marker_color',
             // 'created_by',
+            [
+                'attribute' => 'created_by',
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->creator->profile->fullname;
+                },
+            ],
             // 'updated_by',
+            [
+                'attribute' => 'updated_by',
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->updater->profile->fullname;
+                },
+            ],
             // 'status',
             // 'position',
             // 'created_at',
@@ -113,14 +110,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
+                'template' => '{update} {chart} {delete}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app', 'Info'),
+                            'title' => Yii::t('app.c2', 'Update'),
                             'data-pjax' => '0',
                         ]);
                     },
-
+                    'chart' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-tree-deciduous"></span>', [
+                            '/crm/grp/grp-station',
+                            'id' => $model->id
+                        ], [
+                            'title' => Yii::t('app.c2', 'GRP Chart'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
                 ]
             ],
 

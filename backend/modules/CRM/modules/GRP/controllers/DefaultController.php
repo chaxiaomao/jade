@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\CRM\modules\FeUser\controllers;
+namespace backend\modules\CRM\modules\GRP\controllers;
 
 use Yii;
-use common\models\c2\entity\FeUserModel;
-use common\models\c2\search\FeUserSearch;
+use common\models\c2\entity\GRPModel;
+use common\models\c2\search\GRPSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\helpers\ArrayHelper;
@@ -12,11 +12,11 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for FeUserModel model.
+ * DefaultController implements the CRUD actions for GRPModel model.
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\FeUserModel';
+    public $modelClass = 'common\models\c2\entity\GRPModel';
 
     public function actions()
     {
@@ -31,12 +31,12 @@ class DefaultController extends Controller
     }
     
     /**
-     * Lists all FeUserModel models.
+     * Lists all GRPModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FeUserSearch();
+        $searchModel = new GRPSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +47,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single FeUserModel model.
+     * Displays a single GRPModel model.
      * @param string $id
      * @return mixed
      */
@@ -59,14 +59,14 @@ class DefaultController extends Controller
     }
 
     /**
-     * create/update a FeUserModel model.
+     * create/update a GRPModel model.
      * fit to pajax call
      * @return mixed
      */
     public function actionEdit($id = null) 
     {
         $model = $this->retrieveModel($id);
-
+        
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
@@ -79,15 +79,15 @@ class DefaultController extends Controller
     }
     
     /**
-     * Finds the FeUserModel model based on its primary key value.
+     * Finds the GRPModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return FeUserModel the loaded model
+     * @return GRPModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = \common\models\c2\entity\FeUserModel::findOne($id)) !== null) {
+        if (($model = GRPModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

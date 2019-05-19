@@ -19,35 +19,11 @@ class Module extends \yii\base\Module
     {
         parent::init();
         $this->modules = [
-            'lord' => [
-                'class' => 'backend\modules\CRM\modules\Lord\Module',
-            ],
-            'chess' => [
-                'class' => 'backend\modules\CRM\modules\Chess\Module',
-            ],
-            'elder' => [
-                'class' => 'backend\modules\CRM\modules\Elder\Module',
-            ],
-            'chieftain' => [
-                'class' => 'backend\modules\CRM\modules\Chieftain\Module',
-            ],
-            'user-degree' => [
-                'class' => 'backend\modules\CRM\modules\UserDegree\Module',
-            ],
-            'master' => [
-                'class' => 'backend\modules\CRM\modules\Master\Module',
-            ],
-            'familiar' => [
-                'class' => 'backend\modules\CRM\modules\Familiar\Module',
-            ],
-            'peasant' => [
-                'class' => 'backend\modules\CRM\modules\Peasant\Module',
-            ],
             'fe-user' => [
                 'class' => 'backend\modules\CRM\modules\FeUser\Module',
             ],
-            'kpi' => [
-                'class' => 'backend\modules\CRM\modules\Kpi\\Module',
+            'grp' => [
+                'class' => 'backend\modules\CRM\modules\GRP\Module',
             ],
         ];
         // custom initialization code goes here

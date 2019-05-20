@@ -27,17 +27,17 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/app.js',
         // 'js/d3.v3.min.js',
-        'js/jquery-3.2.1.min.js',
+        // 'js/jquery-3.2.1.min.js',
         // 'js/jquery.multipleInput.min.js',
         // 'js/jquery-sortable.min.js',
-        'js/bootstrap.min.js'
+        // 'js/bootstrap.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'dmstr\web\AdminLteAsset',
         'kartik\growl\GrowlAsset',
-        // 'cza\base\assets\AppAsset',
+        'cza\base\assets\AppAsset',
     ];
 
     public $publishOptions = [

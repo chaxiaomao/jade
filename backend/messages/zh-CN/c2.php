@@ -51,6 +51,7 @@ return [
     'Init' => '初始化',
     'Finish' => '完成',
     'View' => '查看',
+    'Edit' => '修改',
     'Created At' => '创建时间',
     'Updated At' => '更新时间',
     'Label' => '标签',
@@ -65,6 +66,8 @@ return [
     'Select Options ...' => '请选择...',
     'Last Login At' => '最后登录时间',
     'Registration Ip' => '最后登录IP',
+    'Add' => '添加',
+    'Delete' => '删除',
     // other
     'GRP' => 'GRP',
     'User Degree' => '用户等级',
@@ -85,6 +88,11 @@ return [
     'G R P Models' => 'GRP列表',
     'G R P Model' => 'GRP',
     'GRP Chart' => 'GRP图表',
+    'GRP Station' => 'GRP岗位',
+    'Selected Node' => '被选中的节点',
+    'New Node' => '新节点名称',
+    'Children Node' => '子节点',
+    'Sibling Node' => '同级节点',
     '' => '',
 ];
 

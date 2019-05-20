@@ -35,8 +35,9 @@ class GRPStationModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['grp_id', 'parent_station_id', 'position'], 'integer'],
+            [['grp_id', 'label'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'status'], 'string', 'max' => 4],
+            [['type', 'status'], 'integer', 'max' => 4],
             [['name', 'label'], 'string', 'max' => 255],
         ];
     }
@@ -74,6 +75,26 @@ class GRPStationModel extends \cza\base\models\ActiveRecord
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+    }
+
+    public function getGRP()
+    {
+        return $this->hasOne(GRPModel::className(), ['id' => 'grp_id']);
+    }
+
+    public function getGRPStationItems()
+    {
+        return $this->hasMany(GRPStationItemModel::className(), ['grp_station_id' => 'id']);
+    }
+
+    public function getGRPStationParent()
+    {
+        return $this->hasMany(GRPStationModel::className(), ['id' => 'parent_station_id']);
+    }
+
+    public function getGRPStationChildren()
+    {
+        return $this->hasMany(GRPStationModel::className(), ['parent_station_id' => 'id']);
     }
 
 }

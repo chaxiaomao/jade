@@ -150,23 +150,25 @@ $this->title = $model->label . ' ' . Yii::t('app.c2', 'GRP Chart');
 <div id="chart-container"></div>
 <div id="edit-panel">
     <span id="chart-state-panel" class="radio-panel">
-      <input type="radio" name="chart-state" id="rd-view" value="view"><label for="rd-view"><?= Yii::t('app.c2', 'View') ?></label>
-      <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit"><?= Yii::t('app.c2', 'Edit') ?></label>
+      <input type="radio" name="chart-state" id="rd-view" value="view"><label for="rd-view">View</label>
+      <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit">Edit</label>
     </span>
-    <label class="selected-node-group"><?= Yii::t('app.c2', 'Selected Node') ?></label>
-    <input type="text" id="selected-node" class="selected-node-group" readonly>
-    <label><?= Yii::t('app.c2', 'New Node') ?></label>
-    <ul id="new-nodelist"><li><input type="text" class="new-node"></li></ul>
+    <label class="selected-node-group">selected node:</label>
+    <input type="text" id="selected-node" class="selected-node-group">
+    <label>new node:</label>
+    <ul id="new-nodelist">
+        <li><input type="text" class="new-node"></li>
+    </ul>
     <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
     <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
     <span id="node-type-panel" class="radio-panel">
-<!--      <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Parent(root)</label>-->
-      <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child"><?= Yii::t('app.c2', 'Children Node') ?></label>
-      <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling"><?= Yii::t('app.c2', 'Sibling Node') ?></label>
+      <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Parent(root)</label>
+      <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Child</label>
+      <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Sibling</label>
     </span>
-    <button type="button" id="btn-add-nodes"><?= Yii::t('app.c2', 'Add') ?></button>
-    <button type="button" id="btn-delete-nodes"><?= Yii::t('app.c2', 'Delete') ?></button>
-    <button type="button" id="btn-reset"><?= Yii::t('app.c2', 'Selected Node') ?></button>
+    <button type="button" id="btn-add-nodes">Add</button>
+    <button type="button" id="btn-delete-nodes">Delete</button>
+    <button type="button" id="btn-reset">Reset</button>
 </div>
 
 <?php
@@ -176,32 +178,94 @@ $js = <<<JS
 
 JS;
 
-$this->registerJs($js);
+$this->registerJs($js)
+
 ?>
 
 <script type="text/javascript">
     // JQuery.notConfit();
     $(function ($) {
 
-        var datascource = <?= $model->getGRPStationJson() ?>
+        var datascource = {
+            'name': 'Ball game',
+            'id': 0,
+            'type': 1,
+            'userList': [
+                {
+                    'id': 1,
+                    'name': 'chen1',
+                },
+                {
+                    'id': 2,
+                    'name': 'chen2',
+                }
+            ],
+            'children': [
+                {
+                    'name': 'Football',
+                    'id': 1,
+                    'type': 2,
+                    'userList': [
+                        {
+                            'id': 1,
+                            'name': 'chen1',
+                        },
+                        {
+                            'id': 2,
+                            'name': 'chen2',
+                        }
+                    ],
+                    'children': [
+
+                    ]
+                },
+                {
+                    'name': 'Basketball',
+                    'id': 2,
+                    'type': 2,
+                    'userList': [
+                        {
+                            'id': 1,
+                            'name': 'chen1',
+                        },
+                        {
+                            'id': 2,
+                            'name': 'chen2',
+                        }
+                    ],
+                },
+                {
+                    'name': 'Volleyball',
+                    'id': 3,
+                    'type': 2,
+                    'userList': [
+                        {
+                            'id': 1,
+                            'name': 'chen1',
+                        },
+                        {
+                            'id': 2,
+                            'name': 'chen2',
+                        }
+                    ],
+                }
+            ]
+        };
 
         var getId = function () {
             return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
         };
-        // var nodeTemplate = function (data) {
-        //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
-        //     tag += `<div class="warpper">`;
-        //     if (data.userList) {
-        //         data.userList.map(function (item) {
-        //             tag += `<p>${item.name}</p>`
-        //         })
-        //     }
-        //     tag += '</div>';
-        //     return tag;
-        // };
 
         var nodeTemplate = function (data) {
-            return `<div class="title" data-id="${data.id}" data-type="${data.type}" data-parent-id="${data.parent_id}">${data.name}</div>`;
+            var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
+            tag += `<div class="warpper">`;
+            if (data.userList) {
+                data.userList.map(function (item) {
+                    tag += `<p>${item.name}</p>`
+                })
+            }
+            tag += '</div>';
+            return tag;
         };
 
         var oc = $('#chart-container').orgchart({
@@ -210,26 +274,21 @@ $this->registerJs($js);
             'exportButton': true,
             'exportFilename': 'SportsChart',
             'parentNodeSymbol': 'fa-th-large',
-            // 'createNode': function ($node, data) {
-            //     $node[0].id = data.id;
-            // },
+            'createNode': function ($node, data) {
+                // $node[0].id = getId();
+                $node[0].id = data.id;
+            },
             // 'nodeTemplate': function (data) {
             //     return '<div class="title" data-id="' + data.id + '" data-type="' + data.type + '">' + data.name + '</div>'
             // }
             'nodeTemplate': nodeTemplate
         });
 
-        var selectedId;
-        var selectedType;
-        var selectedParentId;
-        var data = [];
-
         oc.$chartContainer.on('click', '.node', function () {
             var $this = $(this);
             $('#selected-node').val($this.find('.title').text()).data('node', $this);
-            selectedId = $this.find('.title').attr('data-id');
-            selectedType = $this.find('.title').attr('data-type');
-            selectedParentId = $this.find('.title').attr('data-parent-id');
+            console.log($this.find('.title').attr('data-id'));
+            console.log($this.find('.title').attr('data-type'));
         });
 
         oc.$chartContainer.on('click', '.orgchart', function (event) {
@@ -318,29 +377,11 @@ $this->registerJs($js);
                     alert('You are not allowed to directly add sibling nodes to root node');
                     return;
                 }
-                nodeVals.map(function (item) {
-                    data.push({
-                        'grp_id': <?= $model->id ?>,
-                        'parent_station_id': selectedParentId,
-                        'type': selectedType,
-                        'name': item,
-                        'label': item,
-                    })
-                })
                 oc.addSiblings($node, nodeVals.map(function (item) {
                     return {'name': item, 'relationship': '110', 'id': getId()};
                 }));
             } else {
                 var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
-                nodeVals.map(function (item) {
-                    data.push({
-                        'grp_id': <?= $model->id ?>,
-                        'parent_station_id': selectedId,
-                        'type': parseInt(selectedType) + 1,
-                        'name': item,
-                        'label': item,
-                    })
-                })
                 if (!hasChild) {
                     var rel = nodeVals.length > 1 ? '110' : '100';
                     oc.addChildren($node, nodeVals.map(function (item) {
@@ -352,7 +393,6 @@ $this->registerJs($js);
                     }));
                 }
             }
-            $.post('<?= \yii\helpers\Url::toRoute('add-station') ?>', {data: data}, function (result) {});
         });
 
         $('#btn-delete-nodes').on('click', function () {

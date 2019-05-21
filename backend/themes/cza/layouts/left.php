@@ -36,7 +36,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                             'label' => Yii::t('app.c2', 'CRM'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'GRP')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/grp']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Fe user')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/fe-user']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/fe-user']],
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Kpi')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/kpi']],
                             ]
                         ],

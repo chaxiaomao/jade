@@ -22,6 +22,9 @@ class Module extends \yii\base\Module
             'grp-station' => [
                 'class' => 'backend\modules\CRM\modules\GRP\modules\GRPStation\Module',
             ],
+            'grp-station-item' => [
+                'class' => 'backend\modules\CRM\modules\GRP\modules\GRPStationItem\Module',
+            ],
         ];
         // custom initialization code goes here
     }

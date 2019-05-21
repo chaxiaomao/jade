@@ -34,6 +34,7 @@ class GRPStationItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['grp_station_id', 'user_id', 'position'], 'integer'],
+            [['grp_station_id', 'user_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['label'], 'string', 'max' => 255],
             [['state', 'status'], 'integer', 'max' => 4],
@@ -72,6 +73,11 @@ class GRPStationItemModel extends \cza\base\models\ActiveRecord
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
     }
 
 }

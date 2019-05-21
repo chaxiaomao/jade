@@ -3,6 +3,7 @@
 namespace common\models\c2\entity;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%grp_station}}".
@@ -20,6 +21,9 @@ use Yii;
  */
 class GRPStationModel extends \cza\base\models\ActiveRecord
 {
+    public $node_nav;
+    public $selected_id;
+
     /**
      * @inheritdoc
      */
@@ -35,7 +39,7 @@ class GRPStationModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['grp_id', 'parent_station_id', 'position'], 'integer'],
-            [['grp_id', 'label'], 'required'],
+            [['grp_id', 'label', 'node_nav', 'selected_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['type', 'status'], 'integer', 'max' => 4],
             [['name', 'label'], 'string', 'max' => 255],
@@ -95,6 +99,13 @@ class GRPStationModel extends \cza\base\models\ActiveRecord
     public function getGRPStationChildren()
     {
         return $this->hasMany(GRPStationModel::className(), ['parent_station_id' => 'id']);
+    }
+
+    public function getGRPStationMemberArr()
+    {
+        $q = $this->getGRPStationItems()->joinWith(['user']);
+        $arr = $q->asArray()->all();
+        return $arr;
     }
 
 }

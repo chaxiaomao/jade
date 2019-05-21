@@ -1,32 +1,32 @@
 <?php
 
-namespace backend\modules\CRM\modules\GRP\modules\GRPStation\controllers;
+namespace backend\modules\CRM\modules\GRP\modules\GRPStationItem\controllers;
 
 use common\models\c2\entity\GRPModel;
-use common\models\c2\statics\NodeNavType;
+use common\models\c2\entity\GRPStationModel;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
-use common\models\c2\entity\GRPStationModel;
-use common\models\c2\entity\GRPStationSearch;
+use common\models\c2\entity\GRPStationItemModel;
+use common\models\c2\search\GRPStationItemSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for GRPStationModel model.
+ * DefaultController implements the CRUD actions for GRPStationItemModel model.
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\GRPStationModel';
+    public $modelClass = 'common\models\c2\entity\GRPStationItemModel';
 
     /**
-     * Lists all GRPStationModel models.
+     * Lists all GRPStationItemModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new GRPStationSearch();
+        $searchModel = new GRPStationItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -37,7 +37,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single GRPStationModel model.
+     * Displays a single GRPStationItemModel model.
      * @param string $id
      * @return mixed
      */
@@ -49,7 +49,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * create/update a GRPStationModel model.
+     * create/update a GRPStationItemModel model.
      * fit to pajax call
      * @return mixed
      */
@@ -70,19 +70,11 @@ class DefaultController extends Controller
 
     public function actionEditWithChart($id = null, $grp_id = null)
     {
-        $grpModel = GRPModel::findOne($grp_id);
-        $model = new GRPStationModel();
+        $model = new GRPStationItemModel();
         $model->loadDefaultValues();
-        $model->grp_id = $grpModel->id;
+        $grpModel = GRPModel::findOne($grp_id);
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::info(Yii::$app->request->post());
-            if ($model->node_nav == NodeNavType::TYPE_CHILDREN) {
-                $model->parent_station_id = $model->selected_id;
-                $model->type += 1;
-                Yii::info($model->parent_station_id);
-                Yii::info($model->type);
-            }
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
             } else {
@@ -95,25 +87,25 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the GRPStationModel model based on its primary key value.
+     * Finds the GRPStationItemModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return GRPStationModel the loaded model
+     * @return GRPStationItemModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = GRPStationModel::findOne($id)) !== null) {
+        if (($model = GRPStationItemModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    public function actionStationDelete()
+    public function actionMemberDelete()
     {
         $params = Yii::$app->request->post();
-        if ($model = GRPStationModel::findOne($params['id'])) {
+        if ($model = GRPStationItemModel::findOne($params['id'])) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params);
             } else {
@@ -124,5 +116,5 @@ class DefaultController extends Controller
         }
         return $this->asJson($responseData);
     }
-    
+
 }

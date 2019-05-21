@@ -9,6 +9,7 @@ use common\models\c2\statics\GRPType;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%grp}}".
@@ -34,8 +35,6 @@ use yii\helpers\ArrayHelper;
 class GRPModel extends \cza\base\models\ActiveRecord
 {
     public $grpStations;
-    public $grpStationChildren = [];
-
 
     /**
      * @inheritdoc
@@ -144,70 +143,56 @@ class GRPModel extends \cza\base\models\ActiveRecord
     }
 
 
-    public function getGRPStationJson()
+    public function getGRPStationJson($withMember = false)
     {
         $root = GRPStationModel::find()->where(['type' => GRPStationType::TYPE_C3, 'grp_id' => $this->id])->one();
-        $this->grpStations = $this->getGRPStation()->orderBy(['type' => SORT_ASC])->all();
-        $data = [
-            'id' => $root->id,
-            'name' => $root->label,
-            'type' => $root->type,
-            'parent_id' => $root->parent_station_id,
-            // 'useList' => [],
-            'children' => [],
-        ];
+        $this->grpStations = $this->getGRPStation()->all();
         if ($root) {
-            // $data['useList'] = $root->getGRPStationItems()->all();
-            $this->getGRPStationChildren($root->id);
-            if (count($this->grpStationChildren) > 0) {
-                $data['children'] = $this->grpStationChildren;
-            }
-            Yii::info(json_encode($data));
-            return json_encode($data);
+            $data = [
+                'id' => $root->id,
+                'name' => $root->label,
+                'type' => $root->type,
+                'parent_id' => $root->parent_station_id,
+                'memberList' => $withMember ? $root->getGRPStationMemberArr() : [],
+                'children' => $this->getGRPStationChildren($root, $withMember),
+            ];
+            // Yii::info($data);
+            return Json::encode($data);
+            // return json_encode($data);
         }
-        return $data;
+        return [];
     }
 
-    public function getGRPStationChildren($parent_id)
+    public function getGRPStationChildren($parent, $withMember)
     {
+        $rec = [];
         foreach ($this->grpStations as $grpStation) {
-            if ($grpStation->parent_station_id == $parent_id) {
+            if ($grpStation->parent_station_id === $parent->id) {
                 $children = [];
-                array_push($children, $this->getGRPStationChildren2($grpStation->id));
-                if ($children[0] == []) {
-                    $children = [];
+                if ($this->isHasChildren($grpStation)) {
+                    $children = $this->getGRPStationChildren($grpStation, $withMember);
                 }
-                $data = [
+                $rec[] = [
                     'id' => $grpStation->id,
                     'name' => $grpStation->label,
                     'type' => $grpStation->type,
-                    'parent_id' => $parent_id,
-                    // 'useList' => $item->getGRPStationItems()->select(['id', 'name'])->all(),
+                    'parent_id' => $parent->id,
+                    'memberList' => $withMember ? $grpStation->getGRPStationMemberArr() : [],
                     'children' => $children
                 ];
-                array_push($this->grpStationChildren, $data);
-            } else {
-                continue;
             }
         }
-        return [];
+        return $rec;
     }
 
-    public function getGRPStationChildren2($parent_id)
+    public function isHasChildren($parent)
     {
         foreach ($this->grpStations as $grpStation) {
-            if ($grpStation->parent_station_id == $parent_id) {
-                return [
-                    'id' => $grpStation->id,
-                    'name' => $grpStation->label,
-                    'type' => $grpStation->type,
-                    'parent_id' => $parent_id,
-                    // 'useList' => $item->getGRPStationItems()->select(['id', 'name'])->all(),
-                    'children' => $this->getGRPStationChildren2($grpStation->id),
-                ];
+            if ($grpStation->parent_station_id === $parent->id) {
+                return true;
             }
         }
-        return [];
+        return false;
     }
 
 }

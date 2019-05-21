@@ -1,380 +1,101 @@
 <?php
-$assets = \backend\assets\AppAsset::register($this);
 
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/jquery.orgchart.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/style.css");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/html2canvas.min.js");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/jquery.orgchart.js");
+use cza\base\widgets\ui\common\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use cza\base\models\statics\EntityModelStatus;
+use cza\base\models\statics\OperationEvent;
 
-$this->title = $model->label . ' ' . Yii::t('app.c2', 'GRP Chart');
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\c2\entity\GRPStationSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('app.c2', 'G R P Station Models');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<style type="text/css">
-    #chart-container {
-        background-color: #eee;
-        min-height: 800px;
-    }
+<div class="well grpstation-model-index">
 
-    .orgchart {
-        background: #fff;
-    }
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    .orgchart.edit-state .edge {
-        display: none;
-    }
+    <?php echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
 
-    .orgchart .node {
-        width: 150px;
-    }
+        'pjax' => true,
+        'hover' => true,
+        'showPageSummary' => true,
+        'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
+        'toolbar' => [
+            [
+                'content' =>
+                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                    'class' => 'btn btn-success',
+                    'title' => Yii::t('app.c2', 'Add'),
+                    'data-pjax' => '0',
+                ]) . ' ' .
+                Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                    'class' => 'btn btn-danger',
+                    'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                    'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                ]) . ' ' .
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
+                    'class' => 'btn btn-default',
+                    'title' => Yii::t('app.c2', 'Reset Grid')
+                ]),
+            ],
+            '{export}',
+            '{toggleData}',
+        ],
+        'exportConfig' => [],
+        'columns' => [
+            ['class' => 'kartik\grid\CheckboxColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
+            [
+                'class' => 'kartik\grid\ExpandRowColumn',
+                'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
+                'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
+                'detailUrl' => Url::toRoute(['detail']),
+                'value' => function ($model, $key, $index, $column) {
+                    return GridView::ROW_COLLAPSED;
+                },
+            ],
+                        'id',
+            'grp_id',
+            'type',
+            'name',
+            'label',
+            // 'parent_station_id',
+            // 'status',
+            // 'position',
+            // 'created_at',
+            // 'updated_at',
+            [
+                'attribute' => 'status',
+                'class' => '\kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+                    'data' => EntityModelStatus::getHashMap('id', 'label'),
+                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+                ],
+                'filter' => EntityModelStatus::getHashMap('id', 'label'),
+                'value' => function($model) {
+                    return $model->getStatusLabel();
+                }
+            ],
+            [
+                'class' => '\kartik\grid\ActionColumn',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                                    'title' => Yii::t('app', 'Info'),
+                                    'data-pjax' => '0',
+                        ]);
+                    }
+                        ]
+                    ],
+        
+        ],
+    ]); ?>
 
-    .orgchart .node .title {
-        height: 30px;
-        line-height: 30px;
-    }
-
-    .orgchart .node .warpper {
-        border: 1px solid #e0e0e0;
-    }
-
-    .orgchart .node .title .symbol {
-        margin-top: 1px;
-    }
-
-    #edit-panel {
-        position: relative;
-        left: 10px;
-        width: calc(100% - 40px);
-        border-radius: 4px;
-        float: left;
-        margin-top: 10px;
-        padding: 10px;
-        color: #fff;
-        background-color: #449d44;
-    }
-
-    #edit-panel .btn-inputs {
-        font-size: 24px;
-    }
-
-    #edit-panel.edit-state > :not(#chart-state-panel) {
-        display: none;
-    }
-
-    #edit-panel label {
-        font-weight: bold;
-    }
-
-    #edit-panel.edit-parent-node .selected-node-group {
-        display: none;
-    }
-
-    #chart-state-panel, #selected-node, #btn-remove-input {
-        margin-right: 20px;
-    }
-
-    #edit-panel button {
-        color: #333;
-        background-color: #fff;
-        display: inline-block;
-        padding: 6px 12px;
-        margin-bottom: 0;
-        line-height: 1.42857143;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        -ms-touch-action: manipulation;
-        touch-action: manipulation;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        background-image: none;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    #edit-panel.edit-parent-node button:not(#btn-add-nodes) {
-        display: none;
-    }
-
-    #edit-panel button:hover, .edit-panel button:focus, .edit-panel button:active {
-        border-color: #eea236;
-        box-shadow: 0 0 10px #eea236;
-    }
-
-    #new-nodelist {
-        display: inline-block;
-        list-style: none;
-        margin-top: -2px;
-        padding: 0;
-        vertical-align: text-top;
-    }
-
-    #new-nodelist > * {
-        padding-bottom: 4px;
-    }
-
-    .btn-inputs {
-        vertical-align: sub;
-    }
-
-    #edit-panel.edit-parent-node .btn-inputs {
-        display: none;
-    }
-
-    .btn-inputs:hover {
-        text-shadow: 0 0 4px #fff;
-    }
-
-    .radio-panel input[type='radio'] {
-        display: inline-block;
-        height: 24px;
-        width: 24px;
-        vertical-align: top;
-    }
-
-    #edit-panel.view-state .radio-panel input[type='radio'] + label {
-        vertical-align: -webkit-baseline-middle;
-    }
-
-    #btn-add-nodes {
-        margin-left: 20px;
-    }
-
-    input {
-        color: #000;
-    }
-</style>
-
-<div id="chart-container"></div>
-<div id="edit-panel">
-    <span id="chart-state-panel" class="radio-panel">
-      <input type="radio" name="chart-state" id="rd-view" value="view"><label for="rd-view"><?= Yii::t('app.c2', 'View') ?></label>
-      <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit"><?= Yii::t('app.c2', 'Edit') ?></label>
-    </span>
-    <label class="selected-node-group"><?= Yii::t('app.c2', 'Selected Node') ?></label>
-    <input type="text" id="selected-node" class="selected-node-group" readonly>
-    <label><?= Yii::t('app.c2', 'New Node') ?></label>
-    <ul id="new-nodelist"><li><input type="text" class="new-node"></li></ul>
-    <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
-    <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
-    <span id="node-type-panel" class="radio-panel">
-<!--      <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Parent(root)</label>-->
-      <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child"><?= Yii::t('app.c2', 'Children Node') ?></label>
-      <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling"><?= Yii::t('app.c2', 'Sibling Node') ?></label>
-    </span>
-    <button type="button" id="btn-add-nodes"><?= Yii::t('app.c2', 'Add') ?></button>
-    <button type="button" id="btn-delete-nodes"><?= Yii::t('app.c2', 'Delete') ?></button>
-    <button type="button" id="btn-reset"><?= Yii::t('app.c2', 'Selected Node') ?></button>
 </div>
-
-<?php
-$js = <<<JS
-
-// JQquery.notConfig();
-
-JS;
-
-$this->registerJs($js);
-?>
-
-<script type="text/javascript">
-    // JQuery.notConfit();
-    $(function ($) {
-
-        var datascource = <?= $model->getGRPStationJson() ?>
-
-        var getId = function () {
-            return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        };
-        // var nodeTemplate = function (data) {
-        //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
-        //     tag += `<div class="warpper">`;
-        //     if (data.userList) {
-        //         data.userList.map(function (item) {
-        //             tag += `<p>${item.name}</p>`
-        //         })
-        //     }
-        //     tag += '</div>';
-        //     return tag;
-        // };
-
-        var nodeTemplate = function (data) {
-            return `<div class="title" data-id="${data.id}" data-type="${data.type}" data-parent-id="${data.parent_id}">${data.name}</div>`;
-        };
-
-        var oc = $('#chart-container').orgchart({
-            'data': datascource,
-            'chartClass': 'edit-state',
-            'exportButton': true,
-            'exportFilename': 'SportsChart',
-            'parentNodeSymbol': 'fa-th-large',
-            // 'createNode': function ($node, data) {
-            //     $node[0].id = data.id;
-            // },
-            // 'nodeTemplate': function (data) {
-            //     return '<div class="title" data-id="' + data.id + '" data-type="' + data.type + '">' + data.name + '</div>'
-            // }
-            'nodeTemplate': nodeTemplate
-        });
-
-        var selectedId;
-        var selectedType;
-        var selectedParentId;
-        var data = [];
-
-        oc.$chartContainer.on('click', '.node', function () {
-            var $this = $(this);
-            $('#selected-node').val($this.find('.title').text()).data('node', $this);
-            selectedId = $this.find('.title').attr('data-id');
-            selectedType = $this.find('.title').attr('data-type');
-            selectedParentId = $this.find('.title').attr('data-parent-id');
-        });
-
-        oc.$chartContainer.on('click', '.orgchart', function (event) {
-            if (!$(event.target).closest('.node').length) {
-                $('#selected-node').val('');
-            }
-        });
-
-        $('input[name="chart-state"]').on('click', function () {
-            $('.orgchart').toggleClass('edit-state', this.value !== 'view');
-            $('#edit-panel').toggleClass('edit-state', this.value === 'view');
-            if ($(this).val() === 'edit') {
-                $('.orgchart').find('tr').removeClass('hidden')
-                    .find('td').removeClass('hidden')
-                    .find('.node').removeClass('slide-up slide-down slide-right slide-left');
-            } else {
-                $('#btn-reset').trigger('click');
-            }
-        });
-
-        $('input[name="node-type"]').on('click', function () {
-            var $this = $(this);
-            if ($this.val() === 'parent') {
-                $('#edit-panel').addClass('edit-parent-node');
-                $('#new-nodelist').children(':gt(0)').remove();
-            } else {
-                $('#edit-panel').removeClass('edit-parent-node');
-            }
-        });
-
-        $('#btn-add-input').on('click', function () {
-            $('#new-nodelist').append('<li><input type="text" class="new-node"></li>');
-        });
-
-        $('#btn-remove-input').on('click', function () {
-            var inputs = $('#new-nodelist').children('li');
-            if (inputs.length > 1) {
-                inputs.last().remove();
-            }
-        });
-
-        $('#btn-add-nodes').on('click', function () {
-            var $chartContainer = $('#chart-container');
-            var nodeVals = [];
-            $('#new-nodelist').find('.new-node').each(function (index, item) {
-                var validVal = item.value.trim();
-                if (validVal.length) {
-                    nodeVals.push(validVal);
-                }
-            });
-            var $node = $('#selected-node').data('node');
-            if (!nodeVals.length) {
-                alert('Please input value for new node');
-                return;
-            }
-            var nodeType = $('input[name="node-type"]:checked');
-            if (!nodeType.length) {
-                alert('Please select a node type');
-                return;
-            }
-            if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
-                alert('Please creat the root node firstly when you want to build up the orgchart from the scratch');
-                return;
-            }
-            if (nodeType.val() !== 'parent' && !$node) {
-                alert('Please select one node in orgchart');
-                return;
-            }
-            if (nodeType.val() === 'parent') {
-                if (!$chartContainer.children('.orgchart').length) {// if the original chart has been deleted
-                    oc = $chartContainer.orgchart({
-                        'data': {'name': nodeVals[0]},
-                        'exportButton': true,
-                        'exportFilename': 'SportsChart',
-                        'parentNodeSymbol': 'fa-th-large',
-                        'createNode': function ($node, data) {
-                            $node[0].id = getId();
-                        }
-                    });
-                    oc.$chart.addClass('view-state');
-                } else {
-                    oc.addParent($chartContainer.find('.node:first'), {'name': nodeVals[0], 'id': getId()});
-                }
-            } else if (nodeType.val() === 'siblings') {
-                if ($node[0].id === oc.$chart.find('.node:first')[0].id) {
-                    alert('You are not allowed to directly add sibling nodes to root node');
-                    return;
-                }
-                nodeVals.map(function (item) {
-                    data.push({
-                        'grp_id': <?= $model->id ?>,
-                        'parent_station_id': selectedParentId,
-                        'type': selectedType,
-                        'name': item,
-                        'label': item,
-                    })
-                })
-                oc.addSiblings($node, nodeVals.map(function (item) {
-                    return {'name': item, 'relationship': '110', 'id': getId()};
-                }));
-            } else {
-                var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
-                nodeVals.map(function (item) {
-                    data.push({
-                        'grp_id': <?= $model->id ?>,
-                        'parent_station_id': selectedId,
-                        'type': parseInt(selectedType) + 1,
-                        'name': item,
-                        'label': item,
-                    })
-                })
-                if (!hasChild) {
-                    var rel = nodeVals.length > 1 ? '110' : '100';
-                    oc.addChildren($node, nodeVals.map(function (item) {
-                        return {'name': item, 'relationship': rel, 'id': getId()};
-                    }));
-                } else {
-                    oc.addSiblings($node.closest('tr').siblings('.nodes').find('.node:first'), nodeVals.map(function (item) {
-                        return {'name': item, 'relationship': '110', 'id': getId()};
-                    }));
-                }
-            }
-            $.post('<?= \yii\helpers\Url::toRoute('add-station') ?>', {data: data}, function (result) {});
-        });
-
-        $('#btn-delete-nodes').on('click', function () {
-            var $node = $('#selected-node').data('node');
-            if (!$node) {
-                alert('Please select one node in orgchart');
-                return;
-            } else if ($node[0] === $('.orgchart').find('.node:first')[0]) {
-                if (!window.confirm('Are you sure you want to delete the whole chart?')) {
-                    return;
-                }
-            }
-            oc.removeNodes($node);
-            $('#selected-node').val('').data('node', null);
-        });
-
-        $('#btn-reset').on('click', function () {
-            $('.orgchart').find('.focused').removeClass('focused');
-            $('#selected-node').val('');
-            $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
-            $('#node-type-panel').find('input').prop('checked', false);
-        });
-
-    });
-</script>

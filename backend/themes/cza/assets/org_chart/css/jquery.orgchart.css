@@ -183,7 +183,8 @@
 }
 
 .orgchart .node.focused {
-  background-color: rgba(238, 217, 54, 0.5);
+  /*background-color: rgba(238, 217, 54, 0.5);*/
+  background-color: orangered;
 }
 
 .orgchart .ghost-node {
@@ -210,7 +211,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: rgba(217, 83, 79, 0.8);
+  /*background-color: rgba(217, 83, 79, 0.8);*/
+  background-color: #449d44;
   color: #fff;
   border-radius: 4px 4px 0 0; 
 }

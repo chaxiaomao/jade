@@ -72,7 +72,6 @@ return [
     'GRP' => 'GRP',
     'User Degree' => '用户等级',
     'User list' => '用户列表',
-    'Fe user' => '用户列表',
     'Branch' => '分支',
     '{s1} add' => '{s1}添加',
     'Parent' => '上级用户',
@@ -93,6 +92,9 @@ return [
     'New Node' => '新节点名称',
     'Children Node' => '子节点',
     'Sibling Node' => '同级节点',
+    'Reset Node' => '清除选择',
+    'GRP Chart Member' => 'GRP岗位成员',
+    'Node Nav' => '节点方向',
     '' => '',
 ];
 

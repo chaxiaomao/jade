@@ -7,13 +7,13 @@ use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\OperationEvent;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\c2\search\GRPSearch */
+/* @var $searchModel common\models\c2\search\GRPStationItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app.c2', 'G R P Models');
+$this->title = Yii::t('app.c2', 'G R P Station Item Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="well grpmodel-index">
+<div class="well grpstation-item-model-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'exportConfig' => [],
         'columns' => [
             ['class' => 'kartik\grid\CheckboxColumn'],
-            // ['class' => 'kartik\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
                 'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
@@ -60,43 +60,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'id',
-            // 'type',
-            [
-                'attribute' => 'type',
-                'value' => function ($model) {
-                    return \common\models\c2\statics\GRPType::getData($model->type, 'label');
-                }
-            ],
-            // 'attributeset_id',
-            // 'province_id',
-            // 'city_id',
-            // 'district_id',
-            'code',
+            'grp_station_id',
+            'user_id',
             'label',
-            // 'geo_longitude',
-            // 'geo_latitude',
-            // 'geo_marker_color',
-            // 'created_by',
-            [
-                'attribute' => 'created_by',
-                'value' => function ($model, $key, $index, $column) {
-                    return $model->creator->profile->fullname;
-                },
-            ],
-            // 'updated_by',
-            [
-                'attribute' => 'updated_by',
-                'value' => function ($model, $key, $index, $column) {
-                    return $model->updater->profile->fullname;
-                },
-            ],
+            'state',
             // 'status',
             // 'position',
             // 'created_at',
             // 'updated_at',
             [
                 'attribute' => 'status',
-                'class' => '\kartik\grid\EditableColumn',
+                'class' => '\common\widgets\grid\ActionColumn',
                 'editableOptions' => [
                     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
                     'formOptions' => ['action' => Url::toRoute('editColumn')],
@@ -109,35 +83,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'class' => '\common\widgets\grid\ActionColumn',
-                'width' => '200px',
-                'template' => '{update} {chart} {member}',
+                'class' => '\kartik\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Update'),
+                            'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
-                    },
-                    'chart' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-tree-deciduous"></span>', [
-                            '/crm/grp/grp-station/default/edit-with-chart',
-                            'id' => $model->id,
-                            'grp_id' => $model->id
-                        ], [
-                            'title' => Yii::t('app.c2', 'GRP Chart'),
-                            'data-pjax' => '0',
-                        ]);
-                    },
-                    'member' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-user"></span>', [
-                            '/crm/grp/grp-station-item/default/edit-with-chart',
-                            'grp_id' => $model->id
-                        ], [
-                            'title' => Yii::t('app.c2', 'GRP Chart Member'),
-                            'data-pjax' => '0',
-                        ]);
-                    },
+                    }
                 ]
             ],
 

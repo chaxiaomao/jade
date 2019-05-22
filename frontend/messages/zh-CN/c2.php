@@ -66,5 +66,10 @@ return [
     'GRP Station' => '岗位成员图',
     'Code Num' => '代号',
     'Change' => '更换',
+    'Forget Password' => '忘记密码',
+    'User Login' => '用户登入',
+    'User Signup' => '用户登出',
+    'Password Twice' => '确认密码',
+    'Save' => '保存',
     '' => '',
 ];

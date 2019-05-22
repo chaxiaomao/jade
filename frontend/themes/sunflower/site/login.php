@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\builder\Form;
 
 $messageName = $model->getMessageName();
-$this->title = Yii::t('app.c2', 'User login');
+$this->title = Yii::t('app.c2', 'User Login');
 ?>
 
 <div class="bg">
@@ -65,6 +65,11 @@ $this->title = Yii::t('app.c2', 'User login');
     ?>
 
     <?php echo Html::submitButton(Yii::t('app.c2', 'Login'), ['class' => 'btn btn-warning btn-block font-white']) ?>
+    <?php echo Html::a(Yii::t('app.c2', 'Forget Password'), '/user/forget-password', [
+        'class' => 'btn btn-link',
+        'style' => 'padding: 10px 0'
+    ]) ?>
+
     <div class="tc mt40">
         <?php echo Html::a(Yii::t('app.c2', 'Signup Account'), '/user/signup') ?>
     </div>

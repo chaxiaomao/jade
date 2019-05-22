@@ -164,8 +164,8 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     public static function findIdentity($id)
     {
         // TODO: Implement findIdentity() method.
-        return static::findOne(['id' => $id, 'status' => EntityModelStatus::STATUS_ACTIVE]);
         // return static::getTerminalUser($identity);
+        return static::findOne(['id' => $id, 'status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
     /**
@@ -181,7 +181,8 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     {
         // TODO: Implement findIdentityByAccessToken() method.
         $identity = static::findOne(['access_token' => $token, 'status' => EntityModelStatus::STATUS_ACTIVE]);
-        return static::getTerminalUser($identity);
+        // return static::getTerminalUser($identity);
+        return $identity;
     }
 
     /**
@@ -366,6 +367,27 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             return $model->gRP;
         }
         throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
+    }
+
+    function createInviteCode()
+    {
+        $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rand = $code[rand(0, 25)]
+            . strtoupper(dechex(date('m')))
+            . date('d') . substr(time(), -5)
+            . substr(microtime(), 2, 5)
+            . sprintf('%02d', rand(0, 99));
+        for (
+            $a = md5($rand, true),
+            $s = '0123456789ABCDEFGHIJKLMNOPQRSTUV',
+            $d = '',
+            $f = 0;
+            $f < 6;
+            $g = ord($a[$f]),
+            $d .= $s[($g ^ ord($a[$f + 8])) - $g & 0x1F],
+            $f++
+        ) ;
+        return $d;
     }
 
 }

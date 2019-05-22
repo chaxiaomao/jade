@@ -68,37 +68,10 @@ class User extends BaseUser
         }
     }
 
-    public function getReturnUrl($defaultUrl = null)
-    {
-        $model = $this->identity->getCurrentChess();
-        switch ($model->type) {
-            case FeUserType::TYPE_LORD:
-                $url = Yii::$app->getUrlManager()->createUrl(['/lord']);
-                break;
-            case FeUserType::TYPE_ELDER:
-                $url = Yii::$app->getUrlManager()->createUrl(['/elder']);
-                break;
-            case FeUserType::TYPE_CHIEFTAIN:
-                $url = Yii::$app->getUrlManager()->createUrl(['/chieftain']);
-                break;
-            case FeUserType::TYPE_MASTER:
-                $url = Yii::$app->getUrlManager()->createUrl(['/master']);
-                break;
-            case FeUserType::TYPE_FAMILIAR:
-                $url = Yii::$app->getUrlManager()->createUrl(['/familiar']);
-                break;
-            case FeUserType::TYPE_PEASANT:
-                $url = Yii::$app->getUrlManager()->createUrl(['/peasant']);
-                break;
-            // case FeUserType::TYPE_DEFAULT:
-            //     $url = Yii::$app->getUrlManager()->createUrl(['/site']);
-            //     break;
-            default:
-                // $url = Yii::$app->getHomeUrl();
-                $url = Yii::$app->getUrlManager()->createUrl(['/peasant']);
-        }
-        return $url;
-    }
+    // public function getReturnUrl($defaultUrl = null)
+    // {
+    //     return $url;
+    // }
 
     public function registerUrl()
     {

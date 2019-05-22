@@ -6,6 +6,7 @@ use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\UserChessRsModel;
 use cza\base\models\statics\ResponseDatum;
 use frontend\components\Controller;
+use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -35,7 +36,7 @@ class SiteController extends Controller
                 'only' => ['*'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'login'],
+                        'actions' => ['signup', 'login', 'forget-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -117,7 +118,7 @@ class SiteController extends Controller
         }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->goHome();
         } else {
             $model->password = '';
             return $this->render('login', [
@@ -160,6 +161,20 @@ class SiteController extends Controller
 
         return $this->render('signup', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionForgetPassword()
+    {
+        $this->layout = 'empty';
+        $model = new ForgetPasswordForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            return $this->goHome();
+        }
+
+        return $this->render('forgetPassword', [
+            'model' => $model
         ]);
     }
 

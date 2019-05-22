@@ -35,12 +35,12 @@ class SiteController extends Controller
                 'only' => ['*'],
                 'rules' => [
                     [
-                        'actions' => ['tips'],
+                        'actions' => ['signup', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'tips', 'error', 'station', 'chess-list', 'chess-change'],
+                        'actions' => ['index', 'error', 'logout', 'login', 'signup', 'center'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -86,19 +86,131 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (!Yii::$app->user->isGuest) {
-
-            // $user = Yii::$app->user->currentUser;
-            // $stations = $user->getUserChessRs()->all();
-            // return $this->render('user_station_list', [
-            //     'stations' => $stations
-            // ]);
-            // $this->goBack();
-            // return $this->redirect(Yii::$app->user->getReturnUrl());
-            return $this->redirect('user/station-list');
+            $user = Yii::$app->user->currentUser;
+            $models = $user->gRPs;
+            return $this->render('index', [
+                'models' => $models,
+            ]);
+            // return $this->render('index');
         }
-        // return $this->render('index');
     }
 
+    public function actionCenter($grp_id)
+    {
+        $user = Yii::$app->user->currentUser;
+        $model = $user->checkGRPId($grp_id);
+        return $this->render('center', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Logs in a user.
+     *
+     * @return mixed
+     */
+    public function actionLogin()
+    {
+        $this->layout = 'empty';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } else {
+            $model->password = '';
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Logs out the current user.
+     *
+     * @return mixed
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionSignup()
+    {
+        $this->layout = 'empty';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Requests password reset.
+     *
+     * @return mixed
+     */
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+
+                return $this->goHome();
+            } else {
+                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            }
+        }
+
+        return $this->render('requestPasswordResetToken', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws BadRequestHttpException
+     */
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', 'New password saved.');
+
+            return $this->goHome();
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Displays about page.
@@ -121,34 +233,6 @@ class SiteController extends Controller
                 return $this->render('error', ['message' => $exception]);
             }
         }
-    }
-
-    public function actionStation($t)
-    {
-        $user = Yii::$app->user->currentUser;
-        $currentChess = $user->getCurrentChess();
-        $model = UserChessRsModel::find()->where(['chess_id' => $currentChess->chess_id, 'type' => $t])->all();
-        return $this->render('station', [
-            'model' => $model
-        ]);
-    }
-
-    public function actionChessList()
-    {
-        $user = Yii::$app->user->currentUser;
-        $model = $user->userChessRs;
-        return $this->render('chess_list', [
-            'model' => $model
-        ]);
-    }
-
-    public function actionChessChange()
-    {
-
-        $params = Yii::$app->request->post();
-        Yii::$app->session->set('current_chess_id', $params['chess_id']);
-        $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params['chess_id']);
-        return $this->asJson($responseData);
     }
 
 }

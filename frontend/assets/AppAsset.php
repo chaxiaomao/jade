@@ -9,8 +9,8 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    // public $basePath = '@webroot';
+    // public $baseUrl = '@web';
     public $css = [
         'css/site.css',
     ];
@@ -20,4 +20,12 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+    public $publishOptions = [
+        'forceCopy' => YII_DEBUG,
+    ];
+    public function init()
+    {
+        $this->sourcePath = '@app/themes/' . CZA_FRONTEND_THEME . '/assets';
+        parent::init();
+    }
 }

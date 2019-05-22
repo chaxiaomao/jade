@@ -42,7 +42,6 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'mobile_number', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\c2\entity\FeUserModel', 'message' => Yii::t('app.c2', 'This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -89,88 +88,12 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-
-        $model = UserRecommendCodeModel::findOne(['code' => $this->recommendCode]);
-        $type = FeUserType::TYPE_PEASANT;
-        if (!is_null($model)) {
-            $type = $model->type;
-        }
-        switch ($type):
-            case FeUserType::TYPE_LORD:
-                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_ELDER])->one();
-                $user = new ElderModel();
-                $user->lordId = $model->user_id;
-                $user->chessId = $model->chess_id;
-                $user->degreeId = $degree->id;
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_ELDER])->id;
-                $user->type = FeUserType::TYPE_ELDER;
-                break;
-            case FeUserType::TYPE_ELDER:
-                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_CHIEFTAIN])->one();
-                $user = new ChieftainModel();
-                $user->elderId = $model->user_id;
-                $user->chessId = $model->chess_id;
-                $user->degreeId = $degree->id;
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_CHIEFTAIN])->id;
-                $user->type = FeUserType::TYPE_CHIEFTAIN;
-                break;
-            case FeUserType::TYPE_CHIEFTAIN:
-                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_MASTER])->one();
-                $user = new MasterModel();
-                $user->chieftainId = $model->user_id;
-                $user->chessId = $model->chess_id;
-                $user->degreeId = $degree->id;
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_MASTER])->id;
-                $user->type = FeUserType::TYPE_MASTER;
-                break;
-            case FeUserType::TYPE_MASTER:
-                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_FAMILIAR])->one();
-                $user = new FamiliarModel();
-                $user->masterId = $model->user_id;
-                $user->chessId = $model->chess_id;
-                $user->degreeId = $degree->id;
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_FAMILIAR])->id;
-                $user->type = FeUserType::TYPE_FAMILIAR;
-                break;
-            case FeUserType::TYPE_FAMILIAR:
-                $degree = UserDegreeModel::find()->where(['chess_id' => $model->chess_id, 'type' => FeUserType::TYPE_PEASANT])->one();
-                $user = new PeasantModel();
-                $user->familiarId = $model->user_id;
-                $user->chessId = $model->chess_id;
-                $user->degreeId = $degree->id;
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
-                $user->type = FeUserType::TYPE_PEASANT;
-                break;
-            default:
-                $user = new FeUserModel();
-                // $user->degree_id = UserDegreeModel::findOne(['type' => FeUserType::TYPE_PEASANT])->id;
-                $user->type = FeUserType::TYPE_PEASANT;
-        endswitch;
-        $user->username = $this->username;
-        $user->mobile_number = $this->mobile_number;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        return $user->save() ? $user : null;
-    }
-
-    public function signupPer()
-    {
-        if (!$this->validate()) {
-            return null;
-        }
-        $model = UserRecommendCodeModel::findOne(['code' => $this->recommendCode]);
         $user = new FeUserModel();
         $user->username = $this->username;
         $user->mobile_number = $this->mobile_number;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        if (is_null($model)) {
-            // No recommend code, normal signup, no chess no type(degree).
-            return $user->save() ? $user : null;
-        } else {
-            // Have recommend code.
-            return ($user->save() && $user->createRecommendUserKpi($model->chess_id, $model->user_id)) ? $user : null;
-        }
+        return $user->save() ? $user : null;
     }
 
 }

@@ -13,6 +13,7 @@ use Yii;
 use yii\base\Object;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
 use yii\web\IdentityInterface;
 use yii\web\NotFoundHttpException;
@@ -59,12 +60,6 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     /** @var string Plain password. Used for model validation. */
     public $password;
-    /**
-     * @var UserChessRsModel
-     */
-    public $currentChess = null;
-
-    public $developmentData;
 
     /**
      * @inheritdoc
@@ -357,6 +352,20 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     public function getUpdater()
     {
         return $this->hasOne(BeUser::className(), ['id' => 'updated_by']);
+    }
+
+    public function getGRPs()
+    {
+        return $this->hasMany(UserGRPRsModel::className(), ['user_id' => 'id']);
+    }
+
+    public function checkGRPId($grp_id)
+    {
+        $model = UserGRPRsModel::findOne(['grp_id' => $grp_id, 'user_id' => $this->id]);
+        if ($model) {
+            return $model->gRP;
+        }
+        throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
     }
 
 }

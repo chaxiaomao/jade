@@ -7,7 +7,7 @@
  */
 
 use kartik\helpers\Html;
-
+$this->title = Yii::t('app.c2', 'GRP List');
 ?>
 
 <!--<form>-->
@@ -28,19 +28,21 @@ use kartik\helpers\Html;
 <!--</form>-->
 <div class="container-fluid">
 
-    <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Chess not in') ?></div>
+    <?php if (count($models) == 0): ?>
+        <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Chess not in') ?></div>
+    <?php endif; ?>
 
-    <div style="margin-top: 60px">
-        <?php
+    <ul class="nav nav-pills tc">
+        <?php foreach ($models as $model): ?>
+            <li role="presentation" class="btn btn-default navbar-btn">
+                <p><?= $model->gRP->label ?></p>
+                <?= Html::a($model->gRP->code, ['/center', 'grp_id' => $model->gRP->id], ['class' => 'navbar-link']) ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 
-        echo Html::beginForm('/user/logout', 'post', ['class' => 'form-inline']);
-        echo Html::submitButton(
-            'Other account (' . Yii::$app->user->identity->username . ')',
-            // ['class' => 'btn btn-outline-success my-2 my-sm-0']
-            ['class' => 'btn btn-danger btn-lg btn-block']
-        );
-        echo Html::endForm();
 
-        ?>
-    </div>
+    <?= Html::beginForm(['/user/logout'], 'post') ?>
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, ['class' => 'btn btn-danger btn-block']) ?>
+    <?= Html::endForm() ?>
 </div>

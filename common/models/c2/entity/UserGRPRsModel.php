@@ -34,7 +34,7 @@ class UserGRPRsModel extends \cza\base\models\ActiveRecord
         return [
             [['grp_id', 'user_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['state', 'status'], 'string', 'max' => 4],
+            [['state', 'status'], 'integer', 'max' => 4],
         ];
     }
 
@@ -69,6 +69,16 @@ class UserGRPRsModel extends \cza\base\models\ActiveRecord
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+    }
+
+    public function getGRP()
+    {
+        return $this->hasOne(GRPModel::className(), ['id' => 'grp_id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
     }
 
 }

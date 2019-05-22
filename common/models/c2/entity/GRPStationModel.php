@@ -41,7 +41,8 @@ class GRPStationModel extends \cza\base\models\ActiveRecord
             [['grp_id', 'parent_station_id', 'position'], 'integer'],
             [['grp_id', 'label', 'node_nav', 'selected_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'status'], 'integer', 'max' => 4],
+            [['type',], 'integer', 'max' => 9],
+            [['status'], 'integer', 'max' => 4],
             [['name', 'label'], 'string', 'max' => 255],
         ];
     }

@@ -19,15 +19,15 @@ $this->title = Yii::t('app.c2', 'Profile center');
 ?>
 <div class="container-fluid">
     <div class="">
-        <h2><?= $model->label ?><small><?= Yii::t('app.c2', 'GRP Station') ?></small></h2>
+        <h2><?= $model->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/" class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a></h2>
         <p><?= Yii::t('app.c2', 'Code Num') . ":" . $model->code ?></p>
     </div>
 
     <div id="chart-container"></div>
 
     <div class="list-group">
-        <button type="button" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></button>
-        <button type="button" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></button>
+        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></a>
+        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></a>
     </div>
 
 </div>
@@ -69,10 +69,12 @@ $this->title = Yii::t('app.c2', 'Profile center');
 
         var oc = $('#chart-container').orgchart({
             'data': datascource,
-            'chartClass': 'edit-state',
+            // 'chartClass': 'edit-state',
             'exportButton': true,
             'exportFilename': 'SportsChart',
-            'parentNodeSymbol': 'fa-th-large',
+            // 'parentNodeSymbol': 'fa-th-large',
+            // 'pan': true,
+            // 'zoom': true,
             // 'createNode': function ($node, data) {
             //     $node[0].id = data.id;
             // },

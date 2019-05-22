@@ -165,6 +165,8 @@ $form = ActiveForm::begin([
             'exportButton': true,
             'exportFilename': 'SportsChart',
             'parentNodeSymbol': 'fa-th-large',
+            'pan': true,
+            'zoom': true,
             // 'createNode': function ($node, data) {
             //     $node[0].id = data.id;
             // },

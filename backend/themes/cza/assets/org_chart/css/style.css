@@ -27,7 +27,7 @@ body {
 
 #chart-container {
     background-color: #eee;
-    min-height: 800px;
+    /*min-height: 800px;*/
     margin-bottom: 10px;
     width: 100%;
 }

@@ -71,5 +71,6 @@ return [
     'User Signup' => '用户登出',
     'Password Twice' => '确认密码',
     'Save' => '保存',
+    'Copy' => '复制',
     '' => '',
 ];

@@ -6,6 +6,8 @@
  * Time: 17:11
  */
 
+use yii\helpers\Html;
+
 $assets = \frontend\assets\AppAsset::register($this);
 
 $this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
@@ -26,9 +28,13 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div id="chart-container"></div>
 
     <div class="list-group">
-        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></a>
-        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></a>
+        <a href="/user/kpi" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></a>
+        <a href="/user/profit" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></a>
     </div>
+
+    <?= Html::beginForm(['/user/logout'], 'post') ?>
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, ['class' => 'btn btn-danger btn-block']) ?>
+    <?= Html::endForm() ?>
 
 </div>
 
@@ -70,7 +76,7 @@ $this->title = Yii::t('app.c2', 'Profile center');
         var oc = $('#chart-container').orgchart({
             'data': datascource,
             // 'chartClass': 'edit-state',
-            'exportButton': true,
+            'exportButton': false,
             'exportFilename': 'SportsChart',
             // 'parentNodeSymbol': 'fa-th-large',
             // 'pan': true,

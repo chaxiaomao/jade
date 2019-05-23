@@ -10,6 +10,7 @@ use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -41,7 +42,8 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'error', 'logout', 'login', 'signup', 'center'],
+                        'actions' => ['index', 'error', 'logout', 'login', 'signup',
+                            'center', 'kpi', 'profit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -103,6 +105,26 @@ class SiteController extends Controller
         return $this->render('center', [
             'model' => $model,
         ]);
+    }
+
+    public function actionKpi()
+    {
+        $user = Yii::$app->user->currentUser;
+        // $encryptedData = "";
+        // try {
+        //     $encryptedData = Yii::$app->security->hashData($user->id, 'user_id', false);
+        // } catch (InvalidConfigException $e) {
+        //
+        // }
+        return $this->render('kpi', [
+            'code' => $user->mobile_number
+        ]);
+
+    }
+
+    public function actionProfit()
+    {
+
     }
 
     /**

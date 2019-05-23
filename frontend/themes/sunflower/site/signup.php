@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\builder\Form;
 
 $messageName = $model->getMessageName();
-$this->title = Yii::t('app.c2', 'User register');
+$this->title = Yii::t('app.c2', 'User Register');
 ?>
 
 <div class="bg">

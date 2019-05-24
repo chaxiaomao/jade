@@ -6,6 +6,7 @@ use backend\models\c2\entity\rbac\BeUser;
 use common\components\validators\FeUserUniqueValidator;
 use common\helpers\DeviceLogHelper;
 use common\models\c2\statics\FeUserType;
+use common\models\c2\statics\GRPStationType;
 use common\models\c2\statics\UserKpiStateType;
 use cza\base\models\statics\EntityModelStatus;
 use frontend\models\FeUser;

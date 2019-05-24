@@ -36,7 +36,7 @@ $this->title = Yii::t('app.c2', 'GRP List');
         <?php foreach ($models as $model): ?>
             <li role="presentation" class="btn btn-default navbar-btn">
                 <p><?= $model->gRP->label ?></p>
-                <?= Html::a($model->gRP->code, ['/center', 'p' => $model->gRP->seo_code], ['class' => 'navbar-link']) ?>
+                <?= Html::a($model->gRP->code, ['/center', 's' => $model->gRP->seo_code], ['class' => 'navbar-link']) ?>
             </li>
         <?php endforeach; ?>
     </ul>

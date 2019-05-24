@@ -22,7 +22,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
     <h4><?= Yii::t('app.c2', 'My Developer') ?></h4>
 
     <ul class="media-list">
-        <?php foreach ($models as $model): ?>
+        <?php foreach ($kpiModels as $kpiModel): ?>
             <li class="media bottom-board pb10 pt10">
                 <div class="media-left">
                     <a href="#">
@@ -30,9 +30,9 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading"><?= $model->joinUser->username ?>
-                        <span class="label label-default"><?= \common\models\c2\statics\UserKpiStateType::getLabel($model->state) ?></span></h4>
-                    <?= $model->joinUser->mobile_number ?>
+                    <h4 class="media-heading"><?= $kpiModel->joinUser->username ?>
+                        <span class="label label-default"><?= \common\models\c2\statics\UserKpiStateType::getLabel($kpiModel->state) ?></span></h4>
+                    <?= $kpiModel->joinUser->mobile_number ?>
                 </div>
             </li>
 

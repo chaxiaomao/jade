@@ -79,5 +79,6 @@ return [
     'Finish Commit' => '已通过',
     'My Invite Code' => '我的邀请码',
     'Though this code can invite user join {s1} grp.' => '通过该邀请码可以邀请<{s1}>资金盘。',
+    'Kpi Verify' => '新进用户考核',
     '' => '',
 ];

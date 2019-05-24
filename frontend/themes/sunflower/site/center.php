@@ -21,8 +21,8 @@ $this->title = Yii::t('app.c2', 'Profile center');
 ?>
 <div class="container-fluid">
     <div class="">
-        <h2><?= $model->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/" class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a></h2>
-        <p><?= Yii::t('app.c2', 'Code Num') . ":" . $model->code ?></p>
+        <h2><?= $grpModel->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/" class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a></h2>
+        <p><?= Yii::t('app.c2', 'Code Num') . ":" . $grpModel->code ?></p>
     </div>
 
     <div id="chart-container"></div>
@@ -30,6 +30,9 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div class="list-group">
         <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
         <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
+        <?php if ($c1StationItemModel->user_id == Yii::$app->user->currentUser->id): ?>
+            <?= Html::a(Yii::t('app.c2', 'Kpi Verify'), ['/user/kpi-verify'], ['class' => 'list-group-item']) ?>
+        <?php endif; ?>
     </div>
 
     <?= Html::beginForm(['/user/logout'], 'post') ?>
@@ -44,7 +47,7 @@ $this->title = Yii::t('app.c2', 'Profile center');
     // JQuery.notConfit();
     $(function ($) {
 
-        var datascource = <?= $model->getGRPStationJson(['withMember' => true]) ?>
+        var datascource = <?= $grpModel->getGRPStationJson(['withMember' => true]) ?>
 
         // var nodeTemplate = function (data) {
         //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;

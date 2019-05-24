@@ -4,8 +4,10 @@ namespace frontend\controllers;
 
 use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\GRPModel;
+use common\models\c2\entity\GRPStationModel;
 use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\entity\UserKpiModel;
+use common\models\c2\statics\GRPStationType;
 use cza\base\models\statics\ResponseDatum;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
@@ -45,7 +47,7 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit'],
+                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -100,18 +102,20 @@ class SiteController extends Controller
         }
     }
 
-    public function actionCenter($p)
+    public function actionCenter($s)
     {
-        $model = GRPModel::findOne(['seo_code' => $p]);
+        $grpModel = GRPModel::findOne(['seo_code' => $s]);
         $grpSession = Yii::$app->session;
-        if (is_null($grpSession->get('grp_id'))) {
-            $grpSession->set('grp_id', $model->id);
-        }
-        if (is_null($model)) {
+        $grpSession->set('grp_id', $grpModel->id);
+        if (is_null($grpModel)) {
             throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
         }
+        $c1StationModel = GRPStationModel::findOne(['grp_id' => $grpModel->id, 'type' => GRPStationType::TYPE_C1]);
+        $c1StationItemModel = $c1StationModel->getGRPStationItems()->one();
+
         return $this->render('center', [
-            'model' => $model,
+            'grpModel' => $grpModel,
+            'c1StationItemModel' => $c1StationItemModel,
         ]);
     }
 
@@ -124,18 +128,12 @@ class SiteController extends Controller
             throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
         }
         $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
-        $models = UserKpiModel::find()
+        $kpiModels = UserKpiModel::find()
             ->where(['invite_user_id' => $user->id, 'grp_id' => $grpSession->get('grp_id')])
             ->all();
-        // $encryptedData = "";
-        // try {
-        //     $encryptedData = Yii::$app->security->hashData($user->id, 'user_id', false);
-        // } catch (InvalidConfigException $e) {
-        //
-        // }
         return $this->render('kpi', [
             'code' => $code,
-            'models' => $models,
+            'kpiModels' => $kpiModels,
             'grpModel' => $grpModel,
         ]);
 
@@ -144,6 +142,30 @@ class SiteController extends Controller
     public function actionProfit()
     {
 
+    }
+
+    public function actionKpiVerify()
+    {
+        $grpSession = Yii::$app->session;
+        $kpiModels = UserKpiModel::find()->where(['grp_id' => $grpSession->get('grp_id')])->all();
+        return $this->render('kpiVerify', [
+            'kpiModels' => $kpiModels
+        ]);
+    }
+
+    public function actionKpiCommit($id)
+    {
+        $model = UserKpiModel::findOne($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('kpiCommit', [ 'model' => $model,]) : $this->render('kpiCommit', [ 'model' => $model,]);
     }
 
     /**

@@ -140,9 +140,6 @@ $form = ActiveForm::begin([
 
         var datascource = <?= $grpModel->getGRPStationJson() ?>
 
-        var getId = function () {
-            return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        };
         // var nodeTemplate = function (data) {
         //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
         //     tag += `<div class="warpper">`;

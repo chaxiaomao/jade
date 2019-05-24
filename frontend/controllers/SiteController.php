@@ -3,7 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\c2\entity\ChessModel;
+use common\models\c2\entity\GRPModel;
 use common\models\c2\entity\UserChessRsModel;
+use common\models\c2\entity\UserKpiModel;
 use cza\base\models\statics\ResponseDatum;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
@@ -98,10 +100,16 @@ class SiteController extends Controller
         }
     }
 
-    public function actionCenter($grp_id)
+    public function actionCenter($p)
     {
-        $user = Yii::$app->user->currentUser;
-        $model = $user->checkGRPId($grp_id);
+        $model = GRPModel::findOne(['seo_code' => $p]);
+        $grpSession = Yii::$app->session;
+        if (is_null($grpSession->get('grp_id'))) {
+            $grpSession->set('grp_id', $model->id);
+        }
+        if (is_null($model)) {
+            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
+        }
         return $this->render('center', [
             'model' => $model,
         ]);
@@ -110,6 +118,15 @@ class SiteController extends Controller
     public function actionKpi()
     {
         $user = Yii::$app->user->currentUser;
+        $grpSession = Yii::$app->session;
+        $code = $user->getInviteCode($grpSession->get('grp_id'));
+        if (is_null($code)) {
+            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
+        }
+        $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
+        $models = UserKpiModel::find()
+            ->where(['invite_user_id' => $user->id, 'grp_id' => $grpSession->get('grp_id')])
+            ->all();
         // $encryptedData = "";
         // try {
         //     $encryptedData = Yii::$app->security->hashData($user->id, 'user_id', false);
@@ -117,7 +134,9 @@ class SiteController extends Controller
         //
         // }
         return $this->render('kpi', [
-            'code' => $user->mobile_number
+            'code' => $code,
+            'models' => $models,
+            'grpModel' => $grpModel,
         ]);
 
     }
@@ -259,13 +278,13 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionError() {
+    public function actionError()
+    {
         $exception = Yii::$app->errorHandler->exception;
         if ($exception !== null) {
-            if(!Yii::$app->user->isGuest){
+            if (!Yii::$app->user->isGuest) {
                 return $this->render('error', ['message' => $exception]);
-            }
-            else{
+            } else {
                 // $this->layout = 'main-public';
                 return $this->render('error', ['message' => $exception]);
             }

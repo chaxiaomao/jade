@@ -22,6 +22,7 @@ use yii\helpers\Json;
  * @property string $district_id
  * @property string $code
  * @property string $label
+ * @property string $seo_code
  * @property string $geo_longitude
  * @property string $geo_latitude
  * @property string $geo_marker_color
@@ -54,7 +55,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
             [['label'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['type', 'status'], 'integer', 'max' => 4],
-            [['code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
+            [['code', 'seo_code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
         ];
     }
 
@@ -71,6 +72,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
             'city_id' => Yii::t('app.c2', 'City'),
             'district_id' => Yii::t('app.c2', 'District'),
             'code' => Yii::t('app.c2', 'Code'),
+            'seo_code' => Yii::t('app.c2', 'Seo Code'),
             'label' => Yii::t('app.c2', 'Label'),
             'geo_longitude' => Yii::t('app.c2', 'Geo Longitude'),
             'geo_latitude' => Yii::t('app.c2', 'Geo Latitude'),
@@ -101,6 +103,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
         parent::loadDefaultValues($skipIfSet);
         if ($this->isNewRecord) {
             $this->code = CodeGenerator::getCodeByDate($this, 'GRP');
+            $this->seo_code = Yii::$app->security->generateRandomString(10);
         }
     }
 

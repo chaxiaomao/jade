@@ -72,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'city_id',
             // 'district_id',
             'code',
+            'seo_code',
             'label',
             // 'geo_longitude',
             // 'geo_latitude',

@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 class UserKpiStateType extends AbstractStaticClass {
 
     const TYPE_NOT_COMMIT = 1;
-    const TYPE_CHIEFTAIN_COMMIT = 2;
+    const TYPE_C1_COMMIT = 2;
     const TYPE_ADMIN_COMMIT = 3;
     const TYPE_FINISH_COMMIT = 4;
 
@@ -28,10 +28,10 @@ class UserKpiStateType extends AbstractStaticClass {
     public static function getData($id = '', $attr = '') {
         if (is_null(static::$_data)) {
             static::$_data = [
-                static::TYPE_NOT_COMMIT => ['id' => static::TYPE_NOT_COMMIT, 'label' => Yii::t('app.c2', 'Not commit')],
-                static::TYPE_CHIEFTAIN_COMMIT => ['id' => static::TYPE_CHIEFTAIN_COMMIT, 'label' => Yii::t('app.c2', 'Chieftain commit')],
-                static::TYPE_ADMIN_COMMIT => ['id' => static::TYPE_ADMIN_COMMIT, 'label' => Yii::t('app.c2', 'Admin commit')],
-                static::TYPE_FINISH_COMMIT => ['id' => static::TYPE_FINISH_COMMIT, 'label' => Yii::t('app.c2', 'Finish commit')],
+                static::TYPE_NOT_COMMIT => ['id' => static::TYPE_NOT_COMMIT, 'label' => Yii::t('app.c2', 'Not Commit')],
+                static::TYPE_C1_COMMIT => ['id' => static::TYPE_C1_COMMIT, 'label' => Yii::t('app.c2', 'C1 Commit')],
+                static::TYPE_ADMIN_COMMIT => ['id' => static::TYPE_ADMIN_COMMIT, 'label' => Yii::t('app.c2', 'Admin Commit')],
+                static::TYPE_FINISH_COMMIT => ['id' => static::TYPE_FINISH_COMMIT, 'label' => Yii::t('app.c2', 'Finish Commit')],
             ];
         }
         if ($id !== '' && !empty($attr)) {

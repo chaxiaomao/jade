@@ -31,7 +31,7 @@ Yii::$container->set(yii\bootstrap\ActiveField::className(), ['template' => "{in
         <div class="row">
             <div class="col-xs-8">
                 <div class="checkbox icheck">
-                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                    <?= $form->field($model, 'rememberMe', ['checked' => true])->checkbox() ?>
                 </div>
             </div>
             <!-- /.col -->

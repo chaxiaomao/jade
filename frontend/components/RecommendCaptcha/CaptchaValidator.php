@@ -12,6 +12,7 @@ namespace frontend\components\RecommendCaptcha;
 use common\models\c2\entity\FeUserAuthModel;
 use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\RecommendCodeModel;
+use common\models\c2\entity\UserInviteCodeModel;
 use common\models\c2\entity\UserRecommendCodeModel;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -36,7 +37,7 @@ class CaptchaValidator extends Validator
      */
     protected function validateValue($value)
     {
-        $model = FeUserModel::findOne(['mobile_number' => $value]);
+        $model = UserInviteCodeModel::findOne(['code' => $value]);
         if (!is_null($model)) {
             return [];
         }

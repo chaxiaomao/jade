@@ -18,8 +18,10 @@ class GRPSearch extends GRPModel
     public function rules()
     {
         return [
-            [['id', 'attributeset_id', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
-            [['type', 'code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'attributeset_id', 'province_id', 'city_id', 'district_id',
+                'created_by', 'updated_by', 'position'], 'integer'],
+            [['type', 'code', 'seo_code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color',
+                'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -77,6 +79,7 @@ class GRPSearch extends GRPModel
 
         $query->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'seo_code', $this->seo_code])
             ->andFilterWhere(['like', 'label', $this->label])
             ->andFilterWhere(['like', 'geo_longitude', $this->geo_longitude])
             ->andFilterWhere(['like', 'geo_latitude', $this->geo_latitude])

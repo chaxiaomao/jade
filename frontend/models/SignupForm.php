@@ -93,7 +93,7 @@ class SignupForm extends Model
         $user->mobile_number = $this->mobile_number;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        return $user->save() ? $user : null;
+        return $user->save() && $user->createInviteUserKip($this->recommendCode) ? $user : null;
     }
 
 }

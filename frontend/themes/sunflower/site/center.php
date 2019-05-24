@@ -28,8 +28,8 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div id="chart-container"></div>
 
     <div class="list-group">
-        <a href="/user/kpi" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></a>
-        <a href="/user/profit" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></a>
+        <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
+        <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
     </div>
 
     <?= Html::beginForm(['/user/logout'], 'post') ?>
@@ -46,9 +46,6 @@ $this->title = Yii::t('app.c2', 'Profile center');
 
         var datascource = <?= $model->getGRPStationJson(['withMember' => true]) ?>
 
-        var getId = function () {
-            return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        };
         // var nodeTemplate = function (data) {
         //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
         //     tag += `<div class="warpper">`;

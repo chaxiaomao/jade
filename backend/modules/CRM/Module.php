@@ -25,6 +25,9 @@ class Module extends \yii\base\Module
             'grp' => [
                 'class' => 'backend\modules\CRM\modules\GRP\Module',
             ],
+            'kpi' => [
+                'class' => 'backend\modules\CRM\modules\KPI\Module',
+            ],
         ];
         // custom initialization code goes here
     }

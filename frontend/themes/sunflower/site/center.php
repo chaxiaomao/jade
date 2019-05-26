@@ -21,7 +21,9 @@ $this->title = Yii::t('app.c2', 'Profile center');
 ?>
 <div class="container-fluid">
     <div class="">
-        <h2><?= $grpModel->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/" class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a></h2>
+        <h2><?= $grpModel->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/"
+                                                                            class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a>
+        </h2>
         <p><?= Yii::t('app.c2', 'Code Num') . ":" . $grpModel->code ?></p>
     </div>
 
@@ -36,11 +38,12 @@ $this->title = Yii::t('app.c2', 'Profile center');
     </div>
 
     <?= Html::beginForm(['/user/logout'], 'post') ?>
-    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, ['class' => 'btn btn-danger btn-block']) ?>
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, [
+        'class' => 'btn btn-danger btn-block mb10'
+    ]) ?>
     <?= Html::endForm() ?>
 
 </div>
-
 
 
 <script type="text/javascript">

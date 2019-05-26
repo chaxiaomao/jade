@@ -8,10 +8,12 @@ use common\models\c2\entity\GRPStationModel;
 use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\entity\UserKpiModel;
 use common\models\c2\statics\GRPStationType;
+use common\models\c2\statics\UserKpiStateType;
 use cza\base\models\statics\ResponseDatum;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
+use http\Exception\BadMessageException;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
@@ -22,6 +24,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -156,16 +159,22 @@ class SiteController extends Controller
     public function actionKpiCommit($id)
     {
         $model = UserKpiModel::findOne($id);
+        if ($model->state == UserKpiStateType::TYPE_FINISH_COMMIT) {
+            throw new BadRequestHttpException(Yii::t('app.c2', 'Kpi has been commit finish.'));
+        }
+        $model->setScenario(UserKpiModel::SCENARIO_COMMIT);
+        $grpModel = GRPModel::findOne(['id' => $model->grp_id]);
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
+            if ($model->save() && $model->createNewMember()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
             } else {
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('kpiCommit', [ 'model' => $model,]) : $this->render('kpiCommit', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('kpiCommit', [
+            'model' => $model, 'grpModel' => $grpModel]) : $this->render('kpiCommit', ['model' => $model, 'grpModel' => $grpModel]);
     }
 
     /**

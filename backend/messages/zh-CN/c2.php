@@ -95,6 +95,11 @@ return [
     'Reset Node' => '清除选择',
     'GRP Chart Member' => 'GRP岗位成员',
     'Node Nav' => '节点方向',
+    'Join User' => '新会员',
+    'Invite User' => '邀请会员',
+    'Grp Station' => '岗位',
+    'Dues' => '转帐金额',
+    'Commit' => '审核',
     '' => '',
 ];
 

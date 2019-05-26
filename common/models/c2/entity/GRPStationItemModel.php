@@ -88,7 +88,9 @@ class GRPStationItemModel extends \cza\base\models\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        if ($insert) {
+        $model = UserGRPRsModel::find()
+            ->where(['user_id' => $this->user_id, 'grp_id' => $this->gRPStation->gRP->id]);
+        if ($model->count() == 0) {
             $attributes = [
                 'grp_id' => $this->gRPStation->gRP->id,
                 'user_id' => $this->user_id,

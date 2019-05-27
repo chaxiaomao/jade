@@ -29,14 +29,14 @@ $this->title = Yii::t('app.c2', 'GRP List');
 <div class="container-fluid">
 
     <?php if (count($models) == 0): ?>
-        <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Chess not in') ?></div>
+        <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Pls wait for check.') ?></div>
     <?php endif; ?>
 
     <ul class="nav nav-pills tc">
         <?php foreach ($models as $model): ?>
             <li role="presentation" class="btn btn-default navbar-btn">
                 <p><?= $model->gRP->label ?></p>
-                <?= Html::a($model->gRP->code, ['/center', 'grp_id' => $model->gRP->id], ['class' => 'navbar-link']) ?>
+                <?= Html::a($model->gRP->code, ['/center', 's' => $model->gRP->seo_code], ['class' => 'navbar-link']) ?>
             </li>
         <?php endforeach; ?>
     </ul>

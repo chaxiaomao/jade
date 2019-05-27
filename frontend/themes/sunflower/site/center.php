@@ -6,6 +6,8 @@
  * Time: 17:11
  */
 
+use yii\helpers\Html;
+
 $assets = \frontend\assets\AppAsset::register($this);
 
 $this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
@@ -19,30 +21,37 @@ $this->title = Yii::t('app.c2', 'Profile center');
 ?>
 <div class="container-fluid">
     <div class="">
-        <h2><?= $model->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/" class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a></h2>
-        <p><?= Yii::t('app.c2', 'Code Num') . ":" . $model->code ?></p>
+        <h2><?= $grpModel->label ?><?= Yii::t('app.c2', 'GRP Station') ?><a href="/"
+                                                                            class="btn btn-link"><?= Yii::t('app.c2', 'Change') ?></a>
+        </h2>
+        <p><?= Yii::t('app.c2', 'Code Num') . ":" . $grpModel->code ?></p>
     </div>
 
     <div id="chart-container"></div>
 
     <div class="list-group">
-        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Kpi') ?></a>
-        <a href="" class="list-group-item"><?= Yii::t('app.c2', 'My Profit') ?></a>
+        <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
+        <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
+        <?php if ($c1StationItemModel->user_id == Yii::$app->user->currentUser->id): ?>
+            <?= Html::a(Yii::t('app.c2', 'Kpi Verify'), ['/user/kpi-verify'], ['class' => 'list-group-item']) ?>
+        <?php endif; ?>
     </div>
 
-</div>
+    <?= Html::beginForm(['/user/logout'], 'post') ?>
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, [
+        'class' => 'btn btn-danger btn-block mb10'
+    ]) ?>
+    <?= Html::endForm() ?>
 
+</div>
 
 
 <script type="text/javascript">
     // JQuery.notConfit();
     $(function ($) {
 
-        var datascource = <?= $model->getGRPStationJson(['withMember' => true]) ?>
+        var datascource = <?= $grpModel->getGRPStationJson(['withMember' => true]) ?>
 
-        var getId = function () {
-            return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        };
         // var nodeTemplate = function (data) {
         //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
         //     tag += `<div class="warpper">`;
@@ -70,7 +79,7 @@ $this->title = Yii::t('app.c2', 'Profile center');
         var oc = $('#chart-container').orgchart({
             'data': datascource,
             // 'chartClass': 'edit-state',
-            'exportButton': true,
+            'exportButton': false,
             'exportFilename': 'SportsChart',
             // 'parentNodeSymbol': 'fa-th-large',
             // 'pan': true,

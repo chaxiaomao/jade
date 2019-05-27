@@ -6,6 +6,7 @@ use backend\models\c2\entity\rbac\BeUser;
 use common\components\validators\FeUserUniqueValidator;
 use common\helpers\DeviceLogHelper;
 use common\models\c2\statics\FeUserType;
+use common\models\c2\statics\GRPStationType;
 use common\models\c2\statics\UserKpiStateType;
 use cza\base\models\statics\EntityModelStatus;
 use frontend\models\FeUser;
@@ -360,34 +361,47 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->hasMany(UserGRPRsModel::className(), ['user_id' => 'id']);
     }
 
-    public function checkGRPId($grp_id)
+    public function getInviteCode($grp_id)
     {
-        $model = UserGRPRsModel::findOne(['grp_id' => $grp_id, 'user_id' => $this->id]);
-        if ($model) {
-            return $model->gRP;
+        $grpModel = GRPModel::findOne($grp_id);
+        if ($grpModel) {
+            $inviteCodeModel = UserInviteCodeModel::findOne(['grp_id' => $grp_id, 'user_id' => $this->id]);
+            if (is_null($inviteCodeModel)) {
+                $encryptedData = Yii::$app->security->hashData($this->id, 'user_id', false);
+                $code = substr($encryptedData, 0, 6);
+                $inviteCodeModel = new UserInviteCodeModel();
+                $inviteCodeModel->setAttributes([
+                    'grp_id' => $grp_id,
+                    'user_id' => $this->id,
+                    'code' => $code,
+                ]);
+                $inviteCodeModel->save();
+            }
+            return $inviteCodeModel->code;
         }
-        throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
+        return null;
     }
 
-    function createInviteCode()
+    public function createInviteUserKip($code)
     {
-        $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $rand = $code[rand(0, 25)]
-            . strtoupper(dechex(date('m')))
-            . date('d') . substr(time(), -5)
-            . substr(microtime(), 2, 5)
-            . sprintf('%02d', rand(0, 99));
-        for (
-            $a = md5($rand, true),
-            $s = '0123456789ABCDEFGHIJKLMNOPQRSTUV',
-            $d = '',
-            $f = 0;
-            $f < 6;
-            $g = ord($a[$f]),
-            $d .= $s[($g ^ ord($a[$f + 8])) - $g & 0x1F],
-            $f++
-        ) ;
-        return $d;
+        if ($code == "") {
+            return true;
+        }
+        $inviteCodeModel = UserInviteCodeModel::findOne(['code' => $code]);
+        if ($inviteCodeModel) {
+            $attributes = [
+                'grp_id' => $inviteCodeModel->grp_id,
+                'join_user_id' => $this->id,
+                'invite_user_id' => $inviteCodeModel->user_id,
+                'state' => UserKpiStateType::TYPE_NOT_COMMIT,
+            ];
+            $kpiModel = new UserKpiModel();
+            $kpiModel->setAttributes($attributes);
+            if ($kpiModel->save()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

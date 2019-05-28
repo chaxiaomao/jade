@@ -35,8 +35,8 @@ $this->title = Yii::t('app.c2', 'GRP List');
     <ul class="nav nav-pills tc">
         <?php foreach ($models as $model): ?>
             <li role="presentation" class="btn btn-default navbar-btn">
-                <p><?= $model->gRP->label ?></p>
-                <?= Html::a($model->gRP->code, ['/center', 's' => $model->gRP->seo_code], ['class' => 'navbar-link']) ?>
+                <p><?= $model->gRPStation->gRP->label . "(" . $model->gRPStation->label .")" ?></p>
+                <?= Html::a($model->gRPStation->gRP->code, ['center', 'p' => Yii::$app->getSecurity()->hashData($model->id, 'id')], ['class' => 'navbar-link']) ?>
             </li>
         <?php endforeach; ?>
     </ul>

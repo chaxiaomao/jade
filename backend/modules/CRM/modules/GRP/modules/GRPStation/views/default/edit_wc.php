@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
 
 <?php Pjax::begin(['id' => $model->getDetailPjaxName(), 'formSelector' => $model->getBaseFormName(true), 'enablePushState' => false, 'clientOptions' =>[
     'skipOuterContainers'=>true
-]]) ?>
+]]);?>
 
 <?php echo EntityDetail::widget([
     'model' => $model,

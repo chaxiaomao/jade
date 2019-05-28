@@ -65,23 +65,20 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('station_edit_form', ['model' => $model,]) : $this->render('station_edit_form', ['model' => $model,]);
     }
 
-    public function actionEditWithChart($id = null, $grp_id = null)
+    public function actionEditWithChart($grp_id = null)
     {
         $grpModel = GRPModel::findOne($grp_id);
-        $model = new GRPStationModel();
+        $model = new \backend\models\c2\entity\GRPStationModel();
         $model->loadDefaultValues();
         $model->grp_id = $grpModel->id;
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::info(Yii::$app->request->post());
             if ($model->node_nav == NodeNavType::TYPE_CHILDREN) {
                 $model->parent_station_id = $model->selected_id;
                 $model->type += 1;
-                Yii::info($model->parent_station_id);
-                Yii::info($model->type);
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
@@ -115,12 +112,12 @@ class DefaultController extends Controller
         $params = Yii::$app->request->post();
         if ($model = GRPStationModel::findOne($params['id'])) {
             if ($model->delete()) {
-                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params);
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params['id']);
             } else {
-                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $ids);
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
             }
         } else {
-            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $ids);
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
         }
         return $this->asJson($responseData);
     }

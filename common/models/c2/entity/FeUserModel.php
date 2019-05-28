@@ -24,13 +24,13 @@ use yii\web\NotFoundHttpException;
  *
  * @property string $id
  * @property integer $type
- * @property string $attributeset_id
+ * @property string $invite_user_id
  * @property string $username
  * @property string $email
  * @property string $password_hash
  * @property string $auth_key
  * @property string $confirmed_at
- * @property string $unconfirmed_email
+ * @property string $invite_username
  * @property string $blocked_at
  * @property string $registration_ip
  * @property integer $registration_src_type
@@ -76,18 +76,18 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
     public function rules()
     {
         return [
-            // [['attributeset_id', 'flags', 'province_id', 'city_id', 'created_by', 'updated_by', 'position'], 'integer'],
+            // [['invite_user_id', 'flags', 'province_id', 'city_id', 'created_by', 'updated_by', 'position'], 'integer'],
             // [['username'], 'required'],
             // [['confirmed_at', 'blocked_at', 'last_login_at', 'created_at', 'updated_at'], 'safe'],
             // [['type', 'registration_src_type', 'level', 'status'], 'string', 'max' => 4],
-            // [['username', 'email', 'password_hash', 'auth_key', 'unconfirmed_email', 'registration_ip', 'last_login_ip', 'open_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token'], 'string', 'max' => 255],
+            // [['username', 'email', 'password_hash', 'auth_key', 'invite_username', 'registration_ip', 'last_login_ip', 'open_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token'], 'string', 'max' => 255],
             // [['wechat_union_id'], 'string', 'max' => 10],
-            [['registration_src_type', 'type', 'attributeset_id', 'flags', 'created_by', 'updated_by', 'status', 'position', 'province_id', 'city_id', 'district_id'], 'integer'],
+            [['registration_src_type', 'type', 'invite_user_id', 'flags', 'created_by', 'updated_by', 'status', 'position', 'province_id', 'city_id', 'district_id'], 'integer'],
             [['username'], 'required'],
             [['email'], 'email'],
             [['wechat_open_id', 'username', 'mobile_number', 'email'], FeUserUniqueValidator::className(), 'targetClass' => FeUserModel::className(), 'message' => Yii::t('app.c2', '{attribute} "{value}" has already been taken.')],
             [['confirmed_at', 'blocked_at', 'last_login_at', 'created_at', 'updated_at'], 'safe'],
-            [['username', 'email', 'password_hash', 'auth_key', 'unconfirmed_email', 'registration_ip', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'access_token'], 'string', 'max' => 255],
+            [['username', 'email', 'password_hash', 'auth_key', 'invite_username', 'registration_ip', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'access_token'], 'string', 'max' => 255],
             'passwordRequired' => ['password', 'required', 'on' => ['register']],
             'passwordLength' => ['password', 'string', 'min' => 6, 'max' => 72,],
         ];
@@ -101,13 +101,13 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return [
             'id' => Yii::t('app.c2', 'ID'),
             'type' => Yii::t('app.c2', 'Type'),
-            'attributeset_id' => Yii::t('app.c2', 'Attributeset ID'),
+            'invite_user_id' => Yii::t('app.c2', 'Invite User ID'),
             'username' => Yii::t('app.c2', 'Username'),
             'email' => Yii::t('app.c2', 'Email'),
             'password_hash' => Yii::t('app.c2', 'Password Hash'),
             'auth_key' => Yii::t('app.c2', 'Auth Key'),
             'confirmed_at' => Yii::t('app.c2', 'Confirmed At'),
-            'unconfirmed_email' => Yii::t('app.c2', 'Unconfirmed Email'),
+            'invite_username' => Yii::t('app.c2', 'Invite Username'),
             'blocked_at' => Yii::t('app.c2', 'Blocked At'),
             'registration_ip' => Yii::t('app.c2', 'Registration Ip'),
             'registration_src_type' => Yii::t('app.c2', 'Registration Src Type'),
@@ -358,7 +358,7 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
 
     public function getGRPs()
     {
-        return $this->hasMany(UserGRPRsModel::className(), ['user_id' => 'id']);
+        return $this->hasMany(GRPStationItemModel::className(), ['user_id' => 'id']);
     }
 
     public function getInviteCode($grp_id)
@@ -398,10 +398,19 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
             $kpiModel = new UserKpiModel();
             $kpiModel->setAttributes($attributes);
             if ($kpiModel->save()) {
+                $this->updateAttributes([
+                    'invite_user_id' => $kpiModel->invite_user_id,
+                    'invite_username' => $kpiModel->inviteUser->username
+                ]);
                 return true;
             }
         }
         return false;
+    }
+
+    public function getInviteUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'invite_user_id']);
     }
 
 }

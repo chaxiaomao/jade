@@ -33,11 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'title' => Yii::t('app.c2', 'Add'),
                         'data-pjax' => '0',
                     ]) . ' ' .
-                    Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-                        'class' => 'btn btn-danger',
-                        'title' => Yii::t('app.c2', 'Delete Selected Items'),
-                        'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-                    ]) . ' ' .
+                    // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                    //     'class' => 'btn btn-danger',
+                    //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                    //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                    // ]) . ' ' .
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
                         'class' => 'btn btn-default',
                         'title' => Yii::t('app.c2', 'Reset Grid')
@@ -50,20 +50,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\CheckboxColumn'],
             // ['class' => 'kartik\grid\SerialColumn'],
-            [
-                'class' => 'kartik\grid\ExpandRowColumn',
-                'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
-                'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                'detailUrl' => Url::toRoute(['detail']),
-                'value' => function ($model, $key, $index, $column) {
-                    return GridView::ROW_COLLAPSED;
-                },
-            ],
+            // [
+            //     'class' => 'kartik\grid\ExpandRowColumn',
+            //     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
+            //     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
+            //     'detailUrl' => Url::toRoute(['detail']),
+            //     'value' => function ($model, $key, $index, $column) {
+            //         return GridView::ROW_COLLAPSED;
+            //     },
+            // ],
             'id',
-            'type',
+            // 'type',
+            // 'invite_user_id',
+            // [
+            //     'attribute' => 'invite_user_id',
+            //     'value' => function ($model) {
+            //         return $model->inviteUser == null ? "" : $model->inviteUser->username;
+            //     }
+            // ],
+            'invite_username',
             'mobile_number',
             'username',
-            'email:email',
+            // 'email:email',
             // 'password_hash',
             // 'auth_key',
             // 'confirmed_at',
@@ -113,6 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
+                'template' => '{update}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [

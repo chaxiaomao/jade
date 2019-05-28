@@ -7,6 +7,7 @@ use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
+use yii\helpers\Url;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
@@ -92,8 +93,12 @@ $form = ActiveForm::begin([
             ]
         ]);
         echo Html::beginTag('div', ['class' => 'box-footer']);
+        echo Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
+            'class' => 'btn btn-default pull-right',
+            'title' => Yii::t('app.c2', 'Reset Grid')
+        ]);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
-        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['/crm/grp'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
         echo Html::endTag('div');
         ?>
     </div>

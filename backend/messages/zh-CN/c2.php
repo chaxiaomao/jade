@@ -90,7 +90,7 @@ return [
     'GRP Station' => 'GRP岗位',
     'Selected Node' => '被选中的节点',
     'New Node' => '新节点名称',
-    'Children Node' => '子节点',
+    'Children Node' => '下级节点',
     'Sibling Node' => '同级节点',
     'Reset Node' => '清除选择',
     'GRP Chart Member' => 'GRP岗位成员',
@@ -100,6 +100,11 @@ return [
     'Grp Station' => '岗位',
     'Dues' => '转帐金额',
     'Commit' => '审核',
+    'Name' => '名称',
+    'Selected Id' => '被选中的节点',
+    'Station has items.' => '改岗位有人员，请先删除人员。',
+    'Invite User ID' => '推荐人',
+    'Invite Username' => '邀请人',
     '' => '',
 ];
 

@@ -123,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'chart' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-tree-deciduous"></span>', [
                             '/crm/grp/grp-station/default/edit-with-chart',
-                            'id' => $model->id,
+                            // 'id' => $model->id,
                             'grp_id' => $model->id
                         ], [
                             'title' => Yii::t('app.c2', 'GRP Chart'),

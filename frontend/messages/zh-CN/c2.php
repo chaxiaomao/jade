@@ -61,7 +61,7 @@ return [
     'Mobile number' => '手机号码',
     'Incorrect username or password.' => '手机号无效或密码错误',
     'Pls select your grp to login.' => '请选择其中一个资金盘登陆。',
-    'Params not allow' => '参数错误',
+    'Params not allow.' => '参数错误。',
     'GRP List' => '入口列表',
     'GRP Station' => '岗位成员图',
     'Code Num' => '代号',

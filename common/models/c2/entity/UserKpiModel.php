@@ -25,9 +25,9 @@ use Yii;
 class UserKpiModel extends \cza\base\models\ActiveRecord
 {
 
-    const SCENARIO_COMMIT = 'commit';
-    public $checkerName;
-    public $ensureCheckbox = false;
+    // const SCENARIO_COMMIT = 'commit';
+    // const SCENARIO_INIT = 'init';
+
 
     /**
      * @inheritdoc
@@ -43,19 +43,10 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['grp_id', 'join_user_id', 'invite_user_id', 'grp_station_id', 'c1_id', 'position'], 'integer'],
+            [['grp_id', 'join_user_id', 'invite_user_id', 'grp_station_id', 'c1_id', 'position'], 'integer',],
             [['dues'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['checkerName', 'ensureCheckbox', 'dues'], 'required', 'on' => 'commit'],
-            [['ensureCheckbox'], 'validateEnsureCheckbox', 'on' => 'commit'],
             [['type', 'state', 'status'], 'integer', 'max' => 4],
-        ];
-    }
-
-    public function scenarios()
-    {
-        return [
-            'commit' => ['checkerName', 'ensureCheckbox', 'dues']
         ];
     }
 
@@ -98,13 +89,6 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
     public function loadDefaultValues($skipIfSet = true)
     {
         parent::loadDefaultValues($skipIfSet);
-    }
-
-    public function validateEnsureCheckbox($attribute, $params)
-    {
-        if ($this->$attribute != 1) {
-            $this->addError($this->$attribute, Yii::t('app.c2', 'Pls ensure the checkbox.'));
-        }
     }
 
     public function getJoinUser()

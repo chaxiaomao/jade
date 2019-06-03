@@ -30,8 +30,18 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div id="chart-container"></div>
 
     <div class="list-group">
-        <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
-        <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
+
+        <?php if ($grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C1
+                    || $grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C2
+                    || $grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C3): ?>
+
+        <?php else: ?>
+            <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
+        <?php endif; ?>
+        <?=
+        // Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item'])
+        "";
+        ?>
         <?php if ($c1StationItemModel->user_id == Yii::$app->user->currentUser->id): ?>
             <?= Html::a(Yii::t('app.c2', 'Kpi Verify'), ['/user/kpi-verify'], ['class' => 'list-group-item']) ?>
         <?php endif; ?>
@@ -70,6 +80,9 @@ $this->title = Yii::t('app.c2', 'Profile center');
             if (data.memberList) {
                 data.memberList.map(function (item) {
                     tag += `<p>${item.user.username}</p>`
+                    if (item.user.invite_username != null) {
+                        tag += `<p style="color:#199475">推荐人:${item.user.invite_username}</p>`
+                    }
                 })
             }
             tag += '</div>';
@@ -78,10 +91,10 @@ $this->title = Yii::t('app.c2', 'Profile center');
 
         var oc = $('#chart-container').orgchart({
             'data': datascource,
-            // 'chartClass': 'edit-state',
+            'chartClass': 'edit-state',
             'exportButton': false,
             'exportFilename': 'SportsChart',
-            // 'parentNodeSymbol': 'fa-th-large',
+            'parentNodeSymbol': 'fa-th-large',
             // 'pan': true,
             // 'zoom': true,
             // 'createNode': function ($node, data) {
@@ -93,15 +106,15 @@ $this->title = Yii::t('app.c2', 'Profile center');
             'nodeTemplate': nodeTemplate
         });
 
-        oc.$chartContainer.on('click', '.node', function () {
+        // oc.$chartContainer.on('click', '.node', function () {
+        //
+        // });
 
-        });
-
-        oc.$chartContainer.on('click', '.orgchart', function (event) {
-            if (!$(event.target).closest('.node').length) {
-                $('#selected-node').val('');
-            }
-        });
+        // oc.$chartContainer.on('click', '.orgchart', function (event) {
+        //     if (!$(event.target).closest('.node').length) {
+        //         $('#selected-node').val('');
+        //     }
+        // });
 
     });
 </script>

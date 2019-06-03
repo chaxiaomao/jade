@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\GRPModel;
+use common\models\c2\entity\GRPStationItemModel;
 use common\models\c2\entity\GRPStationModel;
 use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\entity\UserKpiModel;
@@ -105,20 +106,25 @@ class SiteController extends Controller
         }
     }
 
-    public function actionCenter($s)
+    public function actionCenter($p)
     {
-        $grpModel = GRPModel::findOne(['seo_code' => $s]);
+        // $grpModel = GRPModel::findOne(['seo_code' => $s]);
+        $id = Yii::$app->getSecurity()->validateData($p, 'id');
+        $grpStationItemModel = GRPStationItemModel::findOne($id);
+        if (is_null($grpStationItemModel)) {
+            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow.'));
+        }
+        $grpModel = $grpStationItemModel->gRPStation->gRP;
         $grpSession = Yii::$app->session;
         $grpSession->set('grp_id', $grpModel->id);
-        if (is_null($grpModel)) {
-            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
-        }
-        $c1StationModel = GRPStationModel::findOne(['grp_id' => $grpModel->id, 'type' => GRPStationType::TYPE_C1]);
+        $c1StationModel = GRPStationModel::findOne(['grp_id' => $grpModel->id,
+            'type' => GRPStationType::TYPE_C1]);
         $c1StationItemModel = $c1StationModel->getGRPStationItems()->one();
 
         return $this->render('center', [
             'grpModel' => $grpModel,
             'c1StationItemModel' => $c1StationItemModel,
+            'grpStationItemModel' => $grpStationItemModel,
         ]);
     }
 
@@ -128,7 +134,7 @@ class SiteController extends Controller
         $grpSession = Yii::$app->session;
         $code = $user->getInviteCode($grpSession->get('grp_id'));
         if (is_null($code)) {
-            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow'));
+            throw new BadRequestHttpException(Yii::t('app.c2', 'Params not allow.'));
         }
         $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
         $kpiModels = UserKpiModel::find()
@@ -158,11 +164,10 @@ class SiteController extends Controller
 
     public function actionKpiCommit($id)
     {
-        $model = UserKpiModel::findOne($id);
+        $model = \frontend\models\c2\entity\UserKpiModel::findOne($id);
         if ($model->state == UserKpiStateType::TYPE_FINISH_COMMIT) {
             throw new BadRequestHttpException(Yii::t('app.c2', 'Kpi has been commit finish.'));
         }
-        $model->setScenario(UserKpiModel::SCENARIO_COMMIT);
         $grpModel = GRPModel::findOne(['id' => $model->grp_id]);
 
         if ($model->load(Yii::$app->request->post())) {

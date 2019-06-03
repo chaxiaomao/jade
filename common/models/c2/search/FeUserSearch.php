@@ -20,8 +20,8 @@ class FeUserSearch extends FeUserModel
     public function rules()
     {
         return [
-            [['id', 'type', 'attributeset_id', 'flags', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position', 'chess_id'], 'integer'],
-            [['username', 'email', 'password_hash', 'auth_key', 'confirmed_at', 'unconfirmed_email', 'blocked_at', 'registration_ip', 'registration_src_type', 'level', 'last_login_at', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'type', 'invite_user_id', 'flags', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position', 'chess_id'], 'integer'],
+            [['username', 'email', 'password_hash', 'auth_key', 'confirmed_at', 'invite_username', 'blocked_at', 'registration_ip', 'registration_src_type', 'level', 'last_login_at', 'last_login_ip', 'open_id', 'wechat_union_id', 'wechat_open_id', 'mobile_number', 'sms_receipt', 'access_token', 'password_reset_token', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -67,7 +67,7 @@ class FeUserSearch extends FeUserModel
         $query->andFilterWhere([
             'id' => $this->id,
             'type' => $this->type,
-            'attributeset_id' => $this->attributeset_id,
+            'invite_user_id' => $this->invite_user_id,
             'confirmed_at' => $this->confirmed_at,
             'blocked_at' => $this->blocked_at,
             'flags' => $this->flags,
@@ -94,7 +94,7 @@ class FeUserSearch extends FeUserModel
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'unconfirmed_email', $this->unconfirmed_email])
+            ->andFilterWhere(['like', 'invite_username', $this->invite_username])
             ->andFilterWhere(['like', 'registration_ip', $this->registration_ip])
             ->andFilterWhere(['like', 'registration_src_type', $this->registration_src_type])
             ->andFilterWhere(['like', 'level', $this->level])

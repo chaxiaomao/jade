@@ -12,7 +12,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
 
     <div class="jumbotron">
         <h1><?= Yii::t('app.c2', 'Total Income') ?></h1>
-        <p style="color: orange;">￥<?= $model->income ?></p>
+        <p style="color: orange;">￥<?= $model != null ? $model->income : 0 ?></p>
     </div>
 
     <?php

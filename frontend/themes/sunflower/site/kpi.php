@@ -21,32 +21,23 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
 
     <h4><?= Yii::t('app.c2', 'My Developer') ?></h4>
 
-    <ul class="media-list">
-        <?php foreach ($kpiModels as $kpiModel): ?>
-            <li class="media bottom-board pb10 pt10">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object avatar60" src="/images/avatar.png" alt="...">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><?= $kpiModel->joinUser->username ?>
-                        <span class="label label-default"><?= \common\models\c2\statics\UserKpiStateType::getLabel($kpiModel->state) ?></span></h4>
-                    <?= $kpiModel->joinUser->mobile_number ?>
-                </div>
-            </li>
+    <?php
+    echo \yii\widgets\ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemOptions' => ['class' => 'media-list'],
+        'itemView' => '_kpi_item',
+        'pager' => ['class' => \kop\y2sp\ScrollPager::className()]
+    ]);
 
-        <?php endforeach; ?>
-    </ul>
+    ?>
 
 </div>
-
 
 
 <script type="application/javascript">
 
     function copy() {
-        var code =document.getElementById("rcd_code");
+        var code = document.getElementById("rcd_code");
         code.select();
         document.execCommand('copy');
     }

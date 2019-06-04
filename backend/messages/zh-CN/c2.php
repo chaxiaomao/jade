@@ -19,6 +19,7 @@
  */
 return [
     // common
+    'Jade Console' => '众福管理后台',
     'Menu' => '菜单',
     'Dashboard' => '仪表板',
     'Database' => '资料库',
@@ -65,7 +66,7 @@ return [
     'Registration Src Type' => '注册来源',
     'Select Options ...' => '请选择...',
     'Last Login At' => '最后登录时间',
-    'Registration Ip' => '最后登录IP',
+    'Registration Ip' => '注册IP',
     'Add' => '添加',
     'Delete' => '删除',
     // other
@@ -105,6 +106,19 @@ return [
     'Station has items.' => '改岗位有人员，请先删除人员。',
     'Invite User ID' => '推荐人',
     'Invite Username' => '邀请人',
+    'Assign Profit' => '分配收益',
+    'Not Commit' => '未审核',
+    'Admin Commit' => '管理员已审核',
+    'Finish Commit' => '完成审核',
+    'Kpi Verify' => '用户审核',
+    'Checker Name' => '审核人',
+    'User Kpi Models' => '审核列表',
+    'Pls select user to assign profit.' => '请选择会员进行分配收益。',
+    'Income' => '收益收入',
+    'User Profit Item Model' => '用户收益记录',
+    'View Assignment' => '当前已分配',
+    'Finish Assignment' => '完成分配',
+    'Are you sure finish kpi assignment?' => '确认收益分配完了吗？',
     '' => '',
 ];
 

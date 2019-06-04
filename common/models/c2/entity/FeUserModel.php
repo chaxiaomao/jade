@@ -413,4 +413,9 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         return $this->hasOne(FeUserModel::className(), ['id' => 'invite_user_id']);
     }
 
+    public function getProfit()
+    {
+        return $this->hasOne(UserProfitModel::className(), ['user_id' => 'id']);
+    }
+
 }

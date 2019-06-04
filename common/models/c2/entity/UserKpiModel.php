@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\rbac\BeUser;
 use common\models\c2\statics\UserKpiStateType;
 use Yii;
 
@@ -107,10 +108,29 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(FeUserModel::className(), ['id' => 'c1_id']);
     }
 
+    public function getCommitUser()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'c1_id']);
+    }
+
+    public function isStateInit()
+    {
+        return ($this->state == UserKpiStateType::TYPE_NOT_COMMIT);
+    }
+
+    public function isStateAdminCommit()
+    {
+        return ($this->state == UserKpiStateType::TYPE_ADMIN_COMMIT);
+    }
 
     public function getGRP()
     {
         return $this->hasOne(GRPModel::className(), ['id' => 'grp_id']);
+    }
+
+    public function getGRPStation()
+    {
+        return $this->hasOne(GRPStationModel::className(), ['id' => 'grp_station_id']);
     }
 
     public function createNewMember()
@@ -124,7 +144,7 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
         $model->setAttributes($attributes);
         if ($model->save()) {
             $this->updateAttributes([
-                'state' => UserKpiStateType::TYPE_FINISH_COMMIT
+                'state' => UserKpiStateType::TYPE_ADMIN_COMMIT
             ]);
             return true;
         }

@@ -28,6 +28,9 @@ class Module extends \yii\base\Module
             'kpi' => [
                 'class' => 'backend\modules\CRM\modules\KPI\Module',
             ],
+            'user-profit' => [
+                'class' => 'backend\modules\CRM\modules\UserProfit\Module',
+            ],
         ];
         // custom initialization code goes here
     }

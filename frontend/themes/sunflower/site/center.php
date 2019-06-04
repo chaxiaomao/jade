@@ -30,25 +30,12 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div id="chart-container"></div>
 
     <div class="list-group">
-
-        <?php if ($grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C1
-                    || $grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C2
-                    || $grpStationItemModel->gRPStation->type == \common\models\c2\statics\GRPStationType::TYPE_C3): ?>
-
-        <?php else: ?>
-            <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
-        <?php endif; ?>
-        <?=
-        // Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item'])
-        "";
-        ?>
-        <?php if ($c1StationItemModel->user_id == Yii::$app->user->currentUser->id): ?>
-            <?= Html::a(Yii::t('app.c2', 'Kpi Verify'), ['/user/kpi-verify'], ['class' => 'list-group-item']) ?>
-        <?php endif; ?>
+        <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
+        <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
     </div>
 
     <?= Html::beginForm(['/user/logout'], 'post') ?>
-    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, [
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->username, [
         'class' => 'btn btn-danger btn-block mb10'
     ]) ?>
     <?= Html::endForm() ?>

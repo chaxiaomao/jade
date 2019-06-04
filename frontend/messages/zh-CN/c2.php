@@ -18,7 +18,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Application' => '原玉平台',
+    'Application' => '众福平台',
     'Base Information' => '基本信息',
     'Multiple Language' => '多语言录入',
     'Search' => '搜索',
@@ -92,5 +92,8 @@ return [
     'Kpi has been commit finish.' => '审核已完成，请勿重复提交。',
     'Commit And Finish' => '确认',
     'Logout' => '登出',
+    'Income' => '收益分配',
+    'Assignment At' => '分配时间',
+    'Total Income' => '总收益',
     '' => '',
 ];

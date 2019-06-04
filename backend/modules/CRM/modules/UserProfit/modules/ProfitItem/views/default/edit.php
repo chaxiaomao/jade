@@ -2,19 +2,19 @@
 
 use yii\helpers\Html;
 use yii\widgets\Pjax;
-use backend\modules\CRM\modules\KPI\widgets\EntityDetail;
+use backend\modules\CRM\modules\UserProfit\modules\ProfitItem\widgets\EntityDetail;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\c2\entity\UserKpiModel */
+/* @var $model common\models\c2\entity\UserProfitItemModel */
 
 if($model->isNewRecord){
-$this->title = Yii::t('app.c2', '{actionTips} {modelClass}: ', ['actionTips' => Yii::t('app.c2', 'Create'), 'modelClass' => Yii::t('app.c2', 'User Kpi Model'),]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'User Kpi Models'), 'url' => ['index']];
+$this->title = Yii::t('app.c2', '{actionTips} {modelClass}: ', ['actionTips' => Yii::t('app.c2', 'Create'), 'modelClass' => Yii::t('app.c2', 'User Profit Item Model'),]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'User Profit Item Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 }
 else{
-$this->title = Yii::t('app.c2', '{actionTips} {modelClass}: ', ['actionTips' => Yii::t('app.c2', 'Update'), 'modelClass' => Yii::t('app.c2', 'User Kpi Model'),]) . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'User Kpi Models'), 'url' => ['index']];
+$this->title = Yii::t('app.c2', '{actionTips} {modelClass}: ', ['actionTips' => Yii::t('app.c2', 'Update'), 'modelClass' => Yii::t('app.c2', 'User Profit Item Model'),]) . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'User Profit Item Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
 }

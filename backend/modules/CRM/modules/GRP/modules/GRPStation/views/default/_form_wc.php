@@ -1,5 +1,6 @@
 <?php
 
+use cza\base\models\statics\OperationEvent;
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
@@ -19,9 +20,16 @@ $this->registerJsFile("{$assets->baseUrl}/org_chart/js/html2canvas.min.js");
 $this->registerJsFile("{$assets->baseUrl}/org_chart/js/jquery.orgchart.js");
 
 $this->title = $model->label . ' ' . $grpModel->label;
+
+$jsonData = $grpModel->getGRPStationJson();
 ?>
 
-<div id="chart-container"></div>
+<div id="chart-container">
+    <?=
+    $jsonData == null ? Html::button('初始化', [
+            'class' => 'btn btn-link btn-block', 'id' => 'btn-init']) : ''
+    ?>
+</div>
 
 <?php
 $form = ActiveForm::begin([
@@ -137,16 +145,14 @@ $form = ActiveForm::begin([
             ]
         );
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-success pull-right']);
-        echo Html::a('<i class="fa fa-deafness"></i> ' . Yii::t('app.c2', 'Delete'),
-            'javascript:;',
+        echo Html::button('<i class="fa fa-deafness"></i> ' . Yii::t('app.c2', 'Delete'),
             [
                 'id' => 'btn-delete-node',
                 'type' => 'button',
                 'class' => 'btn btn-danger'
             ]
         );
-        echo Html::a('<i class="fa fa-edit"></i> ' . Yii::t('app.c2', 'Edit'),
-            'javascript:;',
+        echo Html::button('<i class="fa fa-edit"></i> ' . Yii::t('app.c2', 'Edit'),
             [
                 'id' => 'btn-edit-node',
                 'type' => 'button',
@@ -175,7 +181,7 @@ $form = ActiveForm::begin([
     // JQuery.notConfit();
     $(function ($) {
 
-        var datascource = <?= $grpModel->getGRPStationJson() ?>
+        var datascource = <?= $jsonData == null ? "{}" : $jsonData ?>
 
         // var nodeTemplate = function (data) {
         //     var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
@@ -234,18 +240,19 @@ $form = ActiveForm::begin([
                 if (!$node) {
                     alert('请先选择节点');
                     return;
-                } else if ($node[0] === $('.orgchart').find('.node:first')[0]) {
+                }
+                if ($node[0] === $('.orgchart').find('.node:first')[0]) {
                     alert('不能删除根节点!');
                     return;
                 }
-                $.post("<?= \yii\helpers\Url::toRoute('station-delete') ?>", {'id': id}, function (result) {
-                    if (result._meta.result === '<?= \cza\base\models\statics\OperationResult::SUCCESS ?>') {
-                        oc.removeNodes($node);
-                        $('#selected_id').val('').data('node', null);
-                    } else {
-                        alert(result._meta.message);
-                    }
-                })
+                //$.post("<?//= \yii\helpers\Url::toRoute('station-delete') ?>//", {'id': id}, function (result) {
+                //    if (result._meta.result === '<?//= \cza\base\models\statics\OperationResult::SUCCESS ?>//') {
+                //        oc.removeNodes($node);
+                //        $('#selected_id').val('').data('node', null);
+                //    } else {
+                //        alert(result._meta.message);
+                //    }
+                //})
             }
         });
 
@@ -266,6 +273,19 @@ $form = ActiveForm::begin([
             $('#selected-node').val('');
             $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
             $('#node-type-panel').find('input').prop('checked', false);
+        });
+
+        $('#btn-init').on('click', function () {
+            if (confirm('你确定要初始化吗？')) {
+                $.post("<?= \yii\helpers\Url::toRoute(['station-init']) ?>", {'id': <?= $grpModel->id ?>}, function (result) {
+                    console.log(result)
+                    if (result._meta.result === '<?= \cza\base\models\statics\OperationResult::SUCCESS ?>') {
+                        location.reload();
+                    } else {
+                        alert(result._meta.message);
+                    }
+                })
+            }
         });
 
     });

@@ -2,6 +2,7 @@
 
 namespace backend\modules\CRM\modules\GRP\controllers;
 
+use common\models\c2\statics\GRPType;
 use Yii;
 use common\models\c2\entity\GRPModel;
 use common\models\c2\search\GRPSearch;
@@ -29,7 +30,7 @@ class DefaultController extends Controller
             ],
         ]);
     }
-    
+
     /**
      * Lists all GRPModel models.
      * @return mixed
@@ -63,10 +64,10 @@ class DefaultController extends Controller
      * fit to pajax call
      * @return mixed
      */
-    public function actionEdit($id = null) 
+    public function actionEdit($id = null)
     {
         $model = $this->retrieveModel($id);
-        
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
@@ -74,10 +75,29 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
-    
+
+    public function actionCreateBranch($id = null, $parent_id = null)
+    {
+        $model = $this->retrieveModel($id);
+        $model->type = GRPType::TYPE_BRANCH;
+        if (!is_null($parent_id)) {
+            $model->parentId = $parent_id;
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
+    }
+
     /**
      * Finds the GRPModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

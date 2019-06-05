@@ -121,5 +121,20 @@ class DefaultController extends Controller
         }
         return $this->asJson($responseData);
     }
+
+    public function actionStationInit()
+    {
+        $params = Yii::$app->request->post();
+        if ($model = GRPModel::findOne($params['id'])) {
+            if ($model->initStation()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params['id']);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
+            }
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
+        }
+        return $this->asJson($responseData);
+    }
     
 }

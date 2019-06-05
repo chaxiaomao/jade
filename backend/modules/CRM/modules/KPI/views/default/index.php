@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'grp_station_id',
                     'value' => function ($model) {
-                        if (!is_null($model->grp_station_id)) {
+                        if (!is_null($model->gRPStation)) {
                             return $model->gRPStation->label;
                         }
                     }

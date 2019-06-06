@@ -17,7 +17,9 @@ $messageName = $model->getMessageName();
 $this->title = $model->label . ' ' . Yii::t('app.c2', 'GRP Chart Member');
 
 ?>
-
+<h2><?= Yii::t('app.c2', $parentGrpModel->label) ?></h2>
+<div id="parent-chart-container"></div>
+<h2><?= Yii::t('app.c2', $grpModel->label) ?></h2>
 <div id="chart-container"></div>
 
 <?php
@@ -101,7 +103,19 @@ $form = ActiveForm::begin([
 
 <?php
 
+\yii\bootstrap\Modal::begin([
+    'id' => 'edit-modal',
+    'size' => 'modal-lg'
+]);
+
+\yii\bootstrap\Modal::end();
+
+?>
+
+<?php
+
 $delUrl = \yii\helpers\Url::toRoute('member-delete');
+$kpiUrl = \yii\helpers\Url::toRoute('member-kpi');
 
 $js = <<<JS
 jQuery(document).off('click', 'a.remove-r').on('click', 'a.remove-r', function(e) {
@@ -111,10 +125,58 @@ jQuery(document).off('click', 'a.remove-r').on('click', 'a.remove-r', function(e
     }
 })
 
+jQuery(document).off('click', 'a.kpi').on('click', 'a.kpi', function(e) {
+    var href = "{$kpiUrl}" 
+    + '?user_id=' + jQuery(e.currentTarget).attr('data-uid') 
+    + '&grp_id=' + $parentGrpModel->id;
+    jQuery('#edit-modal').modal('show').find('.modal-content').html('....').load(href);
+})
+
 JS;
 
 $this->registerJs($js);
 ?>
+
+<script type="text/javascript">
+    // JQuery.notConfit();
+    $(function ($) {
+
+        var datascource = <?= $parentGrpModel->getGRPStationJson(['withMember' => true]) ?>;
+
+        var nodeTemplate = function (data) {
+            var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
+            tag += `<div class="warpper">`;
+            if (data.memberList) {
+                data.memberList.map(function (item) {
+                    tag += `<p>${item.user.username}<a href="javascript:;" data-uid="${item.user.id}" data-pjax='0' class="kpi btn btn-link">KPI查看</a></p>`
+                })
+            }
+            tag += '</div>';
+            return tag;
+        };
+
+        // var nodeTemplate = function (data) {
+        //     return `<div class="title" data-id="${data.id}" data-type="${data.type}" data-parent-id="${data.parent_id}">${data.name}</div>`;
+        // };
+
+        var oc = $('#parent-chart-container').orgchart({
+            'data': datascource,
+            'chartClass': 'edit-state',
+            'exportButton': true,
+            'exportFilename': 'SportsChart',
+            'parentNodeSymbol': 'fa-th-large',
+            // 'pan': true,
+            // 'zoom': true,
+            // 'createNode': function ($node, data) {
+            //     $node[0].id = data.id;
+            // },
+            // 'nodeTemplate': function (data) {
+            //     return '<div class="title" data-id="' + data.id + '" data-type="' + data.type + '">' + data.name + '</div>'
+            // }
+            'nodeTemplate': nodeTemplate
+        });
+    });
+</script>
 
 <script type="text/javascript">
     // JQuery.notConfit();
@@ -138,7 +200,7 @@ $this->registerJs($js);
         //     return `<div class="title" data-id="${data.id}" data-type="${data.type}" data-parent-id="${data.parent_id}">${data.name}</div>`;
         // };
 
-        var oc = $('#chart-container').orgchart({
+        var oc1 = $('#chart-container').orgchart({
             'data': datascource,
             'chartClass': 'edit-state',
             'exportButton': true,
@@ -159,7 +221,7 @@ $this->registerJs($js);
         // var selectedType;
         // var selectedParentId;
 
-        oc.$chartContainer.on('click', '.node', function () {
+        oc1.$chartContainer.on('click', '.node', function () {
             var $this = $(this);
             $('#selected-node').val($this.find('.title').text()).data('node', $this);
             var selectedId = $this.find('.title').attr('data-id');
@@ -168,7 +230,7 @@ $this->registerJs($js);
             // selectedParentId = $this.find('.title').attr('data-parent-id');
         });
 
-        oc.$chartContainer.on('click', '.orgchart', function (event) {
+        oc1.$chartContainer.on('click', '.orgchart', function (event) {
             if (!$(event.target).closest('.node').length) {
                 $('#selected-node').val('');
             }

@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
 <?php echo EntityDetail::widget([
     'model' => $model,
     'grpModel' => $grpModel,
+    'showParentGrp' => $showParentGrp,
     'tabTitle' =>  $this->title,
 ]);
 ?>

@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 // 'width' => '200px',
-                'template' => '{update} {chart} {member} {create-branch}',
+                'template' => '{update} {chart} {edit-member}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-pjax' => '0',
                         ]);
                     },
-                    'member' => function ($url, $model, $key) {
+                    'edit-member' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', [
                             '/crm/grp/grp-station-item/default/edit-with-chart',
                             'grp_id' => $model->id
@@ -144,7 +144,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 'width' => '200px',
-                'template' => '{create-branch}',
+                'template' => '{create-branch} {edit-branch-member}',
+                'visibleButtons' => [
+                    'edit-branch-member' => function ($model) {
+                        return ($model->type == \common\models\c2\statics\GRPType::TYPE_BRANCH);
+                    },
+                ],
                 'buttons' => [
                     'create-branch' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-leaf">' . Yii::t('app.c2', 'Create GRP Branch') . '</span>', [
@@ -152,6 +157,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             'parent_id' => $model->id
                         ], [
                             'title' => Yii::t('app.c2', 'Create GRP Branch'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
+                    'edit-branch-member' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-user">'.Yii::t('app.c2', 'Assign Member').'</span>', [
+                            '/crm/grp/grp-station-item/default/edit-branch-with-chart',
+                            'grp_id' => $model->id
+                        ], [
+                            'title' => Yii::t('app.c2', 'GRP Chart Member'),
                             'data-pjax' => '0',
                         ]);
                     },

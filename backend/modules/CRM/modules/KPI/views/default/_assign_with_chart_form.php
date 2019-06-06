@@ -16,13 +16,7 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app.c2', 'Kpi Verify');
 $this->params['navbar'] = Yii::t('app.c2', 'Back');
 
-$assets = \backend\assets\AppAsset::register($this);
-
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/jquery.orgchart.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/style.css");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/html2canvas.min.js");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/jquery.orgchart.js");
+\backend\assets\ChartAsset::register($this);
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();

@@ -95,5 +95,7 @@ return [
     'Income' => '收益分配',
     'Assignment At' => '分配时间',
     'Total Income' => '总收益',
+    'Chart All' => '图表',
+    'User Kpi Chart' => 'Kpi图表',
     '' => '',
 ];

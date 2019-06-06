@@ -19,7 +19,11 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
       </span>
     </div>
 
-    <h4><?= Yii::t('app.c2', 'My Developer') ?></h4>
+    <h4>
+        <?= Yii::t('app.c2', 'My Developer') ?>
+
+        <?= \yii\helpers\Html::a(Yii::t('app.c2', 'Chart All'), ['user/kpi-chart'], ['class' => 'btn btn-link']) ?>
+    </h4>
 
     <?php
     echo \yii\widgets\ListView::widget([

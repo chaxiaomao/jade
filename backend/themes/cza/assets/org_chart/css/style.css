@@ -12,6 +12,20 @@ body {
     color: #333333;
 }
 
+#parent-chart-container {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    /*top: 10px;*/
+    /*left: 10px;*/
+    /*height: 420px;*/
+    /*width: calc(100% - 24px);*/
+    border: 2px dashed #aaa;
+    border-radius: 5px;
+    overflow: auto;
+    text-align: center;
+}
+
 #chart-container {
     position: relative;
     display: inline-block;
@@ -26,7 +40,7 @@ body {
 }
 
 #chart-container {
-    background-color: #eee;
+    background-color: #fff;
     /*min-height: 800px;*/
     margin-bottom: 10px;
     width: 100%;

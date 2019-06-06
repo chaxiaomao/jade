@@ -2,6 +2,7 @@
 
 namespace backend\modules\CRM\modules\GRP\modules\GRPStationItem\controllers;
 
+use common\models\c2\entity\FeUserModel;
 use common\models\c2\entity\GRPModel;
 use common\models\c2\entity\GRPStationModel;
 use cza\base\models\statics\ResponseDatum;
@@ -68,7 +69,7 @@ class DefaultController extends Controller
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 
-    public function actionEditWithChart($id = null, $grp_id = null)
+    public function actionEditWithChart($grp_id = null)
     {
         $model = new GRPStationItemModel();
         $model->loadDefaultValues();
@@ -82,8 +83,40 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit_wc', ['model' => $model, 'grpModel' => $grpModel]) :
-            $this->render('edit_wc', ['model' => $model, 'grpModel' => $grpModel]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit_wc', [
+            'model' => $model,
+            'grpModel' => $grpModel,
+            'showParentGrp' => false,
+        ]) : $this->render('edit_wc', [
+            'model' => $model,
+            'grpModel' => $grpModel,
+            'showParentGrp' => false,
+        ]);
+    }
+
+    public function actionEditBranchWithChart($grp_id)
+    {
+        $model = new GRPStationItemModel();
+        $model->loadDefaultValues();
+        $grpModel = GRPModel::findOne($grp_id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit_wc', [
+            'model' => $model,
+            'grpModel' => $grpModel,
+            'showParentGrp' => true,
+        ]) : $this->render('edit_wc', [
+            'model' => $model,
+            'grpModel' => $grpModel,
+            'showParentGrp' => true,
+        ]);
     }
 
     /**
@@ -115,6 +148,13 @@ class DefaultController extends Controller
             $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $ids);
         }
         return $this->asJson($responseData);
+    }
+
+    public function actionMemberKpi($user_id = null, $grp_id = null)
+    {
+        $this->layout = '/main-empty';
+        $user = FeUserModel::findOne($user_id);
+        return $this->render('member_kpi', ['user' => $user, 'grp_id' => $grp_id]);
     }
 
 }

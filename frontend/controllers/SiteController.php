@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\helpers\UserKpiHelper;
 use common\models\c2\entity\ChessModel;
 use common\models\c2\entity\GRPModel;
 use common\models\c2\entity\GRPStationItemModel;
@@ -53,7 +54,7 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit', 'profit'],
+                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit', 'profit', 'kpi-chart'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -125,6 +126,7 @@ class SiteController extends Controller
 
         return $this->render('center', [
             'grpModel' => $grpModel,
+            'type' => $grpStationItemModel->gRPStation->type,
             // 'c1StationItemModel' => $c1StationItemModel,
             // 'grpStationItemModel' => $grpStationItemModel,
         ]);
@@ -140,6 +142,7 @@ class SiteController extends Controller
         }
         $searchModel = new UserKpiSearch();
         $searchModel->grp_id = $grpSession->get('grp_id');
+        $searchModel->invite_user_id = $user->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
         // $kpiModels = UserKpiModel::find()
@@ -180,6 +183,11 @@ class SiteController extends Controller
         return $this->render('kpiVerify', [
             'kpiModels' => $kpiModels
         ]);
+    }
+
+    public function actionKpiChart()
+    {
+        return $this->render('kpiChart');
     }
 
     public function actionKpiCommit($id)

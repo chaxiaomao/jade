@@ -7,17 +7,15 @@
  */
 
 use yii\helpers\Html;
-
-$assets = \frontend\assets\AppAsset::register($this);
-
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/jquery.orgchart.css");
-$this->registerCssFile("{$assets->baseUrl}/org_chart/css/style.css");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/html2canvas.min.js");
-$this->registerJsFile("{$assets->baseUrl}/org_chart/js/jquery.orgchart.js");
+\frontend\assets\ChartAsset::register($this);
+// $assets = \frontend\assets\AppAsset::register($this);
+// $this->registerCssFile("{$assets->baseUrl}/org_chart/css/font-awesome.min.css");
+// $this->registerCssFile("{$assets->baseUrl}/org_chart/css/jquery.orgchart.css");
+// $this->registerCssFile("{$assets->baseUrl}/org_chart/css/style.css");
+// $this->registerJsFile("{$assets->baseUrl}/org_chart/js/html2canvas.min.js");
+// $this->registerJsFile("{$assets->baseUrl}/org_chart/js/jquery.orgchart.js");
 
 $this->title = Yii::t('app.c2', 'Profile center');
-
 ?>
 <div class="container-fluid">
     <div class="">
@@ -30,8 +28,13 @@ $this->title = Yii::t('app.c2', 'Profile center');
     <div id="chart-container"></div>
 
     <div class="list-group">
+        <?php if ($type == \common\models\c2\statics\GRPStationType::TYPE_C1
+            || $type == \common\models\c2\statics\GRPStationType::TYPE_C2
+            || $type == \common\models\c2\statics\GRPStationType::TYPE_C3): ?>
+        <?php else: ?>
+            <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
+        <?php endif; ?>
         <?= Html::a(Yii::t('app.c2', 'My Profit'), ['/user/profit'], ['class' => 'list-group-item']) ?>
-        <?= Html::a(Yii::t('app.c2', 'My Kpi'), ['/user/kpi'], ['class' => 'list-group-item']) ?>
     </div>
 
     <?= Html::beginForm(['/user/logout'], 'post') ?>

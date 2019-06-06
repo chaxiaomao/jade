@@ -126,6 +126,8 @@ return [
     'Type A' => '主管',
     'Type B' => '组长',
     'Type P' => '员工',
+    '{s1} Kpi' => '{s1}的KPI',
+    'Assign Member' => '分配人员',
     '' => '',
 ];
 

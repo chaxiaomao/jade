@@ -1,9 +1,15 @@
 <?php
 
-define('BACKEND_BASE_URL', 'http://be-jade.tunnel.echomod.cn');
-define('FRONTEND_BASE_URL', 'http://fe-apollo-pre.local.bulletelc.com');
 define('ESHOP_BASE_URL', 'http://eshop-apollo-pre.local.bulletelc.com');
 define('IMAGE_BASE_URL', 'http://img-apollo-pre.local.bulletelc.com');
+
+if (YII_ENV_DEV) {
+    define('BACKEND_BASE_URL', 'http://be-jade.tunnel.echomod.cn');
+    define('FRONTEND_BASE_URL', 'http://fe-jade.tunnel.echomod.cn');
+} else {
+    define('BACKEND_BASE_URL', 'http://be-jade.jiebao91.com');
+    define('FRONTEND_BASE_URL', 'http://fe-jade.jiebao91.com');
+}
 
 //define('BACKEND_BASE_URL', 'https://be-apollo-pre-staging.bulletelc.com');
 //define('FRONTEND_BASE_URL', 'https://fe-apollo-pre-staging.bulletelc.com');

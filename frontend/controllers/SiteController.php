@@ -9,11 +9,13 @@ use common\models\c2\entity\GRPStationItemModel;
 use common\models\c2\entity\GRPStationModel;
 use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\entity\UserKpiModel;
+use common\models\c2\search\GRPStationItemSearch;
 use common\models\c2\search\UserKpiSearch;
 use common\models\c2\search\UserProfitItemSearch;
 use common\models\c2\statics\GRPStationType;
 use common\models\c2\statics\UserKpiStateType;
 use cza\base\models\statics\ResponseDatum;
+use frontend\components\actions\UserQRCodeAction;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
@@ -54,7 +56,8 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit', 'profit', 'kpi-chart'],
+                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit', 'profit', 'kpi-chart',
+                            'qr-code'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -89,6 +92,9 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'qr-code' => [
+                'class' => UserQRCodeAction::className(),
+            ],
         ];
     }
 
@@ -101,9 +107,12 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
             $user = Yii::$app->user->currentUser;
-            $models = $user->gRPs;
+            $searchModel = new GRPStationItemSearch();
+            $searchModel->user_id = $user->id;
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
-                'models' => $models,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
             // return $this->render('index');
         }
@@ -136,21 +145,24 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user->currentUser;
         $grpSession = Yii::$app->session;
-        $code = $user->getInviteCode($grpSession->get('grp_id'));
-        if (is_null($code)) {
+        // $code = $user->getInviteCode($grpSession->get('grp_id'));
+        // if (is_null($code)) {
+        //     throw new NotFoundHttpException(Yii::t('app.c2', 'Params not allow.'));
+        // }
+        if (is_null($grpSession->get('grp_id'))) {
             throw new NotFoundHttpException(Yii::t('app.c2', 'Params not allow.'));
         }
         $searchModel = new UserKpiSearch();
         $searchModel->grp_id = $grpSession->get('grp_id');
         $searchModel->invite_user_id = $user->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
+        // $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
         // $kpiModels = UserKpiModel::find()
         //     ->where(['invite_user_id' => $user->id, 'grp_id' => $grpSession->get('grp_id')])
         //     ->all();
         return $this->render('kpi', [
-            'code' => $code,
-            'grpModel' => $grpModel,
+            // 'code' => $code,
+            // 'grpModel' => $grpModel,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -249,13 +261,16 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionSignup()
+    public function actionSignup($c = null)
     {
         $this->layout = 'empty';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $model = new SignupForm();
+        if (!is_null($c)) {
+            $model->recommendCode = $c;
+        }
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {

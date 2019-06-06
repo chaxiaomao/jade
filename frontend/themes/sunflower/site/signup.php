@@ -63,7 +63,7 @@ $this->title = Yii::t('app.c2', 'User Register');
                 ]
             ],
             'recommendCode' => [
-                'type' => Form::INPUT_TEXT,
+                'type' => Form::INPUT_HIDDEN,
                 'label' => false,
                 'options' => [
                     'placeholder' => $model->getAttributeLabel('recommendCode'),

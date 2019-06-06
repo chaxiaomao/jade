@@ -7,6 +7,7 @@
  */
 
 use kartik\helpers\Html;
+
 $this->title = Yii::t('app.c2', 'GRP List');
 ?>
 
@@ -28,21 +29,26 @@ $this->title = Yii::t('app.c2', 'GRP List');
 <!--</form>-->
 <div class="container-fluid">
 
-    <?php if (count($models) == 0): ?>
+    <?php if ($dataProvider->count == 0): ?>
         <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Pls wait for check.') ?></div>
     <?php endif; ?>
 
     <ul class="nav nav-pills tc">
-        <?php foreach ($models as $model): ?>
-            <li role="presentation" class="btn btn-default navbar-btn">
-                <p><?= $model->gRPStation->gRP->label . "(" . $model->gRPStation->label .")" ?></p>
-                <?= Html::a($model->gRPStation->gRP->code, ['center', 'p' => Yii::$app->getSecurity()->hashData($model->id, 'id')], ['class' => 'navbar-link']) ?>
-            </li>
-        <?php endforeach; ?>
+        <?php
+        echo \yii\widgets\ListView::widget([
+            'dataProvider' => $dataProvider,
+            // 'itemOptions' => ['style' => 'float:left;text-align:center;'],
+            'summary' => '',
+            'emptyText' => '',
+            'itemView' => '_station_item',
+            'pager' => ['class' => \kop\y2sp\ScrollPager::className()]
+        ]);
+
+        ?>
+
     </ul>
 
-
     <?= Html::beginForm(['/user/logout'], 'post') ?>
-    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->mobile_number, ['class' => 'btn btn-danger btn-block']) ?>
+    <?= Html::submitButton(Yii::t('app.c2', 'Logout') . Yii::$app->user->currentUser->username, ['class' => 'btn btn-danger btn-block']) ?>
     <?= Html::endForm() ?>
 </div>

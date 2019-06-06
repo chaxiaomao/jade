@@ -97,5 +97,6 @@ return [
     'Total Income' => '总收益',
     'Chart All' => '图表',
     'User Kpi Chart' => 'Kpi图表',
+    'My QRCode' => '我的二维码',
     '' => '',
 ];

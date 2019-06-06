@@ -56,8 +56,7 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit', 'kpi-verify', 'kpi-commit', 'profit', 'kpi-chart',
-                            'qr-code'],
+                            'center', 'kpi', 'profit', 'kpi-chart', 'qr-code'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -120,7 +119,6 @@ class SiteController extends Controller
 
     public function actionCenter($p)
     {
-        // $grpModel = GRPModel::findOne(['seo_code' => $s]);
         $id = Yii::$app->getSecurity()->validateData($p, 'id');
         $grpStationItemModel = GRPStationItemModel::findOne($id);
         if (is_null($grpStationItemModel)) {
@@ -129,15 +127,9 @@ class SiteController extends Controller
         $grpModel = $grpStationItemModel->gRPStation->gRP;
         $grpSession = Yii::$app->session;
         $grpSession->set('grp_id', $grpModel->id);
-        // $c1StationModel = GRPStationModel::findOne(['grp_id' => $grpModel->id,
-        //     'type' => GRPStationType::TYPE_C1]);
-        // $c1StationItemModel = $c1StationModel->getGRPStationItems()->one();
-
         return $this->render('center', [
             'grpModel' => $grpModel,
             'type' => $grpStationItemModel->gRPStation->type,
-            // 'c1StationItemModel' => $c1StationItemModel,
-            // 'grpStationItemModel' => $grpStationItemModel,
         ]);
     }
 
@@ -145,10 +137,6 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user->currentUser;
         $grpSession = Yii::$app->session;
-        // $code = $user->getInviteCode($grpSession->get('grp_id'));
-        // if (is_null($code)) {
-        //     throw new NotFoundHttpException(Yii::t('app.c2', 'Params not allow.'));
-        // }
         if (is_null($grpSession->get('grp_id'))) {
             throw new NotFoundHttpException(Yii::t('app.c2', 'Params not allow.'));
         }
@@ -156,17 +144,10 @@ class SiteController extends Controller
         $searchModel->grp_id = $grpSession->get('grp_id');
         $searchModel->invite_user_id = $user->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        // $grpModel = GRPModel::findOne($grpSession->get('grp_id'));
-        // $kpiModels = UserKpiModel::find()
-        //     ->where(['invite_user_id' => $user->id, 'grp_id' => $grpSession->get('grp_id')])
-        //     ->all();
         return $this->render('kpi', [
-            // 'code' => $code,
-            // 'grpModel' => $grpModel,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
     }
 
     public function actionProfit()
@@ -188,38 +169,9 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionKpiVerify()
-    {
-        $grpSession = Yii::$app->session;
-        $kpiModels = UserKpiModel::find()->where(['grp_id' => $grpSession->get('grp_id')])->all();
-        return $this->render('kpiVerify', [
-            'kpiModels' => $kpiModels
-        ]);
-    }
-
     public function actionKpiChart()
     {
         return $this->render('kpiChart');
-    }
-
-    public function actionKpiCommit($id)
-    {
-        $model = \frontend\models\c2\entity\UserKpiModel::findOne($id);
-        if ($model->state == UserKpiStateType::TYPE_FINISH_COMMIT) {
-            throw new NotFoundHttpException(Yii::t('app.c2', 'Kpi has been commit finish.'));
-        }
-        $grpModel = GRPModel::findOne(['id' => $model->grp_id]);
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save() && $model->createNewMember()) {
-                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
-            } else {
-                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
-            }
-        }
-
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('kpiCommit', [
-            'model' => $model, 'grpModel' => $grpModel]) : $this->render('kpiCommit', ['model' => $model, 'grpModel' => $grpModel]);
     }
 
     /**

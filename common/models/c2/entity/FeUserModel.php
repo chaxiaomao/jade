@@ -367,13 +367,11 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
         if ($grpModel) {
             $inviteCodeModel = UserInviteCodeModel::findOne(['grp_id' => $grp_id, 'user_id' => $this->id]);
             if (is_null($inviteCodeModel)) {
-                $encryptedData = Yii::$app->security->hashData($this->id, 'user_id', false);
-                $code = substr($encryptedData, 0, 6);
                 $inviteCodeModel = new UserInviteCodeModel();
                 $inviteCodeModel->setAttributes([
                     'grp_id' => $grp_id,
                     'user_id' => $this->id,
-                    'code' => $code,
+                    'code' => Yii::$app->security->generateRandomString(6),
                 ]);
                 $inviteCodeModel->save();
             }

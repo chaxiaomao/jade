@@ -28,6 +28,7 @@ $this->title = Yii::t('app.c2', 'User Register');
     <?php
     $form = \kartik\widgets\ActiveForm::begin([
         'options' => [
+            'action' => ['signup', 'c' => $model->recommendCode],
             'id' => $model->getBaseFormName(),
             'data-pjax' => false,
             // 'class' => 'form-horizontal'

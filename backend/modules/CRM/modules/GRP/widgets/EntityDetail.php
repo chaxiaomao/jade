@@ -20,6 +20,8 @@ class EntityDetail extends DetailWidget
 
     public $withProfileTab = false;
 
+    public $grpModel;
+
     public function getTabItems() {
         $items = [];
 
@@ -36,7 +38,7 @@ class EntityDetail extends DetailWidget
             if ($this->model->type == GRPType::TYPE_BRANCH) {
                 $items[] = [
                     'label' => Yii::t('app.c2', 'Base Information'),
-                    'content' => $this->controller->renderPartial('_branch_form', [ 'model' => $this->model,]),
+                    'content' => $this->controller->renderPartial('_branch_form_wc', [ 'model' => $this->model, 'grpModel' => $this->grpModel]),
                     'active' => true,
                 ];
             } else {

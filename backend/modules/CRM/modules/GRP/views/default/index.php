@@ -152,11 +152,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'buttons' => [
                     'create-branch' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-leaf">' . Yii::t('app.c2', 'Create GRP Branch') . '</span>', [
-                            'create-branch',
-                            'parent_id' => $model->id
+                        return Html::a('<span class="glyphicon glyphicon-leaf">' . Yii::t('app.c2', 'GRP Branch') . '</span>', [
+                            'create-branch-with-chart',
+                            'grp_id' => $model->id
                         ], [
-                            'title' => Yii::t('app.c2', 'Create GRP Branch'),
+                            'title' => Yii::t('app.c2', 'GRP Branch'),
                             'data-pjax' => '0',
                         ]);
                     },

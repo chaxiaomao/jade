@@ -119,7 +119,7 @@ return [
     'View Assignment' => '当前已分配',
     'Finish Assignment' => '完成分配',
     'Are you sure finish kpi assignment?' => '确认收益分配完了吗？',
-    'Create GRP Branch' => '创建分支',
+    'GRP Branch' => 'GRP分支',
     'Type C3' => '董事长',
     'Type C2' => '经理',
     'Type C1' => '助理',
@@ -128,6 +128,7 @@ return [
     'Type P' => '员工',
     '{s1} Kpi' => '{s1}的KPI',
     'Assign Member' => '分配人员',
+    'Pls select GRP to separate.' => '请选择要分盘的盘。',
     '' => '',
 ];
 

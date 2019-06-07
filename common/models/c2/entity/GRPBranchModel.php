@@ -9,6 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $grp_id
+ * @property string $children_id
  * @property string $parent_id
  * @property integer $type
  * @property integer $state
@@ -33,9 +34,9 @@ class GRPBranchModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['grp_id', 'parent_id', 'position'], 'integer'],
+            [['grp_id', 'children_id', 'parent_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'state', 'status'], 'string', 'max' => 4],
+            [['type', 'state', 'status'], 'integer', 'max' => 4],
         ];
     }
 
@@ -71,6 +72,21 @@ class GRPBranchModel extends \cza\base\models\ActiveRecord
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+    }
+
+    public function getParentGRP()
+    {
+        return $this->hasOne(GRPModel::className(), ['id' => 'parent_id']);
+    }
+
+    public function getChildrenGRP()
+    {
+        return $this->hasOne(GRPModel::className(), ['id' => 'children_id']);
+    }
+
+    public function getGRP()
+    {
+        return $this->hasOne(GRPModel::className(), ['id' => 'grp_id']);
     }
 
 }

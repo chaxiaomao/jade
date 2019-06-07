@@ -38,6 +38,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new GRPSearch();
+        $searchModel->type = GRPType::TYPE_DEFAULT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -96,6 +97,27 @@ class DefaultController extends Controller
         }
 
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
+    }
+
+    public function actionCreateBranchWithChart($grp_id = null)
+    {
+        $model = new \backend\models\c2\entity\GRPModel();
+        $model->loadDefaultValues();
+        $model->grpId = $grp_id;
+        $model->type = GRPType::TYPE_BRANCH;
+        $grpModel = \backend\models\c2\entity\GRPModel::findOne($grp_id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            Yii::info(Yii::$app->request->post());
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit_wc', ['model' => $model, 'grpModel' => $grpModel]) :
+            $this->render('edit_wc', ['model' => $model, 'grpModel' => $grpModel]);
     }
 
     /**

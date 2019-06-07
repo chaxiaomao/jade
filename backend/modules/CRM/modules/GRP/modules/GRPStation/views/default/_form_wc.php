@@ -20,7 +20,7 @@ $jsonData = $grpModel->getGRPStationJson();
 
 <div id="chart-container">
     <?=
-    $jsonData == null ? Html::button('初始化', [
+    $jsonData == null ? Html::button(Yii::t('app.c2', 'Init'), [
             'class' => 'btn btn-link btn-block', 'id' => 'btn-init']) : ''
     ?>
 </div>

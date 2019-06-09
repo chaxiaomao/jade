@@ -119,7 +119,7 @@ return [
     'View Assignment' => '当前已分配',
     'Finish Assignment' => '完成分配',
     'Are you sure finish kpi assignment?' => '确认收益分配完了吗？',
-    'GRP Branch' => 'GRP分支',
+    'GRP Branch' => '分盘',
     'Type C3' => '董事长',
     'Type C2' => '经理',
     'Type C1' => '助理',

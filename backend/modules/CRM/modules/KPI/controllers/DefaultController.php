@@ -110,8 +110,9 @@ class DefaultController extends Controller
         try {
             $model = $this->retrieveModel($id);
             if ($model) {
-                $model->updateAttributes(['state' => UserKpiStateType::TYPE_FINISH_COMMIT]);
-                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+                if ($model->commitProfit()) {
+                    $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+                }
             } else {
                 $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
             }

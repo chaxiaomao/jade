@@ -64,7 +64,21 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'kpi_id',
             // 'grp_id',
             'user.username',
-            'income',
+            // 'income',
+            [
+                'attribute' => 'income',
+                'class' => '\kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
+                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+                ],
+            ],
+            [
+                'attribute' => 'state',
+                'value' => function ($model) {
+                    return \common\models\c2\statics\UserProfitState::getLabel($model->state);
+                }
+            ],
             // 'state',
             // 'status',
             // 'created_at',
@@ -83,6 +97,18 @@ $this->params['breadcrumbs'][] = $this->title;
             //         return $model->getStatusLabel();
             //     }
             // ],
+            [
+                'class' => '\common\widgets\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Info'),
+                            'data-pjax' => '0',
+                        ]);
+                    }
+                ]
+            ],
         ],
     ]); ?>
 

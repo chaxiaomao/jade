@@ -272,7 +272,6 @@ $form = ActiveForm::begin([
         $('#btn-init').on('click', function () {
             if (confirm('你确定要初始化吗？')) {
                 $.post("<?= \yii\helpers\Url::toRoute(['station-init']) ?>", {'id': <?= $grpModel->id ?>}, function (result) {
-                    console.log(result)
                     if (result._meta.result === '<?= \cza\base\models\statics\OperationResult::SUCCESS ?>') {
                         location.reload();
                     } else {

@@ -4,6 +4,7 @@ namespace common\models\c2\entity;
 
 use backend\models\c2\entity\rbac\BeUser;
 use common\models\c2\statics\UserKpiStateType;
+use common\models\c2\statics\UserProfitState;
 use Yii;
 
 /**
@@ -149,6 +150,20 @@ class UserKpiModel extends \cza\base\models\ActiveRecord
             return true;
         }
        return false;
+    }
+
+    public function getProfitItem()
+    {
+        return $this->hasMany(UserProfitItemModel::className(), ['kpi_id' => 'id']);
+    }
+
+    public function commitProfit() {
+        foreach ($this->profitItem as $item) {
+            $item->updateAttributes(['state' => UserProfitState::COMMIT]);
+            $item->userProfit->updateCounters(['income' => $item->income]);
+        }
+        $this->updateAttributes(['state' => UserKpiStateType::TYPE_FINISH_COMMIT]);
+        return true;
     }
 
 }

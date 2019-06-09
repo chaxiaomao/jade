@@ -2,6 +2,9 @@
 namespace backend\controllers;
 
 use backend\models\c2\form\LoginForm;
+use common\models\c2\entity\FeUserModel;
+use common\models\c2\entity\UserProfitModel;
+use cza\base\models\statics\EntityModelStatus;
 use Da\QrCode\QrCode;
 use Yii;
 use yii\web\Controller;

@@ -18,7 +18,7 @@ class GRPStationItemSearch extends GRPStationItemModel
     public function rules()
     {
         return [
-            [['id', 'grp_station_id', 'user_id', 'position'], 'integer'],
+            [['id', 'grp_station_id', 'user_id', 'position', 'grp_id'], 'integer'],
             [['label', 'state', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -64,6 +64,7 @@ class GRPStationItemSearch extends GRPStationItemModel
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'grp_id' => $this->grp_id,
             'grp_station_id' => $this->grp_station_id,
             'user_id' => $this->user_id,
             'position' => $this->position,

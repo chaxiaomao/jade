@@ -96,6 +96,20 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
             [
+                'attribute' => 'state',
+                'class' => '\kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+                    'data' => \common\models\c2\statics\GRPState::getHashMap('id', 'label'),
+                    'displayValueConfig' => \common\models\c2\statics\GRPState::getHashMap('id', 'label'),
+                ],
+                'filter' => \common\models\c2\statics\GRPState::getHashMap('id', 'label'),
+                'value' => function ($model) {
+                    return \common\models\c2\statics\GRPState::getLabel($model->state);
+                }
+            ],
+            [
                 'attribute' => 'status',
                 'class' => '\kartik\grid\EditableColumn',
                 'editableOptions' => [
@@ -111,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\common\widgets\grid\ActionColumn',
-                // 'width' => '200px',
+                'width' => '200px',
                 'template' => '{update} {chart} {edit-member}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
@@ -121,21 +135,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'chart' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-tree-deciduous"></span>', [
+                        return Html::a('<span class="glyphicon glyphicon-tree-deciduous">'.Yii::t('app.c2', 'GRP Station').'</span>', [
                             '/crm/grp/grp-station/default/edit-with-chart',
                             // 'id' => $model->id,
                             'grp_id' => $model->id
                         ], [
                             'title' => Yii::t('app.c2', 'GRP Chart'),
                             'data-pjax' => '0',
+                            // 'class' => 'btn btn-success'
                         ]);
                     },
                     'edit-member' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-user"></span>', [
+                        return Html::a('<span class="glyphicon glyphicon-user">'.Yii::t('app.c2', 'GRP Member').'</span>', [
                             '/crm/grp/grp-station-item/default/edit-with-chart',
                             'grp_id' => $model->id
                         ], [
-                            'title' => Yii::t('app.c2', 'GRP Chart Member'),
+                            'title' => Yii::t('app.c2', 'GRP Member'),
                             'data-pjax' => '0',
                         ]);
                     },

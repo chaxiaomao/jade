@@ -5,6 +5,7 @@ namespace common\models\c2\entity;
 use backend\models\c2\entity\rbac\BeUser;
 use backend\modules\CRM\modules\GRP\modules\GRPStationItem\widgets\EntityDetail;
 use common\helpers\CodeGenerator;
+use common\models\c2\statics\GRPState;
 use common\models\c2\statics\GRPStationType;
 use common\models\c2\statics\GRPType;
 use cza\base\models\statics\EntityModelStatus;
@@ -30,6 +31,7 @@ use yii\helpers\Json;
  * @property string $geo_marker_color
  * @property string $created_by
  * @property string $updated_by
+ * @property integer $state
  * @property integer $status
  * @property integer $position
  * @property string $created_at
@@ -56,7 +58,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
             [['attributeset_id', 'province_id', 'city_id', 'district_id', 'created_by', 'updated_by', 'position'], 'integer'],
             [['label'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'status'], 'integer', 'max' => 4],
+            [['type', 'status', 'state'], 'integer', 'max' => 4],
             [['code', 'seo_code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
         ];
     }
@@ -81,6 +83,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
             'geo_marker_color' => Yii::t('app.c2', 'Geo Marker Color'),
             'created_by' => Yii::t('app.c2', 'Created By'),
             'updated_by' => Yii::t('app.c2', 'Updated By'),
+            'state' => Yii::t('app.c2', 'State'),
             'status' => Yii::t('app.c2', 'Status'),
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
@@ -202,7 +205,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
     {
         return $this->hasOne(GRPModel::className(), ['id' => 'parent_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->viaTable('{{%grp_branch}}', ['grp_id' => 'id']);
+            ->viaTable('{{%grp_branch}}', ['children_id' => 'id']);
     }
 
     public function getGRPBranch()
@@ -278,6 +281,7 @@ class GRPModel extends \cza\base\models\ActiveRecord
                 }
             }
         }
+        $this->updateAttributes(['state' => GRPState::TYPE_INIT]);
         $db->commit();
         return true;
     }

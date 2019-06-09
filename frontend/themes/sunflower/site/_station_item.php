@@ -11,6 +11,6 @@ use yii\helpers\Html;
 ?>
 
 <li role="presentation" class="btn btn-default navbar-btn">
-    <p><?= $model->gRPStation->gRP->label . "(" . $model->gRPStation->label .")" ?></p>
-    <?= Html::a($model->gRPStation->gRP->code, ['center', 'p' => Yii::$app->getSecurity()->hashData($model->id, 'id')], ['class' => 'navbar-link']) ?>
+    <p><?= $model->gRP->label . "(" . $model->gRPStation->label .")" ?></p>
+    <?= Html::a($model->gRP->code, ['center', 'p' => Yii::$app->getSecurity()->hashData($model->id, 'id')], ['class' => 'navbar-link']) ?>
 </li>

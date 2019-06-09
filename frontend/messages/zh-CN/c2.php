@@ -98,5 +98,8 @@ return [
     'Chart All' => '图表',
     'User Kpi Chart' => 'Kpi图表',
     'My QRCode' => '我的二维码',
+    'Profit Assigned' => '待确认',
+    'Profit Commit' => '收益已确认',
+    'State' => '流程',
     '' => '',
 ];

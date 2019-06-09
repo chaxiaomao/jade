@@ -15,12 +15,17 @@ $messageName = $model->getMessageName();
 \backend\assets\ChartAsset::register($this);
 
 $this->title = $model->label . ' ' . Yii::t('app.c2', 'GRP Chart Member');
-
+$jsonData = $grpModel->getGRPStationJson(['withMember' => true]);
 ?>
 <h2><?= Yii::t('app.c2', $parentGrpModel->label) ?></h2>
 <div id="parent-chart-container"></div>
 <h2><?= Yii::t('app.c2', $grpModel->label) ?></h2>
-<div id="chart-container"></div>
+<div id="chart-container">
+    <?=
+    $jsonData == null ? Html::button(Yii::t('app.c2', 'Init'), [
+        'class' => 'btn btn-link btn-block', 'id' => 'btn-init']) : ''
+    ?>
+</div>
 
 <?php
 $form = ActiveForm::begin([
@@ -182,7 +187,8 @@ $this->registerJs($js);
     // JQuery.notConfit();
     $(function ($) {
 
-        var datascource = <?= $grpModel->getGRPStationJson(['withMember' => true]) ?>;
+        //var datascource = <?//= $grpModel->getGRPStationJson(['withMember' => true]) ?>//;
+        var datascource = <?= $jsonData == null ? "{}" : $jsonData ?>;
 
         var nodeTemplate = function (data) {
             var tag = `<div class="title" data-id="${data.id}" data-type="${data.type}">${data.name}</div>`;
@@ -233,6 +239,18 @@ $this->registerJs($js);
         oc1.$chartContainer.on('click', '.orgchart', function (event) {
             if (!$(event.target).closest('.node').length) {
                 $('#selected-node').val('');
+            }
+        });
+
+        $('#btn-init').on('click', function () {
+            if (confirm('你确定要初始化吗？')) {
+                $.post("<?= \yii\helpers\Url::toRoute(['station-init']) ?>", {'id': <?= $grpModel->id ?>}, function (result) {
+                    if (result._meta.result === '<?= \cza\base\models\statics\OperationResult::SUCCESS ?>') {
+                        location.reload();
+                    } else {
+                        alert(result._meta.message);
+                    }
+                })
             }
         });
 

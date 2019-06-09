@@ -72,6 +72,7 @@ class DefaultController extends Controller
     public function actionEditWithChart($grp_id = null)
     {
         $model = new GRPStationItemModel();
+        $model->grp_id = $grp_id;
         $model->loadDefaultValues();
         $grpModel = GRPModel::findOne($grp_id);
 
@@ -155,6 +156,21 @@ class DefaultController extends Controller
         $this->layout = '/main-empty';
         $user = FeUserModel::findOne($user_id);
         return $this->render('member_kpi', ['user' => $user, 'grp_id' => $grp_id]);
+    }
+
+    public function actionStationInit()
+    {
+        $params = Yii::$app->request->post();
+        if ($model = GRPModel::findOne($params['id'])) {
+            if ($model->initStation()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $params['id']);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
+            }
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $params['id']);
+        }
+        return $this->asJson($responseData);
     }
 
 }

@@ -191,8 +191,9 @@ $form = ActiveForm::begin([
                 alert('不能分配根节点!');
                 return;
             }
+            var id = $('#selected_id').val();
             var href = '/crm/grp/grp-station-item/default/edit-branch-with-chart'
-                + '?grp_id=' + <?= $grpModel->id ?>;
+                + '?grp_id=' + id;
             location.href = href;
         });
 

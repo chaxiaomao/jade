@@ -2,6 +2,7 @@
 
 namespace backend\modules\CRM\modules\UserProfit\modules\ProfitItem\controllers;
 
+use common\models\c2\statics\UserProfitState;
 use Yii;
 use common\models\c2\entity\UserProfitItemModel;
 use common\models\c2\search\UserProfitItemSearch;
@@ -54,6 +55,7 @@ class DefaultController extends Controller
     public function actionEdit($id = null, $user_id = null, $kpi_id = null, $grp_id = null)
     {
         $model = $this->retrieveModel($id);
+        // $model->state = UserProfitState::ASSIGNED;
 
         if (!is_null($user_id)) {
             $model->user_id = $user_id;

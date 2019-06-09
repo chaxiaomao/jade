@@ -267,6 +267,12 @@ class FeUserModel extends \cza\base\models\ActiveRecord implements IdentityInter
                 'registration_src_type' => DeviceLogHelper::getDeviceType(),
                 'registration_ip' => Yii::$app->request->userIP
             ]);
+            $model = new UserProfitModel();
+            $model->setAttributes([
+               'user_id' => $this->id,
+               'income' => 0.00,
+            ]);
+            $model->save();
         } else {
             if (isset($changedAttributes['province_id']) || isset($changedAttributes['city_id']) || isset($changedAttributes['district_id'])) {
                 $this->profile->syncRegionData();

@@ -21,7 +21,7 @@ class GRPSearch extends GRPModel
             [['id', 'attributeset_id', 'province_id', 'city_id', 'district_id',
                 'created_by', 'updated_by', 'position'], 'integer'],
             [['type', 'code', 'seo_code', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color',
-                'status', 'created_at', 'updated_at'], 'safe'],
+                'status', 'created_at', 'updated_at', 'state'], 'safe'],
         ];
     }
 

@@ -14,7 +14,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
 ?>
     <div class="container-fluid">
 
-        <?= \yii\helpers\Html::a(Yii::t('app.c2', 'My QRCode'), '#', [
+        <?= \yii\helpers\Html::a(Yii::t('app.c2', 'My QRCode'), 'javascript:;', [
             'class' => 'btn btn-success btn-block qr',
             'data-pjax' => '0',
             'data-value' => Url::toRoute(['qr-code']),

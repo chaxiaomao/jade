@@ -31,7 +31,7 @@ return [
     '{attribute} must be mobile format!' => '{attribute} 必须是11位长度1开头的标准手机号码',
     'Username is already existed!' => '该用户名已经被占用!',
     'Mobile number is already existed!' => '该手机号已经被占用!',
-    'Welcome to signup' => '欢迎您的加入',
+    'Welcome to signup' => '欢迎加入众福创业平台',
     'Mobile Number' => '手机号码',
     'Signup' => '注册',
     'Recommend Code' => '推荐码',

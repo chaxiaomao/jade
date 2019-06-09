@@ -70,7 +70,7 @@ return [
     'Add' => '添加',
     'Delete' => '删除',
     // other
-    'GRP' => 'GRP',
+    'GRP' => '平台',
     'User Degree' => '用户等级',
     'User list' => '用户列表',
     'Branch' => '分支',
@@ -85,8 +85,8 @@ return [
     'New user' => '新用户',
     'Fe User Models' => '用户列表',
     'Fe User Model' => '用户',
-    'G R P Models' => 'GRP列表',
-    'G R P Model' => 'GRP',
+    'G R P Models' => '资金盘列表',
+    'G R P Model' => '资金盘',
     'GRP Chart' => '图表',
     'GRP Station' => '岗位结构',
     'GRP Member' => '岗位成员',
@@ -132,6 +132,7 @@ return [
     'Kpi has been commit finish.' => '考核完成，请分配收益，切勿重复提交。',
     'Profit Assigned' => '待确认',
     'Profit Commit' => '收益已确认',
-    '' => '',
+    'Welcome to Jade Console' => '欢迎使用众福平台管理后台',
+    'Please use sidebar menu to process...' => '请使用左边菜单操作...',
 ];
 

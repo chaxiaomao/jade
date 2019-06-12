@@ -6,7 +6,8 @@ use kartik\builder\Form;
 use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
 use yii\widgets\Pjax;
-
+$this->title = Yii::t('app.c2', 'Sum Apply');
+$this->params['navbar'] = Yii::t('app.c2', 'Back');
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
 ?>

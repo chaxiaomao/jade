@@ -110,5 +110,11 @@ return [
     'Sum apply explain:' => '注意：每个月25号之后才能提现。',
     'Sum apply can more {s1}.' => '提现金额不能超过{s1}。',
     'Sum Apply Success' => '提现申请成功',
+    'Sum Apply Record' => '申请记录',
+    'Memo' => '备注',
+    'Apply At' => '申请时间',
+    'Confirmed At' => '转账时间',
+    'Receive Sum' => '到账金额',
+    'Transfer Rate' => '手续费用',
     '' => '',
 ];

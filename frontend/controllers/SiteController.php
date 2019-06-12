@@ -2,37 +2,25 @@
 
 namespace frontend\controllers;
 
-use common\helpers\UserKpiHelper;
-use common\models\c2\entity\ChessModel;
-use common\models\c2\entity\GRPModel;
 use common\models\c2\entity\GRPStationItemModel;
-use common\models\c2\entity\GRPStationModel;
-use common\models\c2\entity\UserChessRsModel;
-use common\models\c2\entity\UserKpiModel;
-use common\models\c2\entity\UserSumApplyModel;
+use common\models\c2\search\UserSumApplyModel as UserSumApplyModelSearch;
 use common\models\c2\search\GRPStationItemSearch;
 use common\models\c2\search\UserKpiSearch;
 use common\models\c2\search\UserProfitItemSearch;
-use common\models\c2\statics\GRPStationType;
-use common\models\c2\statics\UserKpiStateType;
-use cza\base\models\statics\ResponseDatum;
+
 use frontend\components\actions\UserQRCodeAction;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
 use frontend\models\SumApplyForm;
-use http\Exception\BadMessageException;
 use Yii;
 use yii\base\InvalidArgumentException;
-use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -58,7 +46,7 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit', 'kpi-chart', 'qr-code', 'sum-apply'],
+                            'center', 'kpi', 'profit', 'kpi-chart', 'qr-code', 'sum-apply', 'sum-apply-record'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -189,6 +177,17 @@ class SiteController extends Controller
         }
 
         return (Yii::$app->request->isAjax) ? $this->renderAjax('sumApply', ['model' => $model,]) : $this->render('sumApply', ['model' => $model,]);
+    }
+
+    public function actionSumApplyRecord()
+    {
+        $searchModel = new UserSumApplyModelSearch();
+        $searchModel->user_id = Yii::$app->user->currentUser->id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('SumApplyRecord', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

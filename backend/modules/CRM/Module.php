@@ -31,6 +31,9 @@ class Module extends \yii\base\Module
             'user-profit' => [
                 'class' => 'backend\modules\CRM\modules\UserProfit\Module',
             ],
+            'sum-apply' => [
+                'class' => 'backend\modules\CRM\modules\SumApply\Module',
+            ],
         ];
         // custom initialization code goes here
     }

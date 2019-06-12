@@ -134,5 +134,17 @@ return [
     'Profit Commit' => '收益已确认',
     'Welcome to Jade Console' => '欢迎使用众福平台管理后台',
     'Please use sidebar menu to process...' => '请使用左边菜单操作...',
+    'Sum Apply' => '提现申请',
+    'Apply Sum' => '申请金额',
+    'Bank Name' => '银行名称',
+    'Bank Card Number' => '银行卡号',
+    'User Sum Apply Models' => '申请提现列表',
+    'Received Sum' => '实际转账金额',
+    'Transfer Rate' => '手续费用',
+    'Refuse' => '拒绝',
+    'Submit Apply' => '用户申请',
+    'State' => '流程状态',
+    'Memo' => '备注',
+    '' => '',
 ];
 

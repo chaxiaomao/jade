@@ -1,27 +1,32 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/6/9 星期日 上午 9:09:57                      */
+/* Created on:     2019/6/12 星期三 下午 1:56:24                     */
 /*==============================================================*/
 
 
-drop index Index_2 on c2_grp_branch;
+drop index Index_1 on c2_user_sum_apply;
 
-drop index Index_1 on c2_grp_branch;
-
-drop table if exists c2_grp_branch;
+drop table if exists c2_user_sum_apply;
 
 /*==============================================================*/
-/* Table: c2_grp_branch                                         */
+/* Table: c2_user_sum_apply                                     */
 /*==============================================================*/
-create table c2_grp_branch
+create table c2_user_sum_apply
 (
    id                   bigint not null auto_increment,
-   grp_id               bigint not null default 0,
-   parent_id            bigint,
-   type                 tinyint default 1,
-   state                tinyint default 1,
+   type                 tinyint default 0,
+   user_id              bigint,
+   apply_sum            decimal(10,2),
+   bank_name            varchar(255),
+   hash                 varchar(255),
+   confirmed_at         datetime,
+   name                 varchar(255),
+   mobile_number        varchar(255),
+   brank_card_number    varchar(255),
+   transfer_rate        decimal(10,2),
+   received_sum         decimal(10,2),
+   state                tinyint,
    status               tinyint default 1,
-   position             int default 0,
    created_at           datetime,
    updated_at           datetime,
    primary key (id)
@@ -30,16 +35,8 @@ create table c2_grp_branch
 /*==============================================================*/
 /* Index: Index_1                                               */
 /*==============================================================*/
-create index Index_1 on c2_grp_branch
+create index Index_1 on c2_user_sum_apply
 (
-   grp_id
-);
-
-/*==============================================================*/
-/* Index: Index_2                                               */
-/*==============================================================*/
-create index Index_2 on c2_grp_branch
-(
-   parent_id
+   user_id
 );
 

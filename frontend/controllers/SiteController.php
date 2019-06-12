@@ -9,6 +9,7 @@ use common\models\c2\entity\GRPStationItemModel;
 use common\models\c2\entity\GRPStationModel;
 use common\models\c2\entity\UserChessRsModel;
 use common\models\c2\entity\UserKpiModel;
+use common\models\c2\entity\UserSumApplyModel;
 use common\models\c2\search\GRPStationItemSearch;
 use common\models\c2\search\UserKpiSearch;
 use common\models\c2\search\UserProfitItemSearch;
@@ -19,6 +20,7 @@ use frontend\components\actions\UserQRCodeAction;
 use frontend\components\Controller;
 use frontend\models\ForgetPasswordForm;
 use frontend\models\LoginForm;
+use frontend\models\SumApplyForm;
 use http\Exception\BadMessageException;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -56,7 +58,7 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['index', 'error', 'logout', 'login', 'signup',
-                            'center', 'kpi', 'profit', 'kpi-chart', 'qr-code'],
+                            'center', 'kpi', 'profit', 'kpi-chart', 'qr-code', 'sum-apply'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -172,6 +174,21 @@ class SiteController extends Controller
     public function actionKpiChart()
     {
         return $this->render('kpiChart');
+    }
+
+    public function actionSumApply()
+    {
+        $model = new SumApplyForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Sum Apply Success')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('sumApply', ['model' => $model,]) : $this->render('sumApply', ['model' => $model,]);
     }
 
     /**

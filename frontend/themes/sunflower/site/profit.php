@@ -13,6 +13,7 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
     <div class="jumbotron">
         <h1><?= Yii::t('app.c2', 'Total Income') ?></h1>
         <p style="color: orange;">￥<?= $model != null ? $model->income : 0.00 ?></p>
+        <a href="/user/sum-apply" class="btn btn-warning"><?= Yii::t('app.c2', 'Sum Apply') ?></a>
     </div>
 
     <?php

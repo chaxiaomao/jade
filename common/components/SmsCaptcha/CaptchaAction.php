@@ -102,8 +102,8 @@ class CaptchaAction extends Action
         // AJAX request for regenerating code
         $code = $this->getVerifyCode(true);
 
-        $smsContent = Yii::t("app.sms", "Your test verify code is:{s1}", ['s1' => $code]);
-        Yii::info('smsContent:' . $smsContent);
+        // $smsContent = Yii::t("app.sms", "Your test verify code is:{s1}", ['s1' => $code]);
+        // Yii::info('smsContent:' . $smsContent);
 
         $response = Yii::$app->aliyun->sendSms(
             "众富创业平台", // 短信签名
@@ -111,31 +111,27 @@ class CaptchaAction extends Action
             $mobile, // 短信接收者
             [
                 "code" => $code,// 短信模板中字段的值
-            ],
-            "1234"
+            ]
         );
 
-        Yii::info($response);
+        $resultObj = json_decode($response);
 
-        if ($this->sendSms) {
-            if (Yii::$app->sms->send($mobile, $smsContent)) {
-                $result = ResponseDatum::getSuccessDatum([
-                    'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
-                ]);
-            } else {
-                $result = ResponseDatum::getErrorDatum([
-                    'message' => Yii::t('app.c2', 'Cannot send sms verify code!'),
-                ]);
-            }
-        } else {
+        if ($resultObj->code == 200) {
             $result = ResponseDatum::getSuccessDatum([
                 'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
-            ]);
+            ], ['data' => Yii::t('app.c2', 'Sms Verify Code Sent!')]);
+        } else {
+            // $result = ResponseDatum::getErrorDatum([
+            //     'message' => $resultObj->message,
+            // ]);
+            $result = ResponseDatum::getSuccessDatum([
+                'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
+            ], ['data' => $resultObj->message]);
         }
 
-        $result = ResponseDatum::getSuccessDatum([
-            'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
-        ], ['data' => $smsContent]);
+        // $result = ResponseDatum::getSuccessDatum([
+        //     'message' => Yii::t('app.c2', 'Sms Verify Code Sent!'),
+        // ], ['data' => $smsContent]);
 
 
         Yii::$app->response->format = Response::FORMAT_JSON;

@@ -86,6 +86,11 @@ return [
                 ],
             ],
         ],
+        'aliyun' => [
+            'class' => 'saviorlv\aliyun\Sms',
+            'accessKeyId' => 'LTAIe0W5X2v1uBJN',
+            'accessKeySecret' => 'yS050NIkAtphB4VvVL8vRZtmi8deEo'
+        ],
     ],
     'params' => $params,
 ];

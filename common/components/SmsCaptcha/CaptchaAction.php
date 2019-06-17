@@ -8,6 +8,7 @@
 
 namespace common\components\SmsCaptcha;
 
+use saviorlv\aliyun\Sms;
 use Yii;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -103,6 +104,18 @@ class CaptchaAction extends Action
 
         $smsContent = Yii::t("app.sms", "Your test verify code is:{s1}", ['s1' => $code]);
         Yii::info('smsContent:' . $smsContent);
+
+        $response = Yii::$app->aliyun->sendSms(
+            "众富创业平台", // 短信签名
+            "SMS_167964765", // 短信模板编号
+            $mobile, // 短信接收者
+            [
+                "code" => $code,// 短信模板中字段的值
+            ],
+            "1234"
+        );
+
+        Yii::info($response);
 
         if ($this->sendSms) {
             if (Yii::$app->sms->send($mobile, $smsContent)) {

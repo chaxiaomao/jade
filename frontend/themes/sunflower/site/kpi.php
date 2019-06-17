@@ -31,7 +31,15 @@ $this->params['navbar'] = Yii::t('app.c2', 'Back');
             'dataProvider' => $dataProvider,
             'itemOptions' => ['class' => 'media-list'],
             'itemView' => '_kpi_item',
-            'pager' => ['class' => \kop\y2sp\ScrollPager::className()]
+            // 'pager' => ['class' => \kop\y2sp\ScrollPager::className()],
+            'pager' => [
+                //'options' => ['class' => 'hidden'],//关闭分页（默认开启）
+                'maxButtonCount' => 6,//最多显示几个分页按钮
+                // 'firstPageLabel' => '首页',
+                'prevPageLabel' => Yii::t('app.c2', 'Last Page'),
+                'nextPageLabel' => Yii::t('app.c2', 'Next Page'),
+                // 'lastPageLabel' => '尾页'
+            ]
         ]);
 
         ?>

@@ -116,5 +116,8 @@ return [
     'Confirmed At' => '转账时间',
     'Receive Sum' => '到账金额',
     'Transfer Rate' => '手续费用',
+    'Last Page' => '上一页',
+    'Next Page' => '下一页',
+    'Sms App' => '【众富】',
     '' => '',
 ];

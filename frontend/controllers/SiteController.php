@@ -1,7 +1,7 @@
 <?php
-
 namespace frontend\controllers;
 
+use AlibabaCloud\Client\AlibabaCloud;
 use common\models\c2\entity\GRPStationItemModel;
 use common\models\c2\search\UserSumApplyModel as UserSumApplyModelSearch;
 use common\models\c2\search\GRPStationItemSearch;
@@ -94,6 +94,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         if (!Yii::$app->user->isGuest) {
             $user = Yii::$app->user->currentUser;
             $searchModel = new GRPStationItemSearch();
